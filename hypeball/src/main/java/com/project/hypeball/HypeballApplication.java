@@ -7,7 +7,5 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class HypeballApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(HypeballApplication.class, args);
-
-
 	}
 }
