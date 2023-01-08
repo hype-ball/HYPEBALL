@@ -1,30 +1,81 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <title>Hype-Ball</title>
     <style>
         @font-face {
-            font-family: '양진체';
-            src: url('https://cdn.jsdelivr.net/gh/supernovice-lab/font@0.9/yangjin.woff') format('woff');
-            font-weight: normal;
+            font-family: 'MICEGothic Bold';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-01@1.0/MICEGothic Bold.woff2') format('woff2');
+            font-weight: 700;
             font-style: normal;
         }
+
         * {
-            font-family: '양진체';
+            font-family: 'MICEGothic Bold';
         }
-        .customoverlay {position:relative;bottom:85px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;}
-        .customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
-        .customoverlay a {display:block;text-decoration:none;color:#000;text-align:center;border-radius:6px;font-size:14px;font-weight:bold;overflow:hidden;background: #F7CD63FF;background: #F7CD63FF url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
-        .customoverlay .title {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:14px;font-weight:bold;}
-        .customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+
+        .customoverlay {
+            position: relative;
+            bottom: 85px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            border-bottom: 2px solid #ddd;
+            float: left;
+        }
+
+        .customoverlay:nth-of-type(n) {
+            border: 0;
+            box-shadow: 0px 1px 2px #888;
+        }
+
+        .customoverlay p {
+            margin: 0;
+            display: block;
+            text-decoration: none;
+            color: #000;
+            text-align: center;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            overflow: hidden;
+            background: #F7CD63FF;
+            background: #7055f6 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;
+            /*F7CD63FF*/
+        }
+
+        .customoverlay .title {
+            display: block;
+            text-align: center;
+            background: #fff;
+            margin-right: 35px;
+            padding: 10px 15px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .customoverlay:after {
+            content: '';
+            position: absolute;
+            margin-left: -12px;
+            left: 50%;
+            bottom: -12px;
+            width: 22px;
+            height: 12px;
+            background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')
+        }
     </style>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.1.js"
+            integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+            crossorigin="anonymous"></script>
 </head>
 <body>
 <div style="background-color: #f7cd63; position: absolute;z-index: 100"><h1>하입볼</h1></div>
 <div id="map" style="width:100%;height:100vh; position: static"></div>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=77994d5c2a28508241eeb2d94b1aa113"></script>
 <script>
+
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         mapOption = {
             center: new kakao.maps.LatLng(37.521670, 126.990769), // 지도의 중심좌표
@@ -34,61 +85,48 @@
     // 지도를 생성합니다.
     var map = new kakao.maps.Map(mapContainer, mapOption);
 
-    // 마커를 표시할 위치와 title 객체 배열입니다
-    var positions = [
-        {
-            title: '와라야키 쿠이신보',
-            latlng: new kakao.maps.LatLng(37.51860, 127.02410)
-        },
-        {
-            title: '이이요',
-            latlng: new kakao.maps.LatLng(37.55519, 127.07892)
-        }
-    ];
-
-    var contents = [
-        {
-            title: '<div class="customoverlay">' +
-                    '  <a href="https://map.kakao.com/link/map/11394059" target="_blank">' +
-                '    <span class="title">와라야키 쿠이신</span>' +
-                '  </a>' +
-                '</div>'
-        },
-        {
-            title: '<div class="customoverlay">' +
-                '  <a href="https://map.kakao.com/link/map/11394059" target="_blank">' +
-                '    <span class="title">이이요</span>' +
-                '  </a>' +
-                '</div>'
-        }];
-
     // 마커 이미지의 이미지 주소입니다
-    var imageSrc = 'image/lemon-slice.png', // 마커이미지의 주소입니다
+    var imageSrc = '/image/Group13.png', // 마커이미지의 주소입니다
         imageSize = new kakao.maps.Size(50, 50), // 마커이미지의 크기입니다
         imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 
-    for (var i = 0; i < positions.length; i ++) {
 
-        // 마커 이미지를 생성합니다
-        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+    $.ajax({
+        url: '/map/home',
+        type: 'POST',
+        success: function (data) {
 
-        // 마커를 생성합니다
-        var marker = new kakao.maps.Marker({
-            map: map, // 마커를 표시할 지도
-            position: positions[i].latlng, // 마커를 표시할 위치
-            title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-            image : markerImage // 마커 이미지
-        });
+            for (var i = 0; i < data.length; i++) {
 
-        // 커스텀 오버레이를 생성합니다
-        var customOverlay = new kakao.maps.CustomOverlay({
-            map: map,
-            position: positions[i].latlng,
-            content: contents[i].title,
-            yAnchor: 1
-        });
-    }
+                // 마커 이미지를 생성합니다
+                var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+
+                // 마커를 생성합니다
+                var marker = new kakao.maps.Marker({
+                    map: map, // 마커를 표시할 지도
+                    position: new kakao.maps.LatLng(data[i].lat, data[i].lng), // 마커를 표시할 위치
+                    title: data[i].name, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+                    image: markerImage // 마커 이미지
+                });
+
+                // 커스텀 오버레이를 생성합니다
+                var customOverlay = new kakao.maps.CustomOverlay({
+                    map: map,
+                    position: new kakao.maps.LatLng(data[i].lat, data[i].lng),
+                    content: '<div class="customoverlay">' +
+                        '  <p>' +
+                        '    <span class="title">'+data[i].name+'</span>' +
+                        '  </p>' +
+                        '</div>',
+                    yAnchor: 1
+                });
+            }
+        },
+        error: function () {
+        }
+    });
 </script>
+
 </body>
 </html>
 
