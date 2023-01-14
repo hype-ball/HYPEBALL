@@ -1,0 +1,12 @@
+.modal-header {
+    border : 0;
+    padding-bottom: 0;
+}
+
+.modal-body {
+    padding-top : 0;
+}
+
+li {
+    list-style: none;
+}
