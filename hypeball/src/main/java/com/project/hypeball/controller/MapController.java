@@ -19,7 +19,8 @@ public class MapController {
     private final StoreService storeService;
 
     @GetMapping("/home")
-    public String map() {
+    public String map(Model model) {
+        model.addAttribute("list", storeService.findAll());
         return "map";
     }
 
