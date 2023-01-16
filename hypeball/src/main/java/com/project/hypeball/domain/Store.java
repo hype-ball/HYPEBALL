@@ -1,11 +1,12 @@
 package com.project.hypeball.domain;
 
+import com.project.hypeball.dto.StoreSaveForm;
+import com.project.hypeball.dto.StoreUpdateForm;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.cglib.core.Local;
 
 import java.io.Serializable;
 
@@ -49,4 +50,29 @@ public class Store implements Serializable {
     @NotNull
     @Column
     private Double lng; // 경도
+
+    public static Store createStore(StoreSaveForm form) {
+        Store store = new Store();
+        store.setName(form.getName());
+        store.setBranch(form.getBranch());
+        store.setCategory_id(form.getCategory_id());
+        store.setMenu(form.getMenu());
+        store.setContent(form.getContent());
+        store.setAddress(form.getAddress());
+        store.setLat(form.getLat());
+        store.setLng(form.getLng());
+        return store;
+    }
+
+    public void updateStore(Store store, StoreUpdateForm form) {
+        store.setId(form.getId());
+        store.setName(form.getName());
+        store.setBranch(form.getBranch());
+        store.setCategory_id(form.getCategory_id());
+        store.setMenu(form.getMenu());
+        store.setContent(form.getContent());
+        store.setAddress(form.getAddress());
+        store.setLat(form.getLat());
+        store.setLng(form.getLng());
+    }
 }

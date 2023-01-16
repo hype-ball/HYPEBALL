@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+  <title>Hype-Ball</title>
+  <link href="/css/common.css" rel="stylesheet"/>
+</head>
+<body>
+<h1>상세 페이지</h1>
+<table style="border: solid">
+  <thead>
+  <th>번호</th>
+  <th>상호명</th>
+  <th>지점</th>
+  <th>분류</th>
+  <th>추천메뉴</th>
+  <th>소개</th>
+  <th>주소</th>
+  <th>위도</th>
+  <th>경도</th>
+  </thead>
+  <tbody>
+  <tr>
+    <td data-th-text="${store.id}">1</td>
+    <td data-th-text="${store.name}">상호명</td>
+    <td data-th-text="${store.branch}">지점</td>
+    <td data-th-text="${store.category_id}">1</td>
+    <td data-th-text="${store.menu}">추천메뉴</td>
+    <td data-th-text="${store.content}">소개</td>
+    <td data-th-text="${store.address}">주소</td>
+    <td data-th-text="${store.lat}">위도</td>
+    <td data-th-text="${store.lng}">경도</td>
+  </tr>
+  </tbody>
+</table>
+<button th:onclick="|location.href='@{/store/update/{id} (id=${store.id})}'|">수정</button>
+<form th:action="@{/store/delete}" method="POST">
+  <input th:field="${store.id}" hidden/>
+  <button type="submit">삭제</button>
+</form>
+</body>
+</html>
