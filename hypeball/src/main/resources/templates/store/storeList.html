@@ -23,7 +23,7 @@
       <td data-th-text="${store.id}">1</td>
     <td ><a data-th-text="${store.name}" th:href="@{'/store/' + ${store.id}}">상호명</a></td>
       <td data-th-text="${store.branch}">지점</td>
-      <td data-th-text="${store.category_id}">1</td>
+      <td data-th-text="${store.category.name}">1</td>
       <td data-th-text="${store.address}">주소</td>
 
   </tr>

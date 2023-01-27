@@ -29,9 +29,9 @@ public class Store implements Serializable {
     @Column(length = 10)
     private String branch; // 지점
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "category_id")
-    private String category_id;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     @Column
     private String menu; // 추천메뉴
@@ -55,7 +55,7 @@ public class Store implements Serializable {
         Store store = new Store();
         store.setName(form.getName());
         store.setBranch(form.getBranch());
-        store.setCategory_id(form.getCategory_id());
+        store.setCategory(form.getCategory());
         store.setMenu(form.getMenu());
         store.setContent(form.getContent());
         store.setAddress(form.getAddress());
@@ -68,7 +68,7 @@ public class Store implements Serializable {
         store.setId(form.getId());
         store.setName(form.getName());
         store.setBranch(form.getBranch());
-        store.setCategory_id(form.getCategory_id());
+        store.setCategory(form.getCategory());
         store.setMenu(form.getMenu());
         store.setContent(form.getContent());
         store.setAddress(form.getAddress());

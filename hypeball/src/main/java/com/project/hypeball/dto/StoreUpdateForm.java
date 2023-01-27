@@ -1,5 +1,6 @@
 package com.project.hypeball.dto;
 
+import com.project.hypeball.domain.Category;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -19,7 +20,7 @@ public class StoreUpdateForm {
   @Size(min =1, max = 10, message = "지점명은 10자 이하입니다.")
   private String branch;
 
-  private String category_id;
+  private Category category;
 
   private String menu; // 추천메뉴
 
