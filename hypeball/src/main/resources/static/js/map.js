@@ -48,7 +48,7 @@ $.ajax({
     }
 });
 
-// 모달 지도
+// 모달의 이미지 지도
 const createMap = (storeId, lat, lng) => {
     setTimeout(function () {
         // 이미지 지도에서 마커가 표시될 위치입니다

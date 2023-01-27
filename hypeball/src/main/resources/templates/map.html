@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-  <title>Hype-Ball</title>
-  <!-- CSS Bootstrap -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <title>Hype-Ball</title>
+    <!-- CSS Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 
-  <link href="/css/common.css" rel="stylesheet"/>
-  <link href="/css/map.css" rel="stylesheet"/>
-  <link href="/css/modal.css" rel="stylesheet"/>
+    <link href="/css/common.css" rel="stylesheet"/>
+    <link href="/css/map.css" rel="stylesheet"/>
+    <link href="/css/modal.css" rel="stylesheet"/>
 
 </head>
 
@@ -19,42 +19,42 @@
 <div id="map"></div>
 
 <div th:each="store : ${list}">
-  <!-- Modal -->
-  <div class="modal fade" th:id="modal + ${store.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-       aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl modal-fullscreen-sm-down">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="d-flex">
-            <div>
-              <h1 class="modal-title fs-2" id="staticBackdropLabel" th:text="${store.name}">name</h1>
-            </div>
-            <div class="mx-3">
-              <li>카테고리</li>
-              <li>별점</li>
-            </div>
-          </div>
-          <h3 th:text="${store.address}">address</h3>
+    <!-- Modal -->
+    <div class="modal fade" th:id="modal + ${store.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl modal-fullscreen-sm-down">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex">
+                        <div>
+                            <h1 class="modal-title fs-2" id="staticBackdropLabel" th:text="${store.name}">name</h1>
+                        </div>
+                        <div class="mx-3">
+                            <li>카테고리</li>
+                            <li>별점</li>
+                        </div>
+                    </div>
+                    <h3 th:text="${store.address}">address</h3>
 
-          <!--          <div class="row">-->
-          <!--            <div class="col-6">-->
-          <div th:id="staticMap + ${store.id}" style="width:600px;height:350px;"></div>
-          <!--            </div>-->
-          <!--            <div class="col-6" style="background-color: blue">-->
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12" style="background-color: red">ss
+                            <div class="modal-map" th:id="staticMap + ${store.id}" style="width: 100%; height: 300px;"></div>
+                        </div>
+                        <div class="col-lg-6 col-md-12" style="background-color: blue">ss
 
-          <!--            </div>-->
-          <!--          </div>-->
+                        </div>
+                    </div>
+                </div>
+                <!--            <div class="modal-footer">-->
+                <!--                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>-->
+                <!--                <button type="button" class="btn btn-primary">Understood</button>-->
+                <!--            </div>-->
+            </div>
         </div>
-        <!--            <div class="modal-footer">-->
-        <!--                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>-->
-        <!--                <button type="button" class="btn btn-primary">Understood</button>-->
-        <!--            </div>-->
-      </div>
     </div>
-  </div>
 </div>
 
 <!-- jQuery -->
