@@ -55,7 +55,7 @@ public class StoreController {
     form.setId(store.getId());
     form.setName(store.getName());
     form.setBranch(store.getBranch());
-    form.setCategory_id(store.getCategory_id());
+    form.setCategory(store.getCategory());
     form.setMenu(store.getMenu());
     form.setContent(store.getContent());
     form.setAddress(store.getAddress());
