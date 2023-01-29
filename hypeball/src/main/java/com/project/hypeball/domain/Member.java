@@ -12,14 +12,16 @@ import java.io.Serializable;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Category {
+public class Member {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "category_id")
+    @Id //PK 지정
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // pk 자동증가
+    @Column(name = "member_id")
     private Long id;
 
     @NotNull
-    @Column(length = 10)
-    private String name; // 카테고리명
+    @Column
+    private String name;
+
+
 }

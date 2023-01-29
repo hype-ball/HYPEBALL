@@ -6,20 +6,24 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.io.Serializable;
-
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class Category {
+public class AttachedFile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "category_id")
+    @Column
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "review_id")
     @NotNull
-    @Column(length = 10)
-    private String name; // 카테고리명
+    private Review review;
+
+    @NotNull
+    @Column
+    private String filepath; // 파일경로
+
 }

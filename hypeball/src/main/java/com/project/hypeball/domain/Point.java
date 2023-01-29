@@ -1,25 +1,23 @@
 package com.project.hypeball.domain;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.io.Serializable;
-
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class Category {
+public class Point {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "category_id")
+    @Column(name = "point_id")
     private Long id;
 
+    @Column
     @NotNull
-    @Column(length = 10)
-    private String name; // 카테고리명
+    private String name; // 태그명
+
 }

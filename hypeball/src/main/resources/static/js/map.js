@@ -35,9 +35,9 @@ $.ajax({
             var customOverlay = new kakao.maps.CustomOverlay({
                 map: map,
                 position: new kakao.maps.LatLng(data[i].lat, data[i].lng),
-                content: '<div class="customoverlay" onclick="createMap(' + data[i].id + ',' + data[i].lat + ',' + data[i].lng + ')" data-bs-toggle="modal" data-bs-target="#modal' + data[i].id +'">' +
+                content: '<div class="customoverlay" onclick="createMap(' + data[i].id + ',' + "'"+ data[i].name + "'" +',' + data[i].lat + ',' + data[i].lng + ')" data-bs-toggle="modal" data-bs-target="#store-modal">' +
                     '  <p>' +
-                    '    <span class="title">'+data[i].name+'</span>' +
+                    '    <span class="title">' + data[i].name + '</span>' +
                     '  </p>' +
                     '</div>',
                 yAnchor: 1
@@ -48,8 +48,23 @@ $.ajax({
     }
 });
 
-// 모달 지도
-const createMap = (storeId, lat, lng) => {
+// 모달의 이미지 지도
+const createMap = (storeId, name, lat, lng) => {
+    $("#storeName").text(name);
+    $(".modal-map a").remove();
+
+    // $.ajax({
+    //             type: "GET",
+    //             url:"/store/detail" + st,
+    //             data:{"StoreNo": StoreNo},
+    //             success: function (result) {
+    //
+    //             },
+    //
+    //             error:function(){
+    //
+    //             }});
+
     setTimeout(function () {
         // 이미지 지도에서 마커가 표시될 위치입니다
         var markerPosition = new kakao.maps.LatLng(lat, lng);
@@ -59,7 +74,7 @@ const createMap = (storeId, lat, lng) => {
             position: markerPosition,
         };
 
-        var staticMapContainer = document.getElementById('staticMap' + storeId), // 이미지 지도를 표시할 div
+        var staticMapContainer = document.getElementById('staticMap'), // 이미지 지도를 표시할 div
             staticMapOption = {
                 center: new kakao.maps.LatLng(lat, lng), // 이미지 지도의 중심좌표
                 level: 3, // 이미지 지도의 확대 레벨

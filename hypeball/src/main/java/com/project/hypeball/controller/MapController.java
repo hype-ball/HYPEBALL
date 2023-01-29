@@ -32,6 +32,9 @@ public class MapController {
     return list;
   }
 
+  public String add(Model model) {
 
 
+    return "map";
+  }
 }
