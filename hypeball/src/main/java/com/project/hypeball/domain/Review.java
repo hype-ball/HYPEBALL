@@ -1,5 +1,7 @@
 package com.project.hypeball.domain;
 
+import com.project.hypeball.dto.ReviewSaveForm;
+import com.project.hypeball.dto.StoreSaveForm;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -55,4 +57,15 @@ public class Review {
     @Column
     private Double star; // 별점
 
+    public static Review createReview(ReviewSaveForm form) {
+        Review review = new Review();
+
+        review.setStore(form.getStore());
+        review.setMember(form.getMember());
+        review.setContent(form.getContent());
+        review.setCreatedDate(form.getCreatedDate());
+        review.setStar(form.getStar());
+
+        return review;
+    }
 }
