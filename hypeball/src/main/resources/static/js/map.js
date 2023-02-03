@@ -35,7 +35,7 @@ $.ajax({
             var customOverlay = new kakao.maps.CustomOverlay({
                 map: map,
                 position: new kakao.maps.LatLng(data[i].lat, data[i].lng),
-                content: '<div class="customoverlay" onclick="createMap(' + data[i].id + ',' + "'"+ data[i].name + "'" +',' + data[i].lat + ',' + data[i].lng + ')" data-bs-toggle="modal" data-bs-target="#store-modal">' +
+                content: '<div class="customoverlay" onclick="createMap(' + data[i].id + ',' + "'"+ data[i].name + "'" +',' + "'"+ data[i].address + "'" +',' + "'"+ data[i].category.name + "'" +',' + "'"+ data[i].menu + "'" +',' + data[i].lat + ',' + data[i].lng + ')" data-bs-toggle="modal" data-bs-target="#store-modal">' +
                     '  <p>' +
                     '    <span class="title">' + data[i].name + '</span>' +
                     '  </p>' +
@@ -49,21 +49,12 @@ $.ajax({
 });
 
 // 모달의 이미지 지도
-const createMap = (storeId, name, lat, lng) => {
+const createMap = (storeId, name, address, category, menu, lat, lng) => {
     $("#storeName").text(name);
+    $("#storeAddr").text(address);
+    $("#storeCategory").text(category);
+    $("#storeMenu").text(menu);
     $(".modal-map a").remove();
-
-    // $.ajax({
-    //             type: "GET",
-    //             url:"/store/detail" + st,
-    //             data:{"StoreNo": StoreNo},
-    //             success: function (result) {
-    //
-    //             },
-    //
-    //             error:function(){
-    //
-    //             }});
 
     setTimeout(function () {
         // 이미지 지도에서 마커가 표시될 위치입니다
