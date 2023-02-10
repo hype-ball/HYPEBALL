@@ -51,9 +51,9 @@ $.ajax({
 // 모달의 이미지 지도
 const createMap = (storeId, name, address, category, menu, lat, lng) => {
     $("#storeName").text(name);
-    $("#storeAddr").text(address);
+    $("#storeAddr").text("📍 "+ address);
     $("#storeCategory").text(category);
-    $("#storeMenu").text(menu);
+    $("#storeMenu").text("🐽 " + menu);
     $(".modal-map a").remove();
 
     setTimeout(function () {

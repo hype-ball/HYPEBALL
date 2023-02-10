@@ -9,7 +9,7 @@
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 
     <script src="https://unpkg.com/@yaireo/tagify"></script>
-    <link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+    <link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css"/>
     <link href="/css/common.css" rel="stylesheet"/>
     <link href="/css/map.css" rel="stylesheet"/>
     <link href="/css/modal.css" rel="stylesheet"/>
@@ -29,48 +29,71 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="d-flex">
+                <div class="d-flex mb-2">
                     <div>
-                        <li class="modal-title fs-2" id="storeName" ></li>
+                        <li class="modal-title fs-2" id="storeName"></li>
                     </div>
                     <div class="mx-3">
-                        <li>카테고리</li>
-                        <li id="storeCategory"></li>
-                        <li>별점</li>
-                        <li id="storeStarAvg"></li>
+                        <div>
+                            <span>카테고리 : </span>
+                            <span id="storeCategory"></span>
+                        </div>
+                        <div>
+                            <span>별점 : </span>
+                            <span id="storeStarAvg"></span>
+                        </div>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-lg-6 col-md-12" style="background-color: #fce4a9">
+                    <div class="col-lg-6 col-md-12">
                         <div class="modal-map"
                              id="staticMap"
-                             style="width: 100%; height: 300px;"></div>
-                        <div id="storeAddr" style="background-color: gray">주소</div>
-                        <div class="d-flex justify-content-center">
-                            <div style="background-color: yellow">카카오맵으로 정보보기</div>
-                            <div style="background-color: green">네이버 지도로 정보보기</div>
+                             style="width: 100%; height: 300px;">
                         </div>
-                        <div id = "storeMenu" style="background-color: cornflowerblue">가게정보(메뉴태그)</div>
-                        <div style="background-color: aquamarine">하이볼태그</div>
-                        <div style="background-color: blueviolet">분위기태그</div>
+                        <div class="d-flex text-center">
+                            <div class="col-6" style="background-color: yellow">카카오맵으로 정보보기</div>
+                            <div class="col-6" style="background-color: limegreen">네이버 지도로 정보보기</div>
+                        </div>
+                        <div id="storeAddr" class="mt-1">주소</div>
+                        <div id="storeMenu" class="mt-1">가게정보(메뉴태그)</div>
+                        <div class="mt-1">하이볼태그</div>
+                        <div class="mt-1">분위기태그</div>
                     </div>
+                    <div class="col-lg-6 col-md-12">
 
-
-                    <div class="col-lg-6 col-md-12" style="background-color: #d7d7d7">
-                        <div>
+                        <div id="reviewer-choice" class="mb-2">
+                            <div class="mb-2"> 🍹 당신의 베스트 하이볼?</div>
                             <div>
-                                <textarea placeholder="리뷰를 입력해주세요"></textarea>
+                                <input name="tags" placeholder="이건 꼭 마셔야해!"/>
                             </div>
-                            <div>등록버튼</div>
+                            <div class="my-2"> 	💫 분위기는 어땠나요?</div>
+                            <div class="btn-group gap-2" role="group" aria-label="Basic checkbox toggle button group">
+                                <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">
+                                <label class="btn btn-outline-warning rounded-pill" for="btncheck1">혼술하기 좋은곳</label>
+
+                                <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off">
+                                <label class="btn btn-outline-warning rounded-pill" for="btncheck2">시끌벅적</label>
+
+                                <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off">
+                                <label class="btn btn-outline-warning rounded-pill" for="btncheck3">연인과 함께</label>
+
+                            </div>
                         </div>
-                        <div>사진첨부버튼</div>
-                        <div>당신의베스트하이볼?</div>
-                        <div>
-                            <input placeholder="🍹" onfocus="this.placeholder = ''" style="color: white"/>
+                        <div class="d-flex justify-content-between mb-2">
+                        <div>😎 당신의 의견이 궁금해요</div>
+                        <label id="input-file-label" for="input-file">
+                            [ 사진 업로드 ]
+                        </label>
+                        <input type="file" id="input-file" class="d-none"/>
                         </div>
-                        <div>분위기는 어땠나요?</div>
-                        <div>분위기태그</div>
+                        <textarea placeholder="리뷰를 입력해주세요 : )"></textarea>
+
+                        <div class="d-flex justify-content-center">
+                            <button type="button" id="review-save" class="btn btn-warning btn-lg">리뷰등록
+                            </button>
+                        </div>
+                        <div class="p-2"></div>
                         <div>정렬버튼</div>
                         <div>
                             <div>프로필사진</div>
@@ -93,15 +116,15 @@
 </div>
 
 <script>
-    var input = document.querySelector('input')
-    var tagify = new Tagify(input, { maxTags: 3});
+    var input = document.querySelector('input[name=tags]');
+    var tagify = new Tagify(input, {maxTags: 3});
 
     // 태그가 추가되면 이벤트 발생
-    tagify.on('add', function() {
+    tagify.on('add', function () {
         console.log(tagify.value); // 입력된 태그 정보 객체
     })
 
-    tagify.on('remove', function() {
+    tagify.on('remove', function () {
         console.log("remove"); // 입력된 태그 정보 객체
     })
 
