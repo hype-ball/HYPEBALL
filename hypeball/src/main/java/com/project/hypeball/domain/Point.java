@@ -11,6 +11,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Point {
 
+    // 가게 분위기 태그
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "point_id")

@@ -24,3 +24,22 @@
 li {
     list-style: none;
 }
+
+textarea {
+    resize : none;
+    width: 100%;
+    height: 20%;
+    padding: 2%;
+}
+
+#review-save {
+    width: 100%;
+}
+
+#input-file-label {
+    cursor: pointer;
+}
+
+input:hover + label {
+    color: #f7cd63;
+}
