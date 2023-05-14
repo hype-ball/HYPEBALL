@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ReviewTag {
+public class ReviewDrink {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_tag_id")
@@ -21,17 +21,16 @@ public class ReviewTag {
     @JoinColumn(name = "review_id")
     private Review review;
 
+    @Column
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tag_id")
-    private Tag tag;
+    private String drink;
 
-    public static ReviewTag createReviewTag(Review review, Tag tag) {
-        ReviewTag reviewTag = new ReviewTag();
+    public static ReviewDrink createReviewDrink(Review review, String drink) {
+        ReviewDrink reviewDrink = new ReviewDrink();
 
-        reviewTag.setReview(review);
-        reviewTag.setTag(tag);
+        reviewDrink.setReview(review);
+        reviewDrink.setDrink(drink);
 
-        return reviewTag;
+        return reviewDrink;
     }
 }

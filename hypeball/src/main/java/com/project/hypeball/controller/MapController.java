@@ -1,6 +1,7 @@
 package com.project.hypeball.controller;
 
 import com.project.hypeball.domain.Store;
+import com.project.hypeball.service.PointService;
 import com.project.hypeball.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,10 +19,12 @@ import java.util.List;
 public class MapController {
 
   private final StoreService storeService;
+  private final PointService pointService;
 
   @GetMapping("/home")
   public String map(Model model) {
     model.addAttribute("list", storeService.findAll());
+    model.addAttribute("pointList", pointService.findAll());
     return "map";
   }
 

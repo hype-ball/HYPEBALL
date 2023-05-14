@@ -50,6 +50,7 @@ $.ajax({
 
 // 모달의 이미지 지도
 const createMap = (storeId, name, address, category, menu, lat, lng) => {
+    $("#storeId").val(storeId);
     $("#storeName").text(name);
     $("#storeAddr").text("📍 "+ address);
     $("#storeCategory").text(category);
