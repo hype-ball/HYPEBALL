@@ -33,8 +33,6 @@ public class MapController {
   }
 
   public String add(Model model) {
-
-
     return "map";
   }
 }
