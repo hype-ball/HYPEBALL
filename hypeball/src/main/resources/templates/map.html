@@ -31,6 +31,7 @@
             <div class="modal-body">
                 <div class="d-flex mb-2">
                     <div>
+                        <span hidden id="storeId"></span>
                         <li class="modal-title fs-2" id="storeName"></li>
                     </div>
                     <div class="mx-3">
@@ -68,18 +69,17 @@
                                 <input name="tags" placeholder="이건 꼭 마셔야해!"/>
                             </div>
                             <div class="my-2"> 	💫 분위기는 어땠나요?</div>
-                            <div class="btn-group gap-2" role="group" aria-label="Basic checkbox toggle button group">
-                                <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">
-                                <label class="btn btn-outline-warning rounded-pill" for="btncheck1">혼술하기 좋은곳</label>
-
-                                <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off">
-                                <label class="btn btn-outline-warning rounded-pill" for="btncheck2">시끌벅적</label>
-
-                                <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off">
-                                <label class="btn btn-outline-warning rounded-pill" for="btncheck3">연인과 함께</label>
-
+                            <div th:each="point:${pointList}" class="btn-group gap-2" role="group" aria-label="Basic checkbox toggle button group">
+                                <input type="checkbox" name="point-tag" th:value="${point.id}" class="btn-check" th:id="'btncheck' + ${point.id}" autocomplete="off">
+                                <label class="btn btn-outline-warning rounded-pill mb-1" th:for="'btncheck' + ${point.id}" th:text="${point.name}">혼술하기 좋은곳</label>
                             </div>
                         </div>
+<!--                        <form action="/test/star" method="post" th:object="${form}">-->
+                            <span class="star">★★★★★
+                                <span>★★★★★</span>
+                                <input type="range" oninput="drawStar(this)" value="1" step="1" min="0" max="10">
+                            </span>
+<!--                        </form>-->
                         <div class="d-flex justify-content-between mb-2">
                         <div>😎 당신의 의견이 궁금해요</div>
                         <label id="input-file-label" for="input-file">
@@ -87,7 +87,7 @@
                         </label>
                         <input type="file" id="input-file" class="d-none"/>
                         </div>
-                        <textarea placeholder="리뷰를 입력해주세요 : )"></textarea>
+                        <textarea id="review-content" placeholder="리뷰를 입력해주세요 : )"></textarea>
 
                         <div class="d-flex justify-content-center">
                             <button type="button" id="review-save" class="btn btn-warning btn-lg">리뷰등록
@@ -115,21 +115,6 @@
     </div>
 </div>
 
-<script>
-    var input = document.querySelector('input[name=tags]');
-    var tagify = new Tagify(input, {maxTags: 3});
-
-    // 태그가 추가되면 이벤트 발생
-    tagify.on('add', function () {
-        console.log(tagify.value); // 입력된 태그 정보 객체
-    })
-
-    tagify.on('remove', function () {
-        console.log("remove"); // 입력된 태그 정보 객체
-    })
-
-</script>
-
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.1.js"
         integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
@@ -141,5 +126,6 @@
 <!--kakao API-->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=77994d5c2a28508241eeb2d94b1aa113"></script>
 <script src="/js/map.js"></script>
+<script src="/js/review.js"></script>
 </body>
 </html>

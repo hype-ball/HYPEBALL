@@ -1,7 +1,5 @@
 package com.project.hypeball.domain;
 
-import com.project.hypeball.dto.ReviewSaveForm;
-import com.project.hypeball.dto.StoreSaveForm;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -9,9 +7,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.time.format.DateTimeFormatter;
+import java.util.Map;
 
 @Entity
 @Getter
@@ -57,14 +55,16 @@ public class Review {
     @Column
     private Double star; // 별점
 
-    public static Review createReview(ReviewSaveForm form) {
+    public static Review createReview(Map<String, Object> param, Store store, Member member) {
         Review review = new Review();
 
-        review.setStore(form.getStore());
-        review.setMember(form.getMember());
-        review.setContent(form.getContent());
-        review.setCreatedDate(form.getCreatedDate());
-        review.setStar(form.getStar());
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss");
+
+        review.setStore(store);
+        review.setMember(member);
+        review.setContent(param.get("content").toString());
+        review.setCreatedDate(LocalDateTime.now().format(dtf));
+        review.setStar(Double.parseDouble((String) param.get("star")) / 2);
 
         return review;
     }
