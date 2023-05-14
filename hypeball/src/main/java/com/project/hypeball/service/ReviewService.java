@@ -14,6 +14,7 @@ import org.springframework.core.SpringVersion;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,9 +27,9 @@ public class ReviewService {
 
     private final ReviewDrinkRepository reviewDrinkRepository;
 
-//    public List<Store> findAll() {
-//        return reviewRepository.findAll();
-//    }
+    public List<Review> getReviewsByStore(Store store) {
+        return reviewRepository.findByStore(store);
+    }
 
     // 리뷰 저장
     @Transactional
@@ -54,6 +55,7 @@ public class ReviewService {
     }
 
 
+
 //    @Transactional
 //    public void update(ReviewUpdateForm form) {
 //
@@ -65,4 +67,6 @@ public class ReviewService {
     public void delete(Long id) {
         reviewRepository.delete(get(id));
     }
+
+
 }

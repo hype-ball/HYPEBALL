@@ -1,6 +1,7 @@
 package com.project.hypeball.controller;
 
 import com.project.hypeball.domain.Member;
+
 import com.project.hypeball.domain.Point;
 import com.project.hypeball.domain.Review;
 import com.project.hypeball.domain.Store;
@@ -8,17 +9,15 @@ import com.project.hypeball.service.MemberService;
 import com.project.hypeball.service.PointService;
 import com.project.hypeball.service.ReviewService;
 import com.project.hypeball.service.StoreService;
-import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 
 @Slf4j
 @Controller
@@ -32,9 +31,14 @@ public class ReviewController {
     private final PointService pointService;
 
     @ResponseBody
-    @PostMapping("/{storeId}")
-    public void reviews() {
+    @GetMapping("/{storeId}")
+    public List<Review> reviews(@PathVariable Long storeId) {
 
+        Store store = storeService.get(storeId);
+        System.out.println(storeId);
+        List<Review> reviews = reviewService.getReviewsByStore(store);
+
+        return reviews;
     }
 
     // 멤버 수정해야함
