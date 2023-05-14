@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,9 +21,9 @@ import java.util.List;
 public class ReviewService {
     private final ReviewRepository reviewRepository;
 
-//    public List<Store> findAll() {
-//        return reviewRepository.findAll();
-//    }
+    public List<Review> getReviewsByStore(Store store) {
+        return reviewRepository.findByStore(store);
+    }
 
     @Transactional
     public Review add(ReviewSaveForm form) {
@@ -32,6 +33,7 @@ public class ReviewService {
     public Review get(Long id) {
         return reviewRepository.findById(id).orElse(null);
     }
+
 
 
 //    @Transactional
@@ -45,4 +47,6 @@ public class ReviewService {
     public void delete(Long id) {
         reviewRepository.delete(get(id));
     }
+
+
 }

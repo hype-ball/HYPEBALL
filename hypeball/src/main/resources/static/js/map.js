@@ -76,4 +76,32 @@ const createMap = (storeId, name, address, category, menu, lat, lng) => {
         var staticMap = new kakao.maps.StaticMap(staticMapContainer, staticMapOption);
 
     }, 200);
+
+    $.ajax({
+        url: '/reviews/' + storeId,
+        type: 'GET',
+        success: function (data) {
+            console.log("리뷰가져오기");
+            console.log(data);
+
+            var review_section = document.getElementById("review_section");
+            var reviews = "";
+
+            for (var i = 0; i < data.length; i++) {
+                reviews +=
+                        "<div><p>" + data[i].member.name + "</p>"
+                            + "<p>" + data[i].createdDate + "</p>"
+                            + "<p>" + data[i].star + "</p></div>"
+                ;
+            }
+
+            review_section.innerHTML = reviews;
+
+            },
+        error: function () {
+        }
+    });
+
 }
+
+

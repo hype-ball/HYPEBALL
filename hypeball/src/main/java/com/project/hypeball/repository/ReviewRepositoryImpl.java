@@ -16,4 +16,5 @@ public class ReviewRepositoryImpl implements ReviewRepositoryInterface{
   public Review get(Long reviewId) {
     return em.find(Review.class, reviewId);
   }
+
 }
