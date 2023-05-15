@@ -1,7 +1,6 @@
 package com.project.hypeball.service;
 
 import com.project.hypeball.domain.*;
-import com.project.hypeball.dto.ReviewSaveForm;
 import com.project.hypeball.dto.ReviewUpdateForm;
 import com.project.hypeball.dto.StoreSaveForm;
 import com.project.hypeball.dto.StoreUpdateForm;
@@ -17,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -24,11 +24,11 @@ import java.util.Map;
 public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final ReviewPointRepository reviewPointRepository;
-
     private final ReviewDrinkRepository reviewDrinkRepository;
 
     public List<Review> getReviewsByStore(Store store) {
-        return reviewRepository.findByStore(store);
+//        return reviewRepository.findByStore(store);
+        return reviewRepository.findReviewsFetch(store);
     }
 
     // 리뷰 저장
@@ -44,6 +44,11 @@ public class ReviewService {
         reviewPointRepository.save(reviewPoint);
     }
 
+    public List<ReviewPoint> reviewPoints(Long storeId) {
+        return reviewPointRepository.findTags(storeId);
+    }
+
+
     // 술 태그 저장
     public void reviewDrinkSave(Review review, String drink) {
         ReviewDrink reviewDrink = ReviewDrink.createReviewDrink(review, drink);
@@ -55,18 +60,9 @@ public class ReviewService {
     }
 
 
-
-//    @Transactional
-//    public void update(ReviewUpdateForm form) {
-//
-//        Review review = get(form.getId());
-//        review.updateReview(review, form);
-//    }
-
     @Transactional
     public void delete(Long id) {
         reviewRepository.delete(get(id));
     }
-
 
 }

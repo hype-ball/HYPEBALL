@@ -82,21 +82,35 @@ const createMap = (storeId, name, address, category, menu, lat, lng) => {
         url: '/reviews/' + storeId,
         type: 'GET',
         success: function (data) {
-            console.log("리뷰가져오기");
+
             console.log(data);
 
             var review_section = document.getElementById("review_section");
-            var reviews = "";
+            var drink_tags = document.getElementById("drink-tags");
+            var tag = "";
+            var rv = "";
 
-            for (var i = 0; i < data.length; i++) {
-                reviews +=
-                        "<div><p>" + data[i].member.name + "</p>"
-                            + "<p>" + data[i].createdDate + "</p>"
-                            + "<p>" + data[i].star + "</p></div>"
+            console.log(data.reviews);
+            console.log(data.reviews[0]);
+
+            for (var i = 0; i < data.reviews.length; i++) {
+                rv +=
+                        "<div><p>" + data.reviews[i].content + "</p>"
+                            + "<p>" + data.reviews[i].createdDate + "</p>"
+                            + "<p>" + data.reviews[i].star + "</p></div>"
+                             + "<p>" + data.reviews[i].writer + "</p></div>"
                 ;
             }
 
-            review_section.innerHTML = reviews;
+            for (var i = 0; i < data.points.length; i++) {
+                tag +=
+                        "<div><p>" + data.points[i] + "</p>"
+                ;
+            }
+
+
+            drink_tags.innerHTML = tag;
+            review_section.innerHTML = rv;
 
             },
         error: function () {
@@ -104,5 +118,8 @@ const createMap = (storeId, name, address, category, menu, lat, lng) => {
     });
 
 }
+
+
+
 
 

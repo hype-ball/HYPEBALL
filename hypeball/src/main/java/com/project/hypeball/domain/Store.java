@@ -1,5 +1,6 @@
 package com.project.hypeball.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.hypeball.dto.StoreSaveForm;
 import com.project.hypeball.dto.StoreUpdateForm;
 import jakarta.persistence.*;
@@ -9,6 +10,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -29,7 +32,7 @@ public class Store implements Serializable {
     @Column(length = 10)
     private String branch; // 지점
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
 
@@ -50,6 +53,10 @@ public class Store implements Serializable {
     @NotNull
     @Column
     private Double lng; // 경도
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "store", cascade = CascadeType.REMOVE)
+    private List<Review> reviews = new ArrayList<>();
 
     public static Store createStore(StoreSaveForm form) {
         Store store = new Store();

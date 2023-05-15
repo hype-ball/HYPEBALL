@@ -1,3 +1,37 @@
+// 첨부파일 미리보기
+function setThumbnail(event) {
+    for (var image of event.target.files) {
+        var reader = new FileReader();
+
+        reader.onload = function(event) {
+            var li = document.createElement("li");
+            var img = document.createElement("img");
+            var xbutton = document.createElement("a");
+
+            img.style.maxWidth = "15vw";
+            img.style.maxHeight = "15vw";
+            xbutton.innerText = "x";
+
+
+            li.appendChild(img);
+            li.appendChild(xbutton);
+            img.setAttribute("src", event.target.result);
+            document.querySelector("div#image_container").appendChild(li);
+            xbutton.setAttribute("onclick", "delThumbnail(this)");
+
+        };
+
+        console.log(image);
+        reader.readAsDataURL(image);
+
+    }
+}
+
+// 썸네일 제거
+function delThumbnail(target) {
+    target.parentElement.remove();
+}
+
 // 태그
 var input = document.querySelector('input[name=tags]');
 var tagify = new Tagify(input, {maxTags: 3});

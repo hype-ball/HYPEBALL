@@ -9,13 +9,7 @@ import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 
 @Getter @Setter
-public class ReviewSaveForm {
-
-    @NotNull
-    private Store store; // 리뷰가 딸린 가게
-
-    @NotNull
-    private Member member; // 작성자
+public class ReviewDto {
 
     @NotNull
     private String content; // 리뷰내용
@@ -25,4 +19,14 @@ public class ReviewSaveForm {
 
     @NotNull
     private Double star; // 별점
+
+    @NotNull
+    private String writer;
+
+    public ReviewDto(String content, String createdDate, Double star, String writer) {
+        this.content = content;
+        this.createdDate = createdDate;
+        this.star = star;
+        this.writer = writer;
+    }
 }
