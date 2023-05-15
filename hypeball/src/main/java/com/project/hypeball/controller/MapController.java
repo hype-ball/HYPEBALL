@@ -23,6 +23,9 @@ public class MapController {
 
   @GetMapping("/home")
   public String map(Model model) {
+
+    System.out.println("MapController.map");
+
     model.addAttribute("list", storeService.findAll());
     model.addAttribute("pointList", pointService.findAll());
     return "map";
@@ -31,6 +34,9 @@ public class MapController {
   @ResponseBody
   @PostMapping("/home")
   public List<Store> marker() {
+
+    System.out.println("MapController.marker");
+
     List<Store> list = storeService.findAll();
     return list;
   }

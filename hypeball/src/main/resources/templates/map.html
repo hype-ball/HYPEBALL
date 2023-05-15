@@ -59,7 +59,9 @@
                         <div id="storeAddr" class="mt-1">주소</div>
                         <div id="storeMenu" class="mt-1">가게정보(메뉴태그)</div>
                         <div class="mt-1">하이볼태그</div>
-                        <div class="mt-1">분위기태그</div>
+                        <div id="drink-tags"></div>
+                        <div  class="mt-1">분위기태그</div>
+                        <div id="point-tags"></div>
                     </div>
                     <div class="col-lg-6 col-md-12" style="overflow:scroll">
 
@@ -85,9 +87,10 @@
                         <label id="input-file-label" for="input-file">
                             [ 사진 업로드 ]
                         </label>
-                        <input type="file" id="input-file" class="d-none"/>
+                        <input type="file" id="input-file" class="d-none" accept="image/*" onchange="setThumbnail(event);" multiple/>
                         </div>
                         <textarea id="review-content" placeholder="리뷰를 입력해주세요 : )"></textarea>
+                        <div id="image_container"></div>
 
                         <div class="d-flex justify-content-center">
                             <button type="button" id="review-save" class="btn btn-warning btn-lg">리뷰등록
