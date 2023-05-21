@@ -77,7 +77,10 @@ const createMap = (storeId, name, address, category, menu, lat, lng) => {
         var staticMap = new kakao.maps.StaticMap(staticMapContainer, staticMapOption);
 
     }, 200);
+    reviewLoading(storeId);
+}
 
+function reviewLoading(storeId) {
     $.ajax({
         url: '/reviews/' + storeId,
         type: 'GET',
@@ -95,16 +98,16 @@ const createMap = (storeId, name, address, category, menu, lat, lng) => {
 
             for (var i = 0; i < data.reviews.length; i++) {
                 rv +=
-                        "<div><p>" + data.reviews[i].content + "</p>"
-                            + "<p>" + data.reviews[i].createdDate + "</p>"
-                            + "<p>" + data.reviews[i].star + "</p></div>"
-                             + "<p>" + data.reviews[i].writer + "</p></div>"
+                    "<div><p>" + data.reviews[i].content + "</p>"
+                    + "<p>" + data.reviews[i].createdDate + "</p>"
+                    + "<p>" + data.reviews[i].star + "</p></div>"
+                    + "<p>" + data.reviews[i].writer + "</p></div>"
                 ;
             }
 
             for (var i = 0; i < data.points.length; i++) {
                 tag +=
-                        "<div><p>" + data.points[i] + "</p>"
+                    "<div><p>" + data.points[i] + "</p>"
                 ;
             }
 
@@ -112,11 +115,10 @@ const createMap = (storeId, name, address, category, menu, lat, lng) => {
             drink_tags.innerHTML = tag;
             review_section.innerHTML = rv;
 
-            },
+        },
         error: function () {
         }
     });
-
 }
 
 

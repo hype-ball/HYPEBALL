@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
 
@@ -74,9 +75,12 @@ public class ReviewController {
                        @RequestParam Map<String, Object> param,
                        @RequestParam(value = "point[]") List<String> pointList,
                        @RequestParam(value = "drink[]") List<String> drinkList,
+                       //@RequestParam(value = "files") MultipartFile multipartFile,
                        HttpServletRequest request) {
         Store store = storeService.get(storeId);
         Member member = memberService.get(1L);
+        System.out.println("=======");
+       //System.out.println(multipartFile.getContentType());
         // 리뷰 저장
         Review review = reviewService.save(param, store, member);
         store.getReviews().add(review);
@@ -92,8 +96,9 @@ public class ReviewController {
         for (String drink : drinkList) {
             reviewService.reviewDrinkSave(review, drink);
         }
+        String result = String.valueOf(store.getId());
 
-        return "success";
+        return result;
     }
 
 
