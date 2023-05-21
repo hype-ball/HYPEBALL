@@ -3,7 +3,7 @@ function setThumbnail(event) {
     for (var image of event.target.files) {
         var reader = new FileReader();
 
-        reader.onload = function(event) {
+        reader.onload = function (event) {
             var li = document.createElement("li");
             var img = document.createElement("img");
             var xbutton = document.createElement("a");
@@ -46,15 +46,16 @@ var tagify = new Tagify(input, {maxTags: 3});
 // })
 
 // 별점
-let starValue = 0;
-
 const drawStar = (target) => {
-    starValue = target.value;
     document.querySelector(`.star span`).style.width = `${target.value * 10}%`;
     console.log(target.value)
 }
 
 $("#review-save").on("click", function () {
+
+    // 첨부파일 저장
+    var form = new FormData();
+    form.append("input-file", $("#input-file")[0].files);
 
     // 선택된 분위기 태그 목록 가져오기
     const query = 'input[name="point-tag"]:checked';
@@ -69,28 +70,38 @@ $("#review-save").on("click", function () {
     })
 
     let review = {
-        storeId : $("#storeId").val(),
-        content : $("#review-content").val(),
-        star : starValue,
-        drink : drinkArr,
-        point : pointArr
+        storeId: $("#storeId").val(),
+        content: $("#review-content").val(),
+        star: $('input[name="star"]').val(),
+        drink: drinkArr,
+        point: pointArr,
+        //files : form
     }
     console.log(review)
 
     $.ajax({
         url: '/reviews/add/' + review.storeId,
         type: 'POST',
-        async : false,
+        async: false,
         data: review,
-        success: function (data) {
-            if (data === "success") {
-                console.log("success")
-            } else {
-                console.log("fail")
-            }
+        success: function (storeId) {
+            console.log("success")
+            inputClear();
+            reviewLoading(storeId);
         },
         error: function () {
             console.log("error")
         }
     });
 });
+
+// input 초기화
+function inputClear() {
+    $('input[name="tags"]').val(null); // 술태그
+    $('input[name="point-tag"]').prop('checked',false); //분위기태그
+    console.log($('input[name="star"]').val());
+    $('input[name="star"]').val(0); //별점
+    console.log($('input[name="star"]').val());
+    document.querySelector(`.star span`).style.width = '0%';
+    $("#review-content").val(null); //내용
+}

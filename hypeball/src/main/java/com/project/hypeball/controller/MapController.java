@@ -26,7 +26,6 @@ public class MapController {
 
     System.out.println("MapController.map");
 
-    model.addAttribute("list", storeService.findAll());
     model.addAttribute("pointList", pointService.findAll());
     return "map";
   }
