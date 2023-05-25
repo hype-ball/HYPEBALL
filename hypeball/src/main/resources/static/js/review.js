@@ -57,28 +57,13 @@ $("#review-save").on("click", function () {
     var form = new FormData();
 
     var inputFile = $("input[name='input-file']");
-
     var files = inputFile[0].files;
 
-    if (files.length !== 0) {
-        // formData 생성
-        for (var i = 0; i < files.length; i++) {
-            form.append("uploadFile", files[i]);
-        }
-        $.ajax({
-            url: '/reviews/add/file',
-            processData: false,
-            contentType: false,
-            type: 'POST',
-            async: false,
-            data: form,
-            success: function (storeId) {
-                console.log("file success")
-            },
-            error: function () {
-                console.log("file error")
-            }
-        });
+    console.log(files)
+
+    // formData 생성
+    for (var i = 0; i < files.length; i++) {
+        form.append("file", files[i]);
     }
 
     // 선택된 분위기 태그 목록 가져오기
@@ -97,16 +82,20 @@ $("#review-save").on("click", function () {
         storeId: $("#storeId").val(),
         content: $("#review-content").val(),
         star: $('input[name="star"]').val(),
-        drink : drinkArr,
-        point : pointArr,
     }
     console.log(review)
+    form.append("review", new Blob([JSON.stringify(review)], {type:"application/json"}));
+    form.append("drink", new Blob([JSON.stringify(drinkArr)], {type:"application/json"}));
+    form.append("point", new Blob([JSON.stringify(pointArr)], {type:"application/json"}));
 
     $.ajax({
         url: '/reviews/add/' + review.storeId,
         type: 'POST',
         async: false,
-        data: review,
+        data: form,
+        contentType: false,
+        processData: false,
+        enctype: 'multipart/form-data',
         success: function (storeId) {
             console.log("success")
             inputClear();
@@ -122,9 +111,9 @@ $("#review-save").on("click", function () {
 function inputClear() {
     $('input[name="tags"]').val(null); // 술태그
     $('input[name="point-tag"]').prop('checked',false); //분위기태그
-    console.log($('input[name="star"]').val());
     $('input[name="star"]').val(0); //별점
-    console.log($('input[name="star"]').val());
+    $('input[name="input-file"]').val(null); //이미지
+    $('#image_container').children().remove();
     document.querySelector(`.star span`).style.width = '0%';
     $("#review-content").val(null); //내용
 }

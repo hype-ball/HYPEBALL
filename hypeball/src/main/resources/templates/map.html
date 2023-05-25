@@ -76,12 +76,10 @@
                                 <label class="btn btn-outline-warning rounded-pill mb-1" th:for="'btncheck' + ${point.id}" th:text="${point.name}">혼술하기 좋은곳</label>
                             </div>
                         </div>
-<!--                        <form action="/test/star" method="post" th:object="${form}">-->
                             <span class="star">★★★★★
                                 <span>★★★★★</span>
-                                <input type="range" name="star" oninput="drawStar(this)" value="1" step="1" min="0" max="10">
+                                <input type="range" name="star" oninput="drawStar(this)" value="0" step="1" min="0" max="10">
                             </span>
-<!--                        </form>-->
                         <div class="d-flex justify-content-between mb-2">
                         <div>😎 당신의 의견이 궁금해요</div>
                         <label id="input-file-label" for="input-file">
