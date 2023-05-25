@@ -2,6 +2,7 @@ package com.project.hypeball.dto;
 
 import com.project.hypeball.domain.Member;
 import com.project.hypeball.domain.Store;
+import com.querydsl.core.annotations.QueryProjection;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -23,6 +24,10 @@ public class ReviewDto {
     @NotNull
     private String writer;
 
+    public ReviewDto() {
+    }
+
+    @QueryProjection
     public ReviewDto(String content, String createdDate, Double star, String writer) {
         this.content = content;
         this.createdDate = createdDate;

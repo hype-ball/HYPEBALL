@@ -2,7 +2,10 @@ package com.project.hypeball.controller;
 
 import com.project.hypeball.domain.*;
 
+import com.project.hypeball.dto.DrinkCountDto;
+import com.project.hypeball.dto.PointCountDto;
 import com.project.hypeball.dto.ReviewDto;
+import com.project.hypeball.dto.ReviewSearchCondition;
 import com.project.hypeball.service.MemberService;
 import com.project.hypeball.service.PointService;
 import com.project.hypeball.service.ReviewService;
@@ -10,6 +13,8 @@ import com.project.hypeball.service.StoreService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -33,14 +38,15 @@ public class ReviewController {
     @GetMapping("/{storeId}")
     public Map<String, Object> reviews(@PathVariable Long storeId, Model model) {
 
+
         HashMap<String, Object> map = new HashMap<>();
 
         Store store = storeService.get(storeId);
-//        List<Review> reviews = reviewService.getReviewsByStore(store);
 
         List<Review> reviews = store.getReviews();
 
         List<ReviewDto> review_list = new ArrayList<>();
+
         System.out.println("====================================");
 
         for (Review review : reviews) {
@@ -63,7 +69,11 @@ public class ReviewController {
             i++;
         }
 
+//        List<PointCountDto> points = reviewService.pointTagsRank(storeId);
+        List<DrinkCountDto> drinks = reviewService.drinkTagsRank(storeId);
+
         map.put("points", points);
+        map.put("drinks", drinks);
 
         return map;
     }
@@ -107,7 +117,7 @@ public class ReviewController {
             reviewService.reviewPointSave(review, point);
         }
 
-        // 술태그 저장
+//        // 술태그 저장
         for (String drink : drinkList) {
             reviewService.reviewDrinkSave(review, drink);
         }
@@ -115,24 +125,45 @@ public class ReviewController {
         return store.getId();
     }
 
+    /**
+     * drink count
+     */
     @ResponseBody
-    @PostMapping("/add/file/{storeId}")
-    public String save(@PathVariable("storeId") Long storeId,
-                       MultipartFile[] uploadFile,
-                       HttpServletRequest request) {
-        Store store = storeService.get(storeId);
-        Member member = memberService.get(1L);
-        System.out.println("=======");
-        System.out.println("uploadFile = " + uploadFile);
-        for (MultipartFile multipartFile : uploadFile) {
-            System.out.println("multipartFile.getOriginalFilename() = " + multipartFile.getOriginalFilename());
-            System.out.println("multipartFile = " + multipartFile.getSize());
+    @GetMapping("/test/drinkTags/{storeId}")
+    public List<DrinkCountDto>  drinkTest(@PathVariable Long storeId) {
+        List<DrinkCountDto> drinkCountDtos = reviewService.drinkTagsRank(storeId);
+
+        for (DrinkCountDto drinkCountDto : drinkCountDtos) {
+            System.out.println("====================================");
+            System.out.println("drinkCountDto.getDrinkName() = " + drinkCountDto.getDrinkName());
+            System.out.println("drinkCountDto.getCount() = " + drinkCountDto.getCount());
         }
 
-        String result = String.valueOf(store.getId());
-
-        return result;
+        return drinkCountDtos;
     }
 
+    /**
+     * point count;
+     */
+
+    @ResponseBody
+    @GetMapping("/test/pointTags/{storeId}")
+    public List<PointCountDto> pointTest(@PathVariable Long storeId) {
+        List<PointCountDto> pointCountDtos = reviewService.pointTagsRank(storeId);
+
+        for (PointCountDto pointCountDto : pointCountDtos) {
+            System.out.println("====================================");
+            System.out.println("pointCountDto.getPointName() = " + pointCountDto.getPointName());
+            System.out.println("pointCountDto.getCount() = " + pointCountDto.getCount());
+        }
+
+        return pointCountDtos;
+    }
+
+    @ResponseBody
+    @GetMapping("/test/reviews")
+    public Page<ReviewDto> searchMemberV3(ReviewSearchCondition condition, Pageable pageable) {
+        return reviewService.reviewsPaging(condition, pageable);
+    }
 
 }
