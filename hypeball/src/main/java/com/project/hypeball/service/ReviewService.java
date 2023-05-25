@@ -2,10 +2,7 @@ package com.project.hypeball.service;
 
 import com.project.hypeball.domain.*;
 import com.project.hypeball.dto.*;
-import com.project.hypeball.repository.ReviewDrinkRepository;
-import com.project.hypeball.repository.ReviewPointRepository;
-import com.project.hypeball.repository.ReviewRepository;
-import com.project.hypeball.repository.StoreRepository;
+import com.project.hypeball.repository.*;
 import com.querydsl.core.Tuple;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.SpringVersion;
@@ -26,6 +23,7 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final ReviewPointRepository reviewPointRepository;
     private final ReviewDrinkRepository reviewDrinkRepository;
+    private final PointRepository pointRepository;
 
     public List<Review> getReviewsByStore(Store store) {
 //        return reviewRepository.findByStore(store);
@@ -34,26 +32,28 @@ public class ReviewService {
 
     // 리뷰 저장
     @Transactional
-    public Review save(Map<String, Object> param, Store store, Member member) {
-        Review review = Review.createReview(param, store, member);
-        return reviewRepository.save(review);
-    }
+    public Review save(Map<String, Object> param, Store store, Member member, List<Long> pointList, List<String> drinkList) {
+        // 리뷰 저장
+        Review review = reviewRepository.save(Review.createReview(param, store, member));
+        Store.saveReviewToStore(store, review);
 
-    // 분위기 태그 저장
-    public void reviewPointSave(Review review, Point point) {
-        ReviewPoint reviewPoint = ReviewPoint.createReviewPoint(review, point);
-        reviewPointRepository.save(reviewPoint);
+        // 분위기 태그 저장
+        for (Long pointId : pointList) {
+            ReviewPoint reviewPoint = ReviewPoint.createReviewPoint(review, pointRepository.get(pointId));
+            reviewPointRepository.save(reviewPoint);
+        }
+
+        // 술 태그 저장
+        for (String drink : drinkList) {
+            ReviewDrink reviewDrink = ReviewDrink.createReviewDrink(review, drink);
+            reviewDrinkRepository.save(reviewDrink);
+        }
+
+        return review;
     }
 
     public List<ReviewPoint> reviewPoints(Long storeId) {
         return reviewPointRepository.findTags(storeId);
-    }
-
-
-    // 술 태그 저장
-    public void reviewDrinkSave(Review review, String drink) {
-        ReviewDrink reviewDrink = ReviewDrink.createReviewDrink(review, drink);
-        reviewDrinkRepository.save(reviewDrink);
     }
 
     public Review get(Long id) {
