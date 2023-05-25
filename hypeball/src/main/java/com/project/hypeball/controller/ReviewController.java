@@ -71,24 +71,39 @@ public class ReviewController {
     // 멤버 수정해야함
     @ResponseBody
     @PostMapping("/add/{storeId}")
-    public String save(@PathVariable("storeId") Long storeId,
-                       @RequestParam Map<String, Object> param,
-                       @RequestParam(value = "point[]") List<String> pointList,
-                       @RequestParam(value = "drink[]") List<String> drinkList,
-                       //@RequestParam(value = "files") MultipartFile multipartFile,
+    public Long save(@PathVariable("storeId") Long storeId,
+                       @RequestPart(value = "review") Map<String, Object> param,
+                       @RequestPart(value = "point") List<Long> pointList,
+                       @RequestPart(value = "drink") List<String> drinkList,
+                       @RequestPart(value = "file", required = false) MultipartFile[] multipartFiles,
                        HttpServletRequest request) {
         Store store = storeService.get(storeId);
         Member member = memberService.get(1L);
         System.out.println("=======");
-       //System.out.println(multipartFile.getContentType());
+        System.out.println("param = " + param);
+        if (multipartFiles != null) {
+            for (MultipartFile multipartFile : multipartFiles) {
+                System.out.println("multipartFile = " + multipartFile.getOriginalFilename());
+            }
+        }
+        if (pointList != null) {
+            for (Long pointId : pointList) {
+                System.out.println("pointId = " + pointId);
+            }
+        }
+        if (drinkList != null) {
+            for (String drink : drinkList) {
+                System.out.println("drink = " + drink);
+            }
+        }
+
         // 리뷰 저장
         Review review = reviewService.save(param, store, member);
         store.getReviews().add(review);
 
-
         // 분위기태그 저장
-        for (String pointId : pointList) {
-            Point point = pointService.get(Long.valueOf(pointId));
+        for (Long pointId : pointList) {
+            Point point = pointService.get(pointId);
             reviewService.reviewPointSave(review, point);
         }
 
@@ -96,6 +111,24 @@ public class ReviewController {
         for (String drink : drinkList) {
             reviewService.reviewDrinkSave(review, drink);
         }
+
+        return store.getId();
+    }
+
+    @ResponseBody
+    @PostMapping("/add/file/{storeId}")
+    public String save(@PathVariable("storeId") Long storeId,
+                       MultipartFile[] uploadFile,
+                       HttpServletRequest request) {
+        Store store = storeService.get(storeId);
+        Member member = memberService.get(1L);
+        System.out.println("=======");
+        System.out.println("uploadFile = " + uploadFile);
+        for (MultipartFile multipartFile : uploadFile) {
+            System.out.println("multipartFile.getOriginalFilename() = " + multipartFile.getOriginalFilename());
+            System.out.println("multipartFile = " + multipartFile.getSize());
+        }
+
         String result = String.valueOf(store.getId());
 
         return result;
