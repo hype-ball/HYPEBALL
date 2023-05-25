@@ -89,8 +89,10 @@ function reviewLoading(storeId) {
             console.log(data);
 
             var review_section = document.getElementById("review_section");
+            var point_tags = document.getElementById("point-tags");
             var drink_tags = document.getElementById("drink-tags");
-            var tag = "";
+            var point = "";
+            var drink = "";
             var rv = "";
 
             console.log(data.reviews);
@@ -105,16 +107,34 @@ function reviewLoading(storeId) {
                 ;
             }
 
-            for (var i = 0; i < data.points.length; i++) {
-                tag +=
-                    "<div><p>" + data.points[i] + "</p>"
-                ;
+            for (var i = 0; i < data.drinks.length; i++) {
+
+                drink += "<span style='background-color: ";
+
+                if (data.drinks[i].count >= 3) {
+                    drink += "#FF9900'"
+                } else {
+                    drink += "#FFCC33'"
+                }
+                drink += "class='btn pe-none rounded-pill m-1'>" + data.drinks[i].drinkName + "</span>"
             }
 
+            for (var i = 0; i < data.points.length; i++) {
 
-            drink_tags.innerHTML = tag;
+                point += "<span style='background-color: ";
+
+                if (data.points[i].count >= 3) {
+                    point += "#00CC66'"
+                } else {
+                    point += "#66FF99'"
+                }
+                point +=
+                    "class='btn pe-none rounded-pill m-1'>" + data.points[i].pointName + "</span>"
+            }
+
+            drink_tags.innerHTML = drink;
+            point_tags.innerHTML = point;
             review_section.innerHTML = rv;
-
         },
         error: function () {
         }
