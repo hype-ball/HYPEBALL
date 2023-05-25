@@ -59,17 +59,7 @@ public class ReviewController {
 
         map.put("reviews", review_list);
 
-        List<ReviewPoint> reviewPoints = reviewService.reviewPoints(storeId);
-        String[] points = new String[reviewPoints.size()];
-
-        int i = 0;
-
-        for (ReviewPoint reviewPoint : reviewPoints) {
-            points[i] = reviewPoint.getPoint().getName();
-            i++;
-        }
-
-//        List<PointCountDto> points = reviewService.pointTagsRank(storeId);
+        List<PointCountDto> points = reviewService.pointTagsRank(storeId);
         List<DrinkCountDto> drinks = reviewService.drinkTagsRank(storeId);
 
         map.put("points", points);
@@ -130,7 +120,7 @@ public class ReviewController {
      */
     @ResponseBody
     @GetMapping("/test/drinkTags/{storeId}")
-    public List<DrinkCountDto>  drinkTest(@PathVariable Long storeId) {
+    public List<DrinkCountDto> drinkTest(@PathVariable Long storeId) {
         List<DrinkCountDto> drinkCountDtos = reviewService.drinkTagsRank(storeId);
 
         for (DrinkCountDto drinkCountDto : drinkCountDtos) {

@@ -63,7 +63,7 @@ input:hover + label {
     width: 0;
     position: absolute;
     left: 0;
-    color: red;
+    color: #f7cd63;
     overflow: hidden;
     pointer-events: none;
 }
