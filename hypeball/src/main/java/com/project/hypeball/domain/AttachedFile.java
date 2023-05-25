@@ -17,13 +17,17 @@ public class AttachedFile {
     @Column
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "review_id")
     @NotNull
-    private Review review;
+    @Column
+    private String uploadFileName;
 
     @NotNull
     @Column
-    private String filepath; // 파일경로
+    private String storeFileName;
+
+    public AttachedFile(String uploadFileName, String storeFileName) {
+        this.uploadFileName = uploadFileName;
+        this.storeFileName = storeFileName;
+    }
 
 }

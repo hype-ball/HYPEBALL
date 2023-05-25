@@ -55,7 +55,31 @@ $("#review-save").on("click", function () {
 
     // 첨부파일 저장
     var form = new FormData();
-    form.append("input-file", $("#input-file")[0].files);
+
+    var inputFile = $("input[name='input-file']");
+
+    var files = inputFile[0].files;
+
+    if (files.length !== 0) {
+        // formData 생성
+        for (var i = 0; i < files.length; i++) {
+            form.append("uploadFile", files[i]);
+        }
+        $.ajax({
+            url: '/reviews/add/file',
+            processData: false,
+            contentType: false,
+            type: 'POST',
+            async: false,
+            data: form,
+            success: function (storeId) {
+                console.log("file success")
+            },
+            error: function () {
+                console.log("file error")
+            }
+        });
+    }
 
     // 선택된 분위기 태그 목록 가져오기
     const query = 'input[name="point-tag"]:checked';
@@ -73,9 +97,8 @@ $("#review-save").on("click", function () {
         storeId: $("#storeId").val(),
         content: $("#review-content").val(),
         star: $('input[name="star"]').val(),
-        drink: drinkArr,
-        point: pointArr,
-        //files : form
+        drink : drinkArr,
+        point : pointArr,
     }
     console.log(review)
 

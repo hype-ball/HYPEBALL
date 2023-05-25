@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
-public interface ReviewPointRepository extends JpaRepository<ReviewPoint, Long>{
+public interface ReviewPointRepository extends JpaRepository<ReviewPoint, Long>, ReviewPointRepositoryInterface {
 
     @Query("select p from ReviewPoint p left join fetch p.review where p.review.store.id = :storeId")
     List<ReviewPoint> findTags(@Param("storeId") Long storeId);

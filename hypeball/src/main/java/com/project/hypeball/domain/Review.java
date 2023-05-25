@@ -9,6 +9,7 @@ import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Map;
 
 @Entity
@@ -54,6 +55,9 @@ public class Review {
     @NotNull
     @Column
     private Double star; // 별점
+
+    @OneToMany
+    private List<AttachedFile> imageFiles;
 
     public static Review createReview(Map<String, Object> param, Store store, Member member) {
         Review review = new Review();
