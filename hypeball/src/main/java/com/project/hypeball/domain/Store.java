@@ -58,6 +58,10 @@ public class Store implements Serializable {
     @OneToMany(mappedBy = "store", cascade = CascadeType.REMOVE)
     private List<Review> reviews = new ArrayList<>();
 
+    public static void saveReviewToStore(Store store, Review review) {
+        store.getReviews().add(review);
+    }
+
     public static Store createStore(StoreSaveForm form) {
         Store store = new Store();
         store.setName(form.getName());

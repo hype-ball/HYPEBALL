@@ -108,19 +108,7 @@ public class ReviewController {
         }
 
         // 리뷰 저장
-        Review review = reviewService.save(param, store, member);
-        store.getReviews().add(review);
-
-        // 분위기태그 저장
-        for (Long pointId : pointList) {
-            Point point = pointService.get(pointId);
-            reviewService.reviewPointSave(review, point);
-        }
-
-//        // 술태그 저장
-        for (String drink : drinkList) {
-            reviewService.reviewDrinkSave(review, drink);
-        }
+        Review review = reviewService.save(param, store, member, pointList, drinkList);
 
         return store.getId();
     }
