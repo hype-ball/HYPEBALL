@@ -66,10 +66,12 @@ public class ReviewController {
                                        @RequestParam("sort") String sort,
                                        @PageableDefault(size = 3) Pageable pageable) {
 
+
         /**
          * 별점같을때 정렬조건 무엇?
           */
         Page<ReviewDto> reviewDtos = reviewService.reviewsPaging(storeId, sort, pageable);
+        System.out.println("reviewDtos = " + reviewDtos);
 
         return reviewDtos;
     }
