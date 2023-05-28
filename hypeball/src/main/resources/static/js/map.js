@@ -68,6 +68,8 @@ function staticMap(lat, lng) {
 
         // 이미지 지도를 표시할 div와 옵션으로 이미지 지도를 생성합니다
         var staticMap = new kakao.maps.StaticMap(staticMapContainer, staticMapOption);
+        staticMap.a.lastChild.setAttribute("onclick", "return false;");
+
 
     }, 200);
 }

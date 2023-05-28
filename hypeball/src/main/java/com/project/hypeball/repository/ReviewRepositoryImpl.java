@@ -2,6 +2,10 @@ package com.project.hypeball.repository;
 
 import com.project.hypeball.domain.*;
 import com.project.hypeball.dto.FileDto;
+import com.project.hypeball.domain.Review;
+import com.project.hypeball.domain.Store;
+import com.project.hypeball.dto.AttachedFileQueryDto;
+import com.project.hypeball.dto.QAttachedFileQueryDto;
 import com.project.hypeball.dto.QReviewDto;
 import com.project.hypeball.dto.ReviewDto;
 import com.querydsl.core.types.OrderSpecifier;
@@ -20,6 +24,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.project.hypeball.domain.QCategory.*;
+
+import java.util.Map;
+
+import static com.project.hypeball.domain.QAttachedFile.*;
 import static com.project.hypeball.domain.QMember.*;
 import static com.project.hypeball.domain.QReview.*;
 import static com.project.hypeball.domain.QStore.*;
@@ -51,26 +59,92 @@ public class ReviewRepositoryImpl implements ReviewRepositoryInterface {
         return resultList;
     }
 
-    @Override
-    public Page<ReviewDto> findReviewsPaging(Long storeId, String sort, Pageable pageable) {
+//     @Override
+//     public Page<ReviewDto> findReviewsPaging(Long storeId, String sort, Pageable pageable) {
 
-        List<ReviewDto> content = queryFactory
-                .select(new QReviewDto(review.id, review.content, review.createdDate, review.star, review.member.name))
-                .from(review)
-                .join(review.member, member)
-                .where(review.store.id.eq(storeId))
-                .orderBy(sortCriteria(sort).toArray(OrderSpecifier[]::new))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
+//         List<ReviewDto> content = queryFactory
+//                 .select(new QReviewDto(review.id, review.content, review.createdDate, review.star, review.member.name))
+//                 .from(review)
+//                 .join(review.member, member)
+//                 .where(review.store.id.eq(storeId))
+//                 .orderBy(sortCriteria(sort).toArray(OrderSpecifier[]::new))
+//                 .offset(pageable.getOffset())
+//                 .limit(pageable.getPageSize())
+//                 .fetch();
 
-        long total = queryFactory
-                .selectFrom(review)
-                .where(review.store.id.eq(storeId))
-                .fetchCount();
+//         long total = queryFactory
+//                 .selectFrom(review)
+//                 .where(review.store.id.eq(storeId))
+//                 .fetchCount();
 
-        return new PageImpl<>(content, pageable, total);
-    }
+//         return new PageImpl<>(content, pageable, total);
+//     }
+
+
+  @Override
+  public Page<ReviewDto> findReviewsPaging(Long storeId, String sort, Pageable pageable) {
+
+    System.out.println("ReviewRepositoryImpl.findReviewsPaging");
+
+    List<ReviewDto> content = queryFactory
+            .select(new QReviewDto(review.id, review.content, review.createdDate, review.star, review.member.name))
+            .from(review)
+            .join(review.member, member)
+            .where(review.store.id.eq(storeId))
+            .orderBy(sortCriteria(sort).toArray(OrderSpecifier[]::new))
+            .offset(pageable.getOffset())
+            .limit(pageable.getPageSize())
+            .fetch();
+
+    Map<Long, List<AttachedFileQueryDto>> filesMap = findAttachedFileMap(toReviewIds(content));
+
+    System.out.println("filesMap = " + filesMap);
+
+    content.forEach(o -> {
+      o.setAttachedFiles(filesMap.get(o.getId()));
+      System.out.println("o.getAttachedFiles() = " + o.getAttachedFiles());
+    });
+
+
+    long total = queryFactory
+            .selectFrom(review)
+            .where(review.store.id.eq(storeId))
+            .fetchCount();
+
+    return new PageImpl<>(content, pageable, total);
+  }
+
+  private Map<Long, List<AttachedFileQueryDto>> findAttachedFileMap(List<Long> reviewIds) {
+
+    List<AttachedFileQueryDto> result = queryFactory
+            .select(new QAttachedFileQueryDto(review.id, attachedFile.storeFileName))
+            .from(review)
+            .join(attachedFile)
+            .on(review.id.eq(attachedFile.review.id))
+            .where(review.id.in(reviewIds))
+            .fetch();
+
+    return result.stream()
+            .collect(Collectors.groupingBy(AttachedFileQueryDto::getReviewId));
+  }
+
+  private List<Long> toReviewIds(List<ReviewDto> content) {
+    return content.stream()
+            .map(o -> o.getId())
+            .collect(Collectors.toList());
+  }
+
+  private List<AttachedFileQueryDto> findAttachedFiles(Long reviewId) {
+    List<AttachedFileQueryDto> fetch = queryFactory
+            .select(new QAttachedFileQueryDto(review.id, attachedFile.storeFileName))
+            .from(review)
+            .join(attachedFile)
+            .where(review.id.eq(reviewId))
+            .fetch();
+
+    System.out.println("첨부파일 돌리기 = " + fetch);
+    return fetch;
+  }
 
     @Override
     public Page<ReviewDto> findAllStoreId(Long storeId, String sort, Pageable pageable) {

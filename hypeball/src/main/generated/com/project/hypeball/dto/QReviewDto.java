@@ -13,8 +13,8 @@ public class QReviewDto extends ConstructorExpression<ReviewDto> {
 
     private static final long serialVersionUID = 1732054545L;
 
-    public QReviewDto(com.querydsl.core.types.Expression<Long> reviewId, com.querydsl.core.types.Expression<String> content, com.querydsl.core.types.Expression<String> createdDate, com.querydsl.core.types.Expression<Double> star, com.querydsl.core.types.Expression<String> writer) {
-        super(ReviewDto.class, new Class<?>[]{long.class, String.class, String.class, double.class, String.class}, reviewId, content, createdDate, star, writer);
+    public QReviewDto(com.querydsl.core.types.Expression<Long> id, com.querydsl.core.types.Expression<String> content, com.querydsl.core.types.Expression<String> createdDate, com.querydsl.core.types.Expression<Double> star, com.querydsl.core.types.Expression<String> writer) {
+        super(ReviewDto.class, new Class<?>[]{long.class, String.class, String.class, double.class, String.class}, id, content, createdDate, star, writer);
     }
 
 }

@@ -21,6 +21,10 @@
     padding-top : 0;
 }
 
+#staticMap a {
+    cursor: default;
+}
+
 li {
     list-style: none;
 }

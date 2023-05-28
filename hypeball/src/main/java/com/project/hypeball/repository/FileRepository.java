@@ -9,9 +9,7 @@ import java.util.List;
 
 public interface FileRepository extends JpaRepository<AttachedFile, Long> {
 
-    @Query("select f from AttachedFile f where f.review.id in :reviewList")
-    List<AttachedFile> findAllByStoreId(@Param("reviewList") List<Long> reviewList);
+    @Query("select f.storeFileName, r.id from AttachedFile f join Review r on f.review.id = r.id where r.store.id = :storeId")
+    List<AttachedFile> findBystoreId(@Param("storeId") Long storeId);
 
-    @Query("select f from AttachedFile f where f.review.id = :reviewId")
-    List<AttachedFile> findAllByReviewId(@Param("reviewId") Long reviewId);
 }

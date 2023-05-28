@@ -63,12 +63,17 @@ public class ReviewController {
                                        @RequestParam("sort") String sort,
                                        @PageableDefault(size = 3) Pageable pageable) {
 
-        Page<ReviewDto> reviews = reviewService.findAllStoreId(storeId, sort, pageable);
-        System.out.println("reviews.getContent().size() = " + reviews.getContent().size());
-        for (ReviewDto review : reviews) {
-            System.out.println("review = " + review);
-        }
-        return reviews;
+//         Page<ReviewDto> reviews = reviewService.findAllStoreId(storeId, sort, pageable);
+//         System.out.println("reviews.getContent().size() = " + reviews.getContent().size());
+//         for (ReviewDto review : reviews) {
+//             System.out.println("review = " + review);
+//         }
+//         return reviews;
+
+        Page<ReviewDto> reviewDtos = reviewService.reviewsPaging(storeId, sort, pageable);
+        System.out.println("reviewDtos = " + reviewDtos);
+
+        return reviewDtos;
     }
 
     // 멤버 수정해야함
