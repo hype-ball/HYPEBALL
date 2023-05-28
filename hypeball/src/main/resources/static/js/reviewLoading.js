@@ -52,21 +52,30 @@ function storeInfo(store) {
     $("#storeAddr").text("📍 "+ store.address);
     $("#storeCategory").text(store.category.name);
     $("#storeMenu").text("🐽 " + store.menu);
-    $(".modal-map a").remove();
 }
 
 function createReview(reviews) {
     var review_section = document.getElementById("review_section");
     var rv = "";
 
+    console.log(reviews)
+
     for (var i = 0; i < reviews.length; i++) {
         rv +=
             "<div><p>" + reviews[i].content + "</p>"
             + "<p>" + reviews[i].createdDate + "</p>"
-            + "<p>" + reviews[i].star + "</p></div>"
-            + "<p>" + reviews[i].writer + "</p></div>"
+            + "<p>" + reviews[i].star + "</p>"
+            + "<p>" + reviews[i].writer + "</p>"
         ;
+        var files = reviews[i].files;
+        if (files !== null) {
+        for (let j = 0; j < files.length; j++) {
+            rv += "<p>" + files[j].uploadFileName + "</p>"
+        }}
+        rv += "</div>"
     }
+
+
 
     review_section.innerHTML = rv;
 }
