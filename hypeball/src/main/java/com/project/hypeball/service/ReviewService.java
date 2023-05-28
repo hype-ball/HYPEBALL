@@ -3,18 +3,13 @@ package com.project.hypeball.service;
 import com.project.hypeball.domain.*;
 import com.project.hypeball.dto.*;
 import com.project.hypeball.repository.*;
-import com.querydsl.core.Tuple;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.SpringVersion;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -25,6 +20,9 @@ public class ReviewService {
     private final ReviewDrinkRepository reviewDrinkRepository;
     private final PointRepository pointRepository;
 
+    private final FileStore fileStore;
+    private final FileRepository fileRepository;
+
     public List<Review> getReviewsByStore(Store store) {
 //        return reviewRepository.findByStore(store);
         return reviewRepository.findReviewsFetch(store);
@@ -32,21 +30,32 @@ public class ReviewService {
 
     // 리뷰 저장
     @Transactional
-    public Review save(Map<String, Object> param, Store store, Member member, List<Long> pointList, List<String> drinkList) {
+    public Review save(ReviewAddDto reviewAddDto, Store store, Member member, List<AttachedFile> attachedFiles) {
+
         // 리뷰 저장
-        Review review = reviewRepository.save(Review.createReview(param, store, member));
+        Review review = reviewRepository.save(Review.createReview(reviewAddDto, store, member));
         Store.saveReviewToStore(store, review);
 
         // 분위기 태그 저장
-        for (Long pointId : pointList) {
-            ReviewPoint reviewPoint = ReviewPoint.createReviewPoint(review, pointRepository.get(pointId));
+        List<Point> pointList = pointRepository.findPointList(reviewAddDto.getPointList());
+        for (Point point : pointList) {
+            ReviewPoint reviewPoint = ReviewPoint.createReviewPoint(review, point);
             reviewPointRepository.save(reviewPoint);
         }
 
         // 술 태그 저장
-        for (String drink : drinkList) {
+        for (String drink : reviewAddDto.getDrinkList()) {
             ReviewDrink reviewDrink = ReviewDrink.createReviewDrink(review, drink);
             reviewDrinkRepository.save(reviewDrink);
+        }
+
+        if (attachedFiles != null) {
+            review.setImageFiles(attachedFiles);
+            // 파일 db 저장
+            for (AttachedFile attachedFile : attachedFiles) {
+                attachedFile.setReview(review);
+                fileRepository.save(attachedFile);
+            }
         }
 
         return review;
@@ -69,8 +78,8 @@ public class ReviewService {
     public List<PointCountDto> pointTagsRank(Long storeId) {return reviewPointRepository.pointCount(storeId);}
 
     // 리뷰 페이징
-    public Page<ReviewDto> reviewsPaging(ReviewSearchCondition condition, Pageable pageable) {
-        return reviewRepository.findReviewsPaging(condition, pageable);
+    public Page<ReviewDto> reviewsPaging(Long storeId, String sort, Pageable pageable) {
+        return reviewRepository.findReviewsPaging(storeId, sort, pageable);
     }
 
     @Transactional

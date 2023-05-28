@@ -1,6 +1,8 @@
-package com.project.hypeball.domain;
+package com.project.hypeball.service;
 
+import com.project.hypeball.domain.AttachedFile;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -9,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Component
 public class FileStore {
 
     @Value("${file.dir}")

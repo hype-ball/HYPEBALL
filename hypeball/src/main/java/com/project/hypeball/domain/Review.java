@@ -1,5 +1,7 @@
 package com.project.hypeball.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.project.hypeball.dto.ReviewAddDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -10,7 +12,6 @@ import org.springframework.data.annotation.CreatedDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Map;
 
 @Entity
 @Getter
@@ -56,21 +57,20 @@ public class Review {
     @Column
     private Double star; // 별점
 
-    @OneToMany
+    @JsonIgnore
+    @OneToMany(mappedBy = "review", cascade = CascadeType.REMOVE)
     private List<AttachedFile> imageFiles;
 
-    public static Review createReview(Map<String, Object> param, Store store, Member member) {
+    public static Review createReview(ReviewAddDto reviewAddDto, Store store, Member member) {
         Review review = new Review();
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss");
 
         review.setStore(store);
         review.setMember(member);
-        review.setContent(param.get("content").toString());
+        review.setContent(reviewAddDto.getContent());
         review.setCreatedDate(LocalDateTime.now().format(dtf));
-        review.setStar(Double.parseDouble((String) param.get("star")) / 2);
-
+        review.setStar(Double.parseDouble(reviewAddDto.getStar()) / 2);
         return review;
     }
-
 }

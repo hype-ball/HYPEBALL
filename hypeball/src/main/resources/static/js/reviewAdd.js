@@ -21,7 +21,7 @@ function setThumbnail(event) {
 
         };
 
-        console.log(image);
+        //console.log(image);
         reader.readAsDataURL(image);
 
     }
@@ -48,10 +48,10 @@ var tagify = new Tagify(input, {maxTags: 3});
 // 별점
 const drawStar = (target) => {
     document.querySelector(`.star span`).style.width = `${target.value * 10}%`;
-    console.log(target.value)
 }
 
 $("#review-save").on("click", function () {
+    validClear();
 
     // 첨부파일 저장
     var form = new FormData();
@@ -59,16 +59,13 @@ $("#review-save").on("click", function () {
     var inputFile = $("input[name='input-file']");
     var files = inputFile[0].files;
 
-    console.log(files)
-
     // formData 생성
     for (var i = 0; i < files.length; i++) {
         form.append("file", files[i]);
     }
 
     // 선택된 분위기 태그 목록 가져오기
-    const query = 'input[name="point-tag"]:checked';
-    const selectedEls = document.querySelectorAll(query);
+    const selectedEls = document.querySelectorAll('input[name="point-tag"]:checked');
     let pointArr = [];
     selectedEls.forEach((el) => {
         pointArr.push(el.value);
@@ -79,27 +76,34 @@ $("#review-save").on("click", function () {
     })
 
     let review = {
-        storeId: $("#storeId").val(),
         content: $("#review-content").val(),
         star: $('input[name="star"]').val(),
+        storeId : $("#storeId").val(),
+        drinkList : drinkArr,
+        pointList : pointArr
     }
-    console.log(review)
     form.append("review", new Blob([JSON.stringify(review)], {type:"application/json"}));
-    form.append("drink", new Blob([JSON.stringify(drinkArr)], {type:"application/json"}));
-    form.append("point", new Blob([JSON.stringify(pointArr)], {type:"application/json"}));
 
     $.ajax({
-        url: '/reviews/add/' + review.storeId,
+        url: '/reviews/add',
         type: 'POST',
         async: false,
         data: form,
         contentType: false,
         processData: false,
         enctype: 'multipart/form-data',
-        success: function (storeId) {
-            console.log("success")
-            inputClear();
-            reviewLoading(storeId);
+        success: function (data) {
+            if (data.result === "success") {
+                console.log("success")
+                inputClear();
+                createModal(review.storeId);
+            } else if (data.result === "valid") {
+                console.log("valid")
+                for (let i in data.valid) {
+                    $('#valid-'+data.valid[i].field).text(data.valid[i].message)
+                }
+                $("#review-content").focus();
+            }
         },
         error: function () {
             console.log("error")
@@ -116,4 +120,9 @@ function inputClear() {
     $('#image_container').children().remove();
     document.querySelector(`.star span`).style.width = '0%';
     $("#review-content").val(null); //내용
+}
+
+// validation 초기화
+function validClear() {
+    $('.validation').text(null);
 }
