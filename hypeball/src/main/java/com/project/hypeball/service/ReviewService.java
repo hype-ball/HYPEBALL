@@ -82,6 +82,9 @@ public class ReviewService {
         return reviewRepository.findReviewsPaging(storeId, sort, pageable);
     }
 
+    public Page<ReviewDto> findAllStoreId(Long storeId, String sort, Pageable pageable) {
+        return reviewRepository.findAllStoreId(storeId, sort, pageable);
+    }
     @Transactional
     public void delete(Long id) {
         reviewRepository.delete(get(id));

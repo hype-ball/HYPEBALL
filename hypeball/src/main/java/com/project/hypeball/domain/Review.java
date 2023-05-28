@@ -58,7 +58,8 @@ public class Review {
     @Column
     private Double star; // 별점
 
-//    @BatchSize(size = 100)
+    @JsonIgnore
+    @BatchSize(size = 10)
     @OneToMany(mappedBy = "review", cascade = CascadeType.REMOVE)
     private List<AttachedFile> imageFiles;
 

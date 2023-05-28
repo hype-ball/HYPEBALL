@@ -17,6 +17,8 @@ import java.util.List;
 @Getter @Setter
 public class ReviewDto {
 
+    //private Long reviewId;
+
     @NotNull
     private Long id;
 
@@ -32,21 +34,21 @@ public class ReviewDto {
     @NotNull
     private String writer;
 
-//    private List<AttachedFile> attachedFiles = new ArrayList<>();
-//    @BatchSize(size = 100)
+    //private List<FileDto> files;
+
     private List<AttachedFileQueryDto> attachedFiles = new ArrayList<>();
 
     public ReviewDto() {
     }
 
-//    @QueryProjection
-//    public ReviewDto(String content, String createdDate, Double star, String writer, List<AttachedFileQueryDto> files) {
-//        this.content = content;
-//        this.createdDate = createdDate;
-//        this.star = star;
-//        this.writer = writer;
-//        this.attachedFiles = files;
-//    }
+    public ReviewDto(Long reviewId, String content, String createdDate, Double star, String writer, List<FileDto> files) {
+        this.reviewId = reviewId;
+        this.content = content;
+        this.createdDate = createdDate;
+        this.star = star;
+        this.writer = writer;
+        this.files = files;
+    }
 
     @QueryProjection
     public ReviewDto(Long id,String content, String createdDate, Double star, String writer) {

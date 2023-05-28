@@ -52,7 +52,6 @@ function storeInfo(store) {
     $("#storeAddr").text("📍 "+ store.address);
     $("#storeCategory").text(store.category.name);
     $("#storeMenu").text("🐽 " + store.menu);
-    $(".modal-map a").attr("href", 'javascript:void(0);');
 }
 
 function createReview(reviews) {

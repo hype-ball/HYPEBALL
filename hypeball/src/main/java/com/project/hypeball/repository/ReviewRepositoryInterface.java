@@ -12,4 +12,5 @@ public interface ReviewRepositoryInterface {
 
     public List<Review> findReviewsFetch(Store store);
     Page <ReviewDto> findReviewsPaging(Long storeId, String sort, Pageable pageable);
+    Page<ReviewDto> findAllStoreId(Long storeId, String sort, Pageable pageable);
 }

@@ -11,4 +11,5 @@ public interface FileRepository extends JpaRepository<AttachedFile, Long> {
 
     @Query("select f.storeFileName, r.id from AttachedFile f join Review r on f.review.id = r.id where r.store.id = :storeId")
     List<AttachedFile> findBystoreId(@Param("storeId") Long storeId);
+
 }

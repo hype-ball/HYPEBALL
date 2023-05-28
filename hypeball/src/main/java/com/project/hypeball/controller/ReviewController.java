@@ -7,10 +7,7 @@ import com.project.hypeball.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -33,7 +31,6 @@ public class ReviewController {
     private final ReviewService reviewService;
     private final StoreService storeService;
     private final MemberService memberService;
-    private final PointService pointService;
     private final FileStore fileStore;
 
     @ResponseBody
@@ -66,10 +63,13 @@ public class ReviewController {
                                        @RequestParam("sort") String sort,
                                        @PageableDefault(size = 3) Pageable pageable) {
 
+//         Page<ReviewDto> reviews = reviewService.findAllStoreId(storeId, sort, pageable);
+//         System.out.println("reviews.getContent().size() = " + reviews.getContent().size());
+//         for (ReviewDto review : reviews) {
+//             System.out.println("review = " + review);
+//         }
+//         return reviews;
 
-        /**
-         * 별점같을때 정렬조건 무엇?
-          */
         Page<ReviewDto> reviewDtos = reviewService.reviewsPaging(storeId, sort, pageable);
         System.out.println("reviewDtos = " + reviewDtos);
 
