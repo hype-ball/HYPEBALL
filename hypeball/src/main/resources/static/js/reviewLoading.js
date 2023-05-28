@@ -52,23 +52,65 @@ function storeInfo(store) {
     $("#storeAddr").text("📍 "+ store.address);
     $("#storeCategory").text(store.category.name);
     $("#storeMenu").text("🐽 " + store.menu);
-    $(".modal-map a").remove();
+    $(".modal-map a").attr("href", 'javascript:void(0);');
 }
 
 function createReview(reviews) {
     var review_section = document.getElementById("review_section");
     var rv = "";
 
+    console.log(reviews);
+
     for (var i = 0; i < reviews.length; i++) {
         rv +=
             "<div><p>" + reviews[i].content + "</p>"
-            + "<p>" + reviews[i].createdDate + "</p>"
-            + "<p>" + reviews[i].star + "</p></div>"
-            + "<p>" + reviews[i].writer + "</p></div>"
-        ;
+            + "<p>" + reviews[i].star + "</p>"
+            + "<p>" + reviews[i].writer + "</p>"
+            + "<p>" + reviews[i].createdDate + "</p>";
+
+        if (reviews[i].attachedFiles !== null) {
+            rv +=
+            '<div id="carouselExampleControls'
+                + reviews[i].id +
+            '" class="carousel slide" data-ride="carousel">' +
+            '  <div class="carousel-inner">';
+
+            for (var j = 0; j < reviews[i].attachedFiles.length; j++) {
+                if (j === 0) {
+                    rv += '    <div class="carousel-item active">';
+                } else {
+                    rv += '    <div class="carousel-item">';
+                }
+
+                rv +=
+            '      <img class="d-block w-100" src="/files/' +
+                    reviews[i].attachedFiles[j].storeFileName
+                   + '" alt="First slide">' +
+            '    </div>';
+            }
+
+            rv +=
+            '  </div>';
+            rv +=
+               '<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls' +
+                reviews[i].id +
+                '" data-bs-slide="prev">' +
+               '     <span class="carousel-control-prev-icon" aria-hidden="true"></span>' +
+               '    <span class="visually-hidden">Previous</span>' +
+               '</button>' +
+                '<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls' +
+                reviews[i].id +
+                '" data-bs-slide="next">' +
+                      '<span class="carousel-control-next-icon" aria-hidden="true"></span>' +
+                      '<span class="visually-hidden">Next</span>' +
+                '</button>' +
+                '</div>';
+        }
+         rv += "</div>";
     }
 
     review_section.innerHTML = rv;
+
 }
 
 function createPaging(totalPage, nowPage) {
