@@ -2,24 +2,25 @@ package com.project.hypeball.controller;
 
 import com.project.hypeball.domain.*;
 
-import com.project.hypeball.dto.DrinkCountDto;
-import com.project.hypeball.dto.PointCountDto;
-import com.project.hypeball.dto.ReviewDto;
-import com.project.hypeball.dto.ReviewSearchCondition;
-import com.project.hypeball.service.MemberService;
-import com.project.hypeball.service.PointService;
-import com.project.hypeball.service.ReviewService;
-import com.project.hypeball.service.StoreService;
+import com.project.hypeball.dto.*;
+import com.project.hypeball.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.*;
 
 
@@ -33,31 +34,22 @@ public class ReviewController {
     private final StoreService storeService;
     private final MemberService memberService;
     private final PointService pointService;
+    private final FileStore fileStore;
 
     @ResponseBody
-    @GetMapping("/{storeId}")
-    public Map<String, Object> reviews(@PathVariable Long storeId, Model model) {
-
+    @GetMapping("/{id}")
+    public Map<String, Object> reviews (@PathVariable("id") Long storeId,
+                                       @RequestParam("sort") String sort,
+                                       @PageableDefault(size = 3) Pageable pageable) {
 
         HashMap<String, Object> map = new HashMap<>();
 
-        Store store = storeService.get(storeId);
+        Store store = storeService.getFetch(storeId);
 
-        List<Review> reviews = store.getReviews();
+        Page<ReviewDto> reviewDtos = reviewService.reviewsPaging(storeId, sort, pageable);
 
-        List<ReviewDto> review_list = new ArrayList<>();
-
-        System.out.println("====================================");
-
-        for (Review review : reviews) {
-            System.out.println("review.getContent() = " + review.getContent());
-            System.out.println("review.getStar() = " + review.getStar());
-            review_list.add(new ReviewDto(review.getContent(), review.getCreatedDate(), review.getStar(), review.getMember().getName()));
-        }
-
-        System.out.println("====================================");
-
-        map.put("reviews", review_list);
+        map.put("store", store);
+        map.put("reviews", reviewDtos);
 
         List<PointCountDto> points = reviewService.pointTagsRank(storeId);
         List<DrinkCountDto> drinks = reviewService.drinkTagsRank(storeId);
@@ -68,39 +60,67 @@ public class ReviewController {
         return map;
     }
 
+    @ResponseBody
+    @GetMapping("/ps/{id}")
+    public Page<ReviewDto> reviewsPart(@PathVariable("id") Long storeId,
+                                       @RequestParam("sort") String sort,
+                                       @PageableDefault(size = 3) Pageable pageable) {
+
+        /**
+         * 별점같을때 정렬조건 무엇?
+          */
+        Page<ReviewDto> reviewDtos = reviewService.reviewsPaging(storeId, sort, pageable);
+
+        return reviewDtos;
+    }
+
     // 멤버 수정해야함
     @ResponseBody
-    @PostMapping("/add/{storeId}")
-    public Long save(@PathVariable("storeId") Long storeId,
-                       @RequestPart(value = "review") Map<String, Object> param,
-                       @RequestPart(value = "point") List<Long> pointList,
-                       @RequestPart(value = "drink") List<String> drinkList,
-                       @RequestPart(value = "file", required = false) MultipartFile[] multipartFiles,
-                       HttpServletRequest request) {
-        Store store = storeService.get(storeId);
+    @PostMapping("/add")
+    public Map<String, Object> save(@Validated @RequestPart(value = "review") ReviewAddDto reviewAddDto, BindingResult bindingResult,
+                                    @RequestPart(value = "file", required = false) List<MultipartFile> multipartFiles,
+                                    HttpServletRequest request) throws IOException {
+
+        Store store = storeService.get(reviewAddDto.getStoreId());
         Member member = memberService.get(1L);
-        System.out.println("=======");
-        System.out.println("param = " + param);
+
         if (multipartFiles != null) {
+            log.info("================== file upload start ======================");
             for (MultipartFile multipartFile : multipartFiles) {
-                System.out.println("multipartFile = " + multipartFile.getOriginalFilename());
+                log.info("multipartFile.getContentType = " + multipartFile.getContentType());
+                log.info("multipartFile.getOriginalFilename = " + multipartFile.getOriginalFilename());
+                log.info("multipartFile.getSize = " + multipartFile.getSize());
             }
+            log.info("================== file upload end ======================");
         }
-        if (pointList != null) {
-            for (Long pointId : pointList) {
-                System.out.println("pointId = " + pointId);
+        log.info("================== review ======================");
+        log.info("reviewAdd = " + reviewAddDto);
+
+        Map<String, Object> map = new HashMap<>();
+
+        if (bindingResult.hasErrors()) {
+            log.info("errors={}", bindingResult);
+            List<FieldErrorDto> validations = new ArrayList<>();
+            for (FieldError fieldError : bindingResult.getFieldErrors()) {
+                log.info("fieldError = {},{},{},{}", fieldError.getField(), fieldError.getCode(), fieldError.getRejectedValue(), fieldError.getDefaultMessage());
+                validations.add(new FieldErrorDto(fieldError.getField(), fieldError.getDefaultMessage()));
             }
-        }
-        if (drinkList != null) {
-            for (String drink : drinkList) {
-                System.out.println("drink = " + drink);
-            }
+            map.put("result", "valid");
+            map.put("valid", validations);
+            return map;
         }
 
-        // 리뷰 저장
-        Review review = reviewService.save(param, store, member, pointList, drinkList);
+        List<AttachedFile> attachedFiles = null;
+        if (multipartFiles != null) {
+            // /static/files 에 저장
+            attachedFiles = fileStore.storeFiles(multipartFiles);
+        }
 
-        return store.getId();
+        //  리뷰 저장
+        Review review = reviewService.save(reviewAddDto, store, member, attachedFiles);
+
+        map.put("result", "success");
+        return map;
     }
 
     /**
@@ -137,11 +157,4 @@ public class ReviewController {
 
         return pointCountDtos;
     }
-
-    @ResponseBody
-    @GetMapping("/test/reviews")
-    public Page<ReviewDto> searchMemberV3(ReviewSearchCondition condition, Pageable pageable) {
-        return reviewService.reviewsPaging(condition, pageable);
-    }
-
 }

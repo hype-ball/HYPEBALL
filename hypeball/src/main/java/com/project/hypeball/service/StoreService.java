@@ -30,6 +30,10 @@ public class StoreService {
         return storeRepository.findById(id).orElse(null);
     }
 
+    public Store getFetch(Long id) {
+        return storeRepository.findFetchById(id).orElse(null);
+    }
+
     @Transactional
     public void update(StoreUpdateForm form) {
         Store store = get(form.getId());

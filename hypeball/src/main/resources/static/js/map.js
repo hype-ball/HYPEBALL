@@ -35,7 +35,7 @@ $.ajax({
             var customOverlay = new kakao.maps.CustomOverlay({
                 map: map,
                 position: new kakao.maps.LatLng(data[i].lat, data[i].lng),
-                content: '<div class="customoverlay" onclick="createMap(' + data[i].id + ',' + "'"+ data[i].name + "'" +',' + "'"+ data[i].address + "'" +',' + "'"+ data[i].category.name + "'" +',' + "'"+ data[i].menu + "'" +',' + data[i].lat + ',' + data[i].lng + ')" data-bs-toggle="modal" data-bs-target="#store-modal">' +
+                content: '<div class="customoverlay" onclick="createModal('+ data[i].storeId +')" data-bs-toggle="modal" data-bs-target="#store-modal">' +
                     '  <p>' +
                     '    <span class="title">' + data[i].name + '</span>' +
                     '  </p>' +
@@ -49,14 +49,7 @@ $.ajax({
 });
 
 // 모달의 이미지 지도
-const createMap = (storeId, name, address, category, menu, lat, lng) => {
-    $("#storeId").val(storeId);
-    $("#storeName").text(name);
-    $("#storeAddr").text("📍 "+ address);
-    $("#storeCategory").text(category);
-    $("#storeMenu").text("🐽 " + menu);
-    $(".modal-map a").remove();
-
+function staticMap(lat, lng) {
     setTimeout(function () {
         // 이미지 지도에서 마커가 표시될 위치입니다
         var markerPosition = new kakao.maps.LatLng(lat, lng);
@@ -77,68 +70,6 @@ const createMap = (storeId, name, address, category, menu, lat, lng) => {
         var staticMap = new kakao.maps.StaticMap(staticMapContainer, staticMapOption);
 
     }, 200);
-    reviewLoading(storeId);
-}
-
-function reviewLoading(storeId) {
-    $.ajax({
-        url: '/reviews/' + storeId,
-        type: 'GET',
-        success: function (data) {
-
-            console.log(data);
-
-            var review_section = document.getElementById("review_section");
-            var point_tags = document.getElementById("point-tags");
-            var drink_tags = document.getElementById("drink-tags");
-            var point = "";
-            var drink = "";
-            var rv = "";
-
-            console.log(data.reviews);
-            console.log(data.reviews[0]);
-
-            for (var i = 0; i < data.reviews.length; i++) {
-                rv +=
-                    "<div><p>" + data.reviews[i].content + "</p>"
-                    + "<p>" + data.reviews[i].createdDate + "</p>"
-                    + "<p>" + data.reviews[i].star + "</p></div>"
-                    + "<p>" + data.reviews[i].writer + "</p></div>"
-                ;
-            }
-
-            for (var i = 0; i < data.drinks.length; i++) {
-
-                drink += "<span style='background-color: ";
-
-                if (data.drinks[i].count >= 3) {
-                    drink += "#FF9900'"
-                } else {
-                    drink += "#FFCC33'"
-                }
-                drink += "class='btn pe-none rounded-pill m-1'>" + data.drinks[i].drinkName + "</span>"
-            }
-
-            for (var i = 0; i < data.points.length; i++) {
-
-                point += "<span style='background-color: ";
-
-                if (data.points[i].count >= 3) {
-                    point += "#00CC66'"
-                } else {
-                    point += "#66FF99'"
-                }
-                point +=
-                    "class='btn pe-none rounded-pill m-1'>" + data.points[i].pointName + "</span>"
-            }
-
-            drink_tags.innerHTML = drink;
-            point_tags.innerHTML = point;
-            review_section.innerHTML = rv;
-        },
-        error: function () {
-        }
-    });
 }
 
 

@@ -1,6 +1,7 @@
 package com.project.hypeball.controller;
 
 import com.project.hypeball.domain.Store;
+import com.project.hypeball.dto.MarkerDto;
 import com.project.hypeball.service.PointService;
 import com.project.hypeball.service.StoreService;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -32,15 +34,15 @@ public class MapController {
 
   @ResponseBody
   @PostMapping("/home")
-  public List<Store> marker() {
+  public List<MarkerDto> marker() {
 
     System.out.println("MapController.marker");
 
     List<Store> list = storeService.findAll();
-    return list;
-  }
-
-  public String add(Model model) {
-    return "map";
+    List<MarkerDto> storeList = new ArrayList<>();
+    for (Store store : list) {
+      storeList.add(new MarkerDto(store.getId(), store.getName(), store.getLat(), store.getLng()));
+    }
+    return storeList;
   }
 }

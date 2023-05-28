@@ -14,14 +14,16 @@ public class AttachedFile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
+    @Column(name = "file_id")
     private Long id;
 
-    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "review_id")
+    private Review review;
+
     @Column
     private String uploadFileName;
 
-    @NotNull
     @Column
     private String storeFileName;
 
@@ -29,5 +31,4 @@ public class AttachedFile {
         this.uploadFileName = uploadFileName;
         this.storeFileName = storeFileName;
     }
-
 }
