@@ -146,32 +146,32 @@ public class ReviewRepositoryImpl implements ReviewRepositoryInterface {
     return fetch;
   }
 
-    @Override
-    public Page<ReviewDto> findAllStoreId(Long storeId, String sort, Pageable pageable) {
-        List<Review> reviews = queryFactory
-                .select(review)
-                .from(review)
-                .join(review.member, member).fetchJoin()
-                .join(review.store, store).fetchJoin()
-                .join(store.category, category).fetchJoin()
-                .where(review.store.id.eq(storeId))
-                .orderBy(sortCriteria(sort).toArray(OrderSpecifier[]::new))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
+//    @Override
+//    public Page<ReviewDto> findAllStoreId(Long storeId, String sort, Pageable pageable) {
+//        List<Review> reviews = queryFactory
+//                .select(review)
+//                .from(review)
+//                .join(review.member, member).fetchJoin()
+//                .join(review.store, store).fetchJoin()
+//                .join(store.category, category).fetchJoin()
+//                .where(review.store.id.eq(storeId))
+//                .orderBy(sortCriteria(sort).toArray(OrderSpecifier[]::new))
+//                .offset(pageable.getOffset())
+//                .limit(pageable.getPageSize())
+//                .fetch();
 
-        List<ReviewDto> reviewDtos = reviews.stream()
-                .map(r -> new ReviewDto(r.getId(), r.getContent(), r.getCreatedDate(), r.getStar(), r.getMember().getName(),
-                        r.getImageFiles().stream().map(f -> new FileDto(f.getUploadFileName(), f.getStoreFileName())).collect(Collectors.toList())))
-                .collect(Collectors.toList());
-
-        long total = queryFactory
-                .selectFrom(review)
-                .where(review.store.id.eq(storeId))
-                .fetchCount();
-
-        return new PageImpl<>(reviewDtos, pageable, total);
-    }
+//        List<ReviewDto> reviewDtos = reviews.stream()
+//                .map(r -> new ReviewDto(r.getId(), r.getContent(), r.getCreatedDate(), r.getStar(), r.getMember().getName(),
+//                        r.getImageFiles().stream().map(f -> new FileDto(f.getUploadFileName(), f.getStoreFileName())).collect(Collectors.toList())))
+//                .collect(Collectors.toList());
+//
+//        long total = queryFactory
+//                .selectFrom(review)
+//                .where(review.store.id.eq(storeId))
+//                .fetchCount();
+//
+//        return new PageImpl<>(reviewDtos, pageable, total);
+//    }
 
     private List<OrderSpecifier<?>> sortCriteria(String sort) {
         List<OrderSpecifier<?>> specifiers = new ArrayList<>();

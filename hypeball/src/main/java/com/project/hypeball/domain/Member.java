@@ -2,6 +2,7 @@ package com.project.hypeball.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,7 +24,37 @@ public class Member {
     @Column
     private String name;
 
+    @NotNull
+    @Column
+    private String email;
+
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    @Column
+    private Role role;
+
+    private String provider; // naver, kakao, google
+
     public Member(String name) {
         this.name = name;
+    }
+
+    @Builder
+    public Member(String name, String email, Role role, String provider) {
+        this.name = name;
+        this.email = email;
+        this.role = role;
+        this.provider = provider;
+    }
+
+    // 회원 업데이트
+    public Member update(String name) {
+        this.name = name;
+
+        return this;
+    }
+
+    public String getRoleKey() {
+        return this.role.getKey();
     }
 }
