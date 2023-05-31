@@ -41,14 +41,14 @@ public class ReviewDto {
     public ReviewDto() {
     }
 
-    public ReviewDto(Long reviewId, String content, String createdDate, Double star, String writer, List<FileDto> files) {
-        this.reviewId = reviewId;
-        this.content = content;
-        this.createdDate = createdDate;
-        this.star = star;
-        this.writer = writer;
-        this.files = files;
-    }
+//    public ReviewDto(Long reviewId, String content, String createdDate, Double star, String writer, List<FileDto> files) {
+//        this.reviewId = reviewId;
+//        this.content = content;
+//        this.createdDate = createdDate;
+//        this.star = star;
+//        this.writer = writer;
+//        this.files = files;
+//    }
 
     @QueryProjection
     public ReviewDto(Long id,String content, String createdDate, Double star, String writer) {
