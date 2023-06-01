@@ -38,3 +38,6 @@ out/
 
 ### oauth
 application-oauth2.properties
+
+#generated
+/src/main/generated/
