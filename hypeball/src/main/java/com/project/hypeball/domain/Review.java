@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.BatchSize;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
@@ -59,7 +58,6 @@ public class Review {
     private Double star; // 별점
 
     @JsonIgnore
-    @BatchSize(size = 10)
     @OneToMany(mappedBy = "review", cascade = CascadeType.REMOVE)
     private List<AttachedFile> imageFiles;
 

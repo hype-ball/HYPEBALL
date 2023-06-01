@@ -5,6 +5,7 @@ import com.project.hypeball.dto.QDrinkCountDto;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,16 +14,12 @@ import static com.project.hypeball.domain.QReview.*;
 import static com.project.hypeball.domain.QReviewDrink.*;
 
 @Repository
-public class ReviewDrinkRepositoryImpl implements ReviewDrinkRepositoryCustom {
+@RequiredArgsConstructor
+public class ReviewDrinkRepositoryImpl implements ReviewDrinkRepositoryInterface {
 
     @PersistenceContext
     private final EntityManager em;
     private final JPAQueryFactory queryFactory;
-
-    public ReviewDrinkRepositoryImpl(EntityManager em) {
-        this.em = em;
-        this.queryFactory = new JPAQueryFactory(em);
-    }
 
     public List<DrinkCountDto> drinkCount(Long storeId) {
 

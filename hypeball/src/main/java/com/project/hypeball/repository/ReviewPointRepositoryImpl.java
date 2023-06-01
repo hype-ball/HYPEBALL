@@ -3,10 +3,8 @@ package com.project.hypeball.repository;
 import com.project.hypeball.domain.*;
 import com.project.hypeball.dto.PointCountDto;
 import com.project.hypeball.dto.QPointCountDto;
-import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -17,16 +15,12 @@ import static com.project.hypeball.domain.QReview.*;
 import static com.project.hypeball.domain.QReviewPoint.*;
 
 @Repository
+@RequiredArgsConstructor
 public class ReviewPointRepositoryImpl implements ReviewPointRepositoryInterface {
 
-  @PersistenceContext
   private final EntityManager em;
   private final JPAQueryFactory queryFactory;
 
-  public ReviewPointRepositoryImpl(EntityManager em) {
-    this.em = em;
-    this.queryFactory = new JPAQueryFactory(em);
-  }
 
   public ReviewPoint get(Long reviewPointId) {
     return em.find(ReviewPoint.class, reviewPointId);

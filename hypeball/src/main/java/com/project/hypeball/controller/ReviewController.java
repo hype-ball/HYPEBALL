@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.*;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
@@ -19,8 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
-
 
 @Slf4j
 @Controller
@@ -62,13 +59,6 @@ public class ReviewController {
     public Page<ReviewDto> reviewsPart(@PathVariable("id") Long storeId,
                                        @RequestParam("sort") String sort,
                                        @PageableDefault(size = 3) Pageable pageable) {
-
-//         Page<ReviewDto> reviews = reviewService.findAllStoreId(storeId, sort, pageable);
-//         System.out.println("reviews.getContent().size() = " + reviews.getContent().size());
-//         for (ReviewDto review : reviews) {
-//             System.out.println("review = " + review);
-//         }
-//         return reviews;
 
         Page<ReviewDto> reviewDtos = reviewService.reviewsPaging(storeId, sort, pageable);
         System.out.println("reviewDtos = " + reviewDtos);
@@ -145,7 +135,6 @@ public class ReviewController {
     /**
      * point count;
      */
-
     @ResponseBody
     @GetMapping("/test/pointTags/{storeId}")
     public List<PointCountDto> pointTest(@PathVariable Long storeId) {

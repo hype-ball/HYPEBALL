@@ -1,15 +1,9 @@
 package com.project.hypeball.dto;
 
-import com.project.hypeball.domain.AttachedFile;
-import com.project.hypeball.domain.Member;
-import com.project.hypeball.domain.Store;
 import com.querydsl.core.annotations.QueryProjection;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.BatchSize;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +11,7 @@ import java.util.List;
 @Getter @Setter
 public class ReviewDto {
 
-    //private Long reviewId;
-
-    @NotNull
-    private Long id;
+    private Long reviewId;
 
     @NotNull
     private String content; // 리뷰내용
@@ -34,25 +25,11 @@ public class ReviewDto {
     @NotNull
     private String writer;
 
-    //private List<FileDto> files;
-
     private List<AttachedFileQueryDto> attachedFiles = new ArrayList<>();
 
-    public ReviewDto() {
-    }
-
-//    public ReviewDto(Long reviewId, String content, String createdDate, Double star, String writer, List<FileDto> files) {
-//        this.reviewId = reviewId;
-//        this.content = content;
-//        this.createdDate = createdDate;
-//        this.star = star;
-//        this.writer = writer;
-//        this.files = files;
-//    }
-
     @QueryProjection
-    public ReviewDto(Long id,String content, String createdDate, Double star, String writer) {
-        this.id = id;
+    public ReviewDto(Long id, String content, String createdDate, Double star, String writer) {
+        this.reviewId = id;
         this.content = content;
         this.createdDate = createdDate;
         this.star = star;

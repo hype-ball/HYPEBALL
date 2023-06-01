@@ -6,7 +6,6 @@ import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.List;
 
 @Repository
@@ -22,8 +21,8 @@ public class StoreRepositoryImpl implements StoreRepositoryInterface {
   public List<Store> findAllFetch() {
 
     List resultList = em.createQuery("select s from Store s" +
-            " join fetch s.category c", Store.class
-    ).getResultList();
+            " join fetch s.category c", Store.class)
+            .getResultList();
 
     return resultList;
   }

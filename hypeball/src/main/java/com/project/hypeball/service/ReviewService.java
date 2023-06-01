@@ -19,14 +19,7 @@ public class ReviewService {
     private final ReviewPointRepository reviewPointRepository;
     private final ReviewDrinkRepository reviewDrinkRepository;
     private final PointRepository pointRepository;
-
-    private final FileStore fileStore;
     private final FileRepository fileRepository;
-
-    public List<Review> getReviewsByStore(Store store) {
-//        return reviewRepository.findByStore(store);
-        return reviewRepository.findReviewsFetch(store);
-    }
 
     // 리뷰 저장
     @Transactional
@@ -61,14 +54,6 @@ public class ReviewService {
         return review;
     }
 
-    public List<ReviewPoint> reviewPoints(Long storeId) {
-        return reviewPointRepository.findTags(storeId);
-    }
-
-    public Review get(Long id) {
-        return reviewRepository.findById(id).orElse(null);
-    }
-
     // 하이볼태그 태그명,count 가져오기
     public List<DrinkCountDto> drinkTagsRank(Long storeId) {
         return reviewDrinkRepository.drinkCount(storeId);
@@ -80,14 +65,6 @@ public class ReviewService {
     // 리뷰 페이징
     public Page<ReviewDto> reviewsPaging(Long storeId, String sort, Pageable pageable) {
         return reviewRepository.findReviewsPaging(storeId, sort, pageable);
-    }
-
-//    public Page<ReviewDto> findAllStoreId(Long storeId, String sort, Pageable pageable) {
-//        return reviewRepository.findAllStoreId(storeId, sort, pageable);
-//    }
-    @Transactional
-    public void delete(Long id) {
-        reviewRepository.delete(get(id));
     }
 
 }

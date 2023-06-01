@@ -17,7 +17,6 @@ public class StoreService {
     private final StoreRepository storeRepository;
 
     public List<Store> findAll() {
-//        return storeRepository.findAll();
         return storeRepository.findAllFetch();
     }
 

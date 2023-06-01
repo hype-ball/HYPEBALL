@@ -1,7 +1,6 @@
 package com.project.hypeball.repository;
 
 import com.project.hypeball.domain.Member;
-import com.project.hypeball.domain.Review;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;

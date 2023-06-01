@@ -1,6 +1,5 @@
 package com.project.hypeball.repository;
 
-import com.project.hypeball.domain.Member;
 import com.project.hypeball.domain.Point;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
