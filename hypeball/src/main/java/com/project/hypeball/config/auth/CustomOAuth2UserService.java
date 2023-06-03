@@ -16,6 +16,7 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import java.time.ZoneId;
 import java.util.Collections;
 
 @Slf4j
@@ -54,7 +55,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 Collections.singleton(new SimpleGrantedAuthority((member.getRoleKey()))),
                 attributes.getAttributes(),
                 attributes.getNameAttributeKey()
-        );
+        ); // 리턴할 때 세션 생김
     }
 
     private Member saveOrUpdate (OAuthAttributes attributes) {

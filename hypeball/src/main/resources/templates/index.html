@@ -15,8 +15,12 @@
 <a href="/oauth2/authorization/naver" class="btn active">네이버 로그인</a>
 <a href="/logout" class="btn active">로그아웃</a>
 <a href="https://kauth.kakao.com/oauth/logout?client_id=e073bdd8fc4dac5f02fd9eb5657f01a5&logout_redirect_uri=http://localhost:8080/oauth2/kakao/logout&response_type=code" class="btn active">로그아웃</a>
-<a href="/oauth2/authorization/kakao/logout" class="btn active">로그아웃</a>
+<a href="/oauth2/loginInfo" class="btn active">loginInfo</a>
+<a href="/oauth2/sessionInfo" class="btn active">sessionInfo</a>
+<a href="/oauth2/session/clear" class="btn active">sessionClear</a>
 <h1 th:if="${session.member} != null" th:text="${session.member.name}"></h1>
+<br>
+<a href="/map/home" class="btn active">mapHome</a>
 
 </body>
 <script>

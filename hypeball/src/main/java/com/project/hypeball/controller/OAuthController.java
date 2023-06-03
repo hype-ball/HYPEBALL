@@ -2,6 +2,7 @@ package com.project.hypeball.controller;
 
 import com.project.hypeball.config.auth.dto.SessionUser;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -29,10 +30,22 @@ public class OAuthController {
 
     @GetMapping("/sessionInfo")
     public String oauthSessionInfo(HttpServletRequest request) {
-        if (request.getSession(false) != null) {
-            SessionUser sessionUser = (SessionUser) request.getSession(false).getAttribute("member");
+
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            SessionUser sessionUser = (SessionUser) session.getAttribute("member");
+            System.out.println("request = " + session.getAttributeNames());
             return sessionUser.toString();
         }
         return "session == null";
+    }
+
+    @GetMapping("/session/clear")
+    public String sessionClear(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        return "clear";
     }
 }
