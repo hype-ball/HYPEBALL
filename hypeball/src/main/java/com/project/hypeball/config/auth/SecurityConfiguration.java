@@ -36,7 +36,7 @@ public class SecurityConfiguration {
                     .deleteCookies("JSESSIONID") // 쿠키 삭제
                 .and()
                     .oauth2Login()
-                    .defaultSuccessUrl("/map/home", true) // 성공 후 리다이렉트
+                    .defaultSuccessUrl("/", true) // 성공 후 리다이렉트
                 .userInfoEndpoint().userService(customOAuth2UserService);
 
         return http.build();

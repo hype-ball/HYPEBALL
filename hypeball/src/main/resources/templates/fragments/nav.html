@@ -1,3 +1,81 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<nav th:fragment="nav">header</nav>
+<div th:fragment="nav">
+    <nav class="navbar fixed-top">
+        <div class="container-fluid">
+            <div>
+                <a class="navbar-brand" href="/">hype-ball</a>
+            </div>
+            <div>
+                <button th:if="${session.member} == null" type="button" class="btn btn-outline-dark me-2" data-bs-toggle="modal" data-bs-target="#loginModal">로그인</button>
+                <span th:unless="${session.member} == null">
+                    <span class="me-3" th:text="${session.member.name} + '님 환영합니다!!'"></span>
+                    <button type="button" class="btn btn-outline-dark" onclick="location.href='/logout'">로그아웃</button>
+                </span>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <!-- off canvas-->
+            <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="static" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel" th:if="${session.member} != null" th:text="${session.member.name}">Offcanvas</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul>
+                        <li>home</li>
+                        <li>MyPage</li>
+                        <li>하이볼 명가 등록하기</li>
+                    </ul>
+                </div>
+            </div><!--/off canvas-->
+        </div><!--/container-->
+    </nav>
+
+    <!-- Modal -->
+    <div class="modal fade" id="loginModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="wrapper d-flex flex-column mb-3 text-center">
+                        <div class="p-2 text-center">
+                            <img id="hypeball-logo" src="/image/pink_hypeball.png">
+                        </div>
+                        <p class="modal-title fs-4 fw-normal" id="loginModalLabel">로그인하고 인생하이볼을 만나보세요</p>
+                        <div class="p-2"></div>
+                        <div class="row p-2 mx-5 mb-3 login-btn kakao-login button shadow" onclick="location.href='/oauth2/authorization/kakao'" style="cursor: pointer">
+                            <div class="col">
+                                <img src="/image/kakao_balloon.png" class="login-icon"> <!-- 카카오 말풍선 이미지-->
+                            </div>
+                            <div class="col-10">
+                                <span>카카오로 계속하기</span>
+                            </div>
+                        </div>
+                        <div class="row p-2 mx-5 mb-3 login-btn naver-login button shadow" onclick="location.href='/oauth2/authorization/naver'" style="cursor: pointer">
+                            <div class="col">
+                                <img src="/image/naver_n.png" class="login-icon">
+                            </div>
+                            <div class="col-10">
+                                <span>네이버로 계속하기</span>
+                            </div>
+                        </div>
+                        <div class="row p-2 mx-5 mb-3 login-btn google-login button shadow" onclick="location.href='/oauth2/authorization/google'" style="cursor: pointer">
+                            <div class="col">
+                                <img src="https://developers.google.com/static/identity/images/g-logo.png?hl=ko" class="login-icon">
+                            </div>
+                            <div class="col-10">
+                                <span>구글로 계속하기</span>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!--/modal-->
+</div>
+</html>

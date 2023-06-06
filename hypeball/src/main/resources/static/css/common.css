@@ -6,5 +6,10 @@
 }
 
 * {
-    font-family: 'MICEGothic Bold';
+    /*font-family: 'MICEGothic Bold', serif;*/
+}
+
+
+body {
+    padding-top: 55px;
 }
