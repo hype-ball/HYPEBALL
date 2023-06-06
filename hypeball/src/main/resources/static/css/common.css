@@ -6,10 +6,37 @@
 }
 
 * {
-    /*font-family: 'MICEGothic Bold', serif;*/
+    font-family: 'MICEGothic Bold', serif;
 }
 
+.nav-top {
+    padding-top: 56px;
+}
 
-body {
-    padding-top: 55px;
+.star {
+    position: relative;
+    font-size: 2rem;
+    color: #ddd;
+}
+
+.rv-star {
+    font-size: 1.3rem;
+}
+
+.star input {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.star span {
+    width: 0;
+    position: absolute;
+    left: 0;
+    color: #f7cd63;
+    overflow: hidden;
+    pointer-events: none;
 }

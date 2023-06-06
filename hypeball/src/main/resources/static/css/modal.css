@@ -35,40 +35,6 @@ textarea {
     padding: 2%;
 }
 
-.star {
-    position: relative;
-    font-size: 2rem;
-    color: #ddd;
-}
-
-.rv-star {
-    font-size: 1.3rem;
-}
-
-.star input {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    left: 0;
-    opacity: 0;
-    cursor: pointer;
-}
-
-.star span {
-    width: 0;
-    position: absolute;
-    left: 0;
-    color: #f7cd63;
-    overflow: hidden;
-    pointer-events: none;
-}
-
-.rv-content {
-    padding: 1rem;
-    background-color: cornsilk;
-    border-radius: 15px;
-}
-
 #review-save {
     width: 100%;
 }
@@ -83,76 +49,4 @@ input:hover + label {
 
 .validation {
     color: orangered;
-}
-
-select[name="sort"] {
-    border-color: rgba(0, 0, 0, 0.125);
-}
-
-.img-wrap {
-    padding: 0;
-    position: relative;
-    height: 150px;
-    width: 150px;
-}
-
-.review-img {
-    height: 150px;
-    width: 150px;
-    object-fit: contain;
-}
-
-.img-hover-text {
-    opacity: 0;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    text-align: center;
-    transform: translate(-50%, -50%);
-}
-
-.review-img:hover  ~ .img-hover-text {
-    opacity: 1;
-}
-
-.review-img:hover {
-    opacity: 0.3;
-}
-
-.img-size-up {
-    width: 100%;
-    height: auto;
-}
-
-.img-hover-text2 {
-    opacity: 0;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    text-align: center;
-    font-size: 1.2rem;
-    transform: translate(-50%, -50%);
-}
-
-.img-size-up:hover  ~ .img-hover-text {
-    opacity: 0;
-}
-.img-size-up:hover  ~ .img-hover-text2 {
-    opacity: 1;
-}
-
-.page-link {
-    border: none;
-    color: rgba(0, 0, 0, 0.8);
-}
-
-.active > .page-link {
-    background-color: orange;
-}
-
-.rv-none {
-    text-align: center;
-    padding: 2rem;
-    background-color: cornsilk;
-    border-radius: 15px;
 }

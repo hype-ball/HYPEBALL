@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments/header :: header(~{::link}, ~{:://head/script})}">
+  <link href="/css/myPage.css" rel="stylesheet"/>
+  <link href="/css/review.css" rel="stylesheet"/>
+  <script src="/js/reviewLoading.js"></script>
+</head>
+<body class="nav-top">
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<div class="w-100">
+<!-- 프로필 -->
+<div class="d-flex justify-content-center" style="background-color: #FADF70;">
+  <img src="/image/Frame8.png" alt="profile" class="rounded-circle d-block" style="width: 170px; height: 170px;">
+</div>
+<div class="d-flex justify-content-center gap-2 p-2 profile-wrap pb-5" style="background: #FADF70;">
+  <h3 class="mb-0">nickname</h3>
+  <button class="btn btn-light btn-sm profile-update">수정</button>
+</div>
+<div class="row py-5">
+  <!-- 찜 -->
+  <div class="col-lg-6 col-md-12">
+    <div style="padding: 2rem; background-color: #F3F2EE; height: 65vh; overflow: hidden" class="margin-lg-left rounded pb-2">
+      <h3 class="text-center">찜한 하이볼 명가</h3>
+      <div class="d-flex justify-content-between mb-1">
+        <button class="btn btn-outline-dark btn-sm"><img src="/image/Group 3.png" class="me-1" style="height: 25px">찜한 리스트 지도로 보기</button>
+        <small class="mt-3 me-3">총 개수 21</small>
+      </div>
+      <ul class="list-group" style="overflow-y: scroll; max-height: 50vh">
+        <li class="list-group-item d-flex justify-content-between my-0 align-middle">
+          <div>
+            <p class="fs-5 mb-0 mt-2">쿠이신보</p>
+            <small>00구 00동 000 </small>
+            <p class="mb-0"><a class="link" href="#">상세 보기</a></p>
+          </div>
+          <div class="list-wrap">
+            <div class="heart"></div>
+          </div>
+        </li>
+        <li class="list-group-item d-flex justify-content-between my-0 align-middle">
+          <div>
+            <p class="fs-5 mb-0 mt-2">쿠이신보</p>
+            <small>00구 00동 000</small>
+            <p class="mb-0"><a class="link" href="#">상세 보기</a></p>
+          </div>
+          <div class="list-wrap">
+            <div class="heart"></div>
+          </div>
+        </li>
+        <li class="list-group-item d-flex justify-content-between my-0 align-middle">
+          <div>
+            <p class="fs-5 mb-0 mt-2">쿠이신보</p>
+            <small>00구 00동 000</small>
+            <p class="mb-0"><a class="link" href="#">상세 보기</a></p>
+          </div>
+          <div class="list-wrap">
+            <div class="heart"></div>
+          </div>
+        </li>
+        <li class="list-group-item d-flex justify-content-between my-0 align-middle">
+          <div>
+            <p class="fs-5 mb-0 mt-2">쿠이신보</p>
+            <small>00구 00동 000</small>
+            <p class="mb-0"><a class="link" href="#">상세 보기</a></p>
+          </div>
+          <div class="list-wrap">
+            <div class="heart"></div>
+          </div>
+        </li>
+        <li class="list-group-item d-flex justify-content-between my-0 align-middle">
+          <div>
+            <p class="fs-5 mb-0 mt-2">쿠이신보</p>
+            <small>00구 00동 000</small>
+            <p class="mb-0"><a class="link" href="#">상세 보기</a></p>
+          </div>
+          <div class="list-wrap">
+            <div class="heart"></div>
+          </div>
+        </li>
+        <li class="list-group-item d-flex justify-content-between my-0 align-middle">
+          <div>
+            <p class="fs-5 mb-0 mt-2">쿠이신보</p>
+            <small>00구 00동 000</small>
+            <p class="mb-0"><a class="link" href="#">상세 보기</a></p>
+          </div>
+          <div class="list-wrap">
+            <div class="heart"></div>
+          </div>
+        </li>
+        <li class="list-group-item d-flex justify-content-between my-0 align-middle">
+          <div>
+            <p class="fs-5 mb-0 mt-2">쿠이신보</p>
+            <small>00구 00동 000</small>
+            <p class="mb-0"><a class="link" href="#">상세 보기</a></p>
+          </div>
+          <div class="list-wrap">
+            <div class="heart"></div>
+          </div>
+        </li>
+        <li class="list-group-item d-flex justify-content-between my-0 align-middle">
+          <div>
+            <p class="fs-5 mb-0 mt-2">쿠이신보</p>
+            <small>00구 00동 000</small>
+            <p class="mb-0"><a class="link" href="#">상세 보기</a></p>
+          </div>
+          <div class="list-wrap">
+            <div class="heart"></div>
+          </div>
+        </li>
+        <li class="list-group-item d-flex justify-content-between my-0 align-middle">
+          <div>
+            <p class="fs-5 mb-0 mt-2">쿠이신보</p>
+            <small>00구 00동 000</small>
+            <p class="mb-0"><a class="link" href="#">상세 보기</a></p>
+          </div>
+          <div class="list-wrap">
+            <div class="heart"></div>
+          </div>
+        </li>
+        <li class="list-group-item d-flex justify-content-between my-0 align-middle">
+          <div>
+            <p class="fs-5 mb-0 mt-2">쿠이신보</p>
+            <small>00구 00동 000</small>
+            <p class="mb-0"><a class="link" href="#">상세 보기</a></p>
+          </div>
+          <div class="list-wrap">
+            <div class="heart"></div>
+          </div>
+        </li>
+        <li class="list-group-item d-flex justify-content-between my-0 align-middle">
+          <div>
+            <p class="fs-5 mb-0 mt-2">쿠이신보</p>
+            <small>00구 00동 000</small>
+            <p class="mb-0"><a class="link" href="#">상세 보기</a></p>
+          </div>
+          <div class="list-wrap">
+            <div class="heart"></div>
+          </div>
+        </li>
+        <li class="list-group-item d-flex justify-content-between my-0 align-middle">
+          <div>
+            <p class="fs-5 mb-0 mt-2">쿠이신보</p>
+            <small>00구 00동 000</small>
+            <p class="mb-0"><a class="link" href="#">상세 보기</a></p>
+          </div>
+          <div class="list-wrap">
+            <div class="heart"></div>
+          </div>
+        </li>
+        <li class="list-group-item d-flex justify-content-between my-0 align-middle">
+          <div>
+            <p class="fs-5 mb-0 mt-2">쿠이신보</p>
+            <small>00구 00동 000</small>
+            <p class="mb-0"><a class="link" href="#">상세 보기</a></p>
+          </div>
+          <div class="list-wrap">
+            <div class="heart"></div>
+          </div>
+        </li>
+        <li class="list-group-item d-flex justify-content-between my-0 align-middle">
+          <div>
+            <p class="fs-5 mb-0 mt-2">쿠이신보</p>
+            <small>00구 00동 000</small>
+            <p class="mb-0"><a class="link" href="#">상세 보기</a></p>
+          </div>
+          <div class="list-wrap">
+            <div class="heart"></div>
+          </div>
+        </li>
+        <li class="list-group-item d-flex justify-content-between my-0 align-middle">
+          <div>
+            <p class="fs-5 mb-0 mt-2">쿠이신보</p>
+            <small>00구 00동 000</small>
+            <p class="mb-0"><a class="link" href="#">상세 보기</a></p>
+          </div>
+          <div class="list-wrap">
+            <div class="heart"></div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!-- 리뷰 -->
+  <div class="col-lg-6 col-md-12">
+    <div class="margin-lg-right rounded" style="padding: 2rem; background-color: #F3F2EE; height: 65vh">
+      <h3 class="text-center">작성한 리뷰</h3>
+      <div class="d-flex justify-content-end mb-1">
+        <select class="form-select-sm" name="sort" oninput="reviewSort(this)">
+          <option value="default">최신순</option>
+          <option value="cdtAsc">오래된순</option>
+          <option value="starDesc">별점높은순</option>
+          <option value="starAsc">별점낮은순</option>
+        </select>
+      </div>
+      <div class="list-group" style="overflow-y: scroll; max-height: 50vh">
+        <a class="list-group-item list-group-item-action my-1">
+          <div>
+            <div class="d-flex w-100 justify-content-between">
+              <p class="fs-5 mb-0">쿠이신보</p>
+              <button class="btn btn-danger btn-sm">삭제</button>
+            </div>
+            <hr class="my-1">
+            <div class="d-flex w-100 justify-content-between">
+              <span class="star rv-star">★★★★★
+              <span style="width: 50%">★★★★★</span></span>
+              <small class="text-body-secondary">3일전</small>
+            </div>
+          </div>
+          <small style="background-color: #FF9900" class="badge rounded-pill">술태그</small>
+          <p class="my-1 rv-content">리뷰 내용</p>
+        </a>
+        <a class="list-group-item list-group-item-action my-1">
+          <div>
+            <div class="d-flex w-100 justify-content-between">
+              <p class="fs-5 mb-0">쿠이신보</p>
+              <button class="btn btn-danger btn-sm">삭제</button>
+            </div>
+            <hr class="my-1">
+            <div class="d-flex w-100 justify-content-between">
+              <span class="star rv-star">★★★★★
+              <span style="width: 50%">★★★★★</span></span>
+              <small class="text-body-secondary">3일전</small>
+            </div>
+          </div>
+          <small style="background-color: #FF9900" class="badge rounded-pill">술태그</small>
+          <p class="my-1 rv-content">리뷰 내용</p>
+          <div class="row m-auto gap-1">
+            <div class="img-wrap">
+              <img class="img-thumbnail review-img" src="/image/Frame8.png" alt="img" onclick="imgSizeChange(this)">
+              <p class="img-hover-text">이미지<br>크게 보기</p>
+              <p class="img-hover-text2">이미지<br>원래대로</p>
+            </div>
+          </div>
+        </a>
+        <a class="list-group-item list-group-item-action my-1">
+          <div>
+            <div class="d-flex w-100 justify-content-between">
+              <p class="fs-5 mb-0">쿠이신보</p>
+              <button class="btn btn-danger btn-sm">삭제</button>
+            </div>
+            <hr class="my-1">
+            <div class="d-flex w-100 justify-content-between">
+              <span class="star rv-star">★★★★★
+              <span style="width: 50%">★★★★★</span></span>
+              <small class="text-body-secondary">3일전</small>
+            </div>
+          </div>
+          <small style="background-color: #FF9900" class="badge rounded-pill">술태그</small>
+          <p class="my-1 rv-content">리뷰 내용</p>
+        </a>
+        <a class="list-group-item list-group-item-action my-1">
+          <div>
+            <div class="d-flex w-100 justify-content-between">
+              <p class="fs-5 mb-0">쿠이신보</p>
+              <button class="btn btn-danger btn-sm">삭제</button>
+            </div>
+            <hr class="my-1">
+            <div class="d-flex w-100 justify-content-between">
+              <span class="star rv-star">★★★★★
+              <span style="width: 50%">★★★★★</span></span>
+              <small class="text-body-secondary">3일전</small>
+            </div>
+          </div>
+          <small style="background-color: #FF9900" class="badge rounded-pill">술태그</small>
+          <p class="my-1 rv-content">리뷰 내용</p>
+        </a>
+        <a class="list-group-item list-group-item-action my-1">
+          <div>
+            <div class="d-flex w-100 justify-content-between">
+              <p class="fs-5 mb-0">쿠이신보</p>
+              <button class="btn btn-danger btn-sm">삭제</button>
+            </div>
+            <hr class="my-1">
+            <div class="d-flex w-100 justify-content-between">
+              <span class="star rv-star">★★★★★
+              <span style="width: 50%">★★★★★</span></span>
+              <small class="text-body-secondary">3일전</small>
+            </div>
+          </div>
+          <small style="background-color: #FF9900" class="badge rounded-pill">술태그</small>
+          <p class="my-1 rv-content">리뷰 내용</p>
+        </a>
+        <a class="list-group-item list-group-item-action my-1">
+          <div>
+            <div class="d-flex w-100 justify-content-between">
+              <p class="fs-5 mb-0">쿠이신보</p>
+              <button class="btn btn-danger btn-sm">삭제</button>
+            </div>
+            <hr class="my-1">
+            <div class="d-flex w-100 justify-content-between">
+              <span class="star rv-star">★★★★★
+              <span style="width: 50%">★★★★★</span></span>
+              <small class="text-body-secondary">3일전</small>
+            </div>
+          </div>
+          <small style="background-color: #FDF0D1" class="badge rounded-pill">술태그</small>
+          <p class="my-1 rv-content">리뷰 내용</p>
+        </a>
+          <a class="list-group-item list-group-item-action my-1">
+          <div>
+            <div class="d-flex w-100 justify-content-between">
+              <p class="fs-5 mb-0">쿠이신보</p>
+              <button class="btn btn-danger btn-sm">삭제</button>
+            </div>
+            <hr class="my-1">
+            <div class="d-flex w-100 justify-content-between">
+              <span class="star rv-star">★★★★★
+              <span style="width: 50%">★★★★★</span></span>
+              <small class="text-body-secondary">3일전</small>
+            </div>
+          </div>
+          <small style="background-color: #FDF0D1" class="badge rounded-pill">술태그</small>
+          <p class="my-1 rv-content" style="background-color: #FDF0D1">리뷰 내용</p>
+          <div class="row m-auto gap-1">
+            <div class="img-wrap">
+              <img class="img-thumbnail review-img" src="/image/Frame8.png" alt="img" onclick="imgSizeChange(this)">
+              <p class="img-hover-text">이미지<br>크게 보기</p>
+              <p class="img-hover-text2">이미지<br>원래대로</p>
+            </div>
+          </div>
+        </a>
+        <a class="list-group-item list-group-item-action my-1">
+          <div>
+            <div class="d-flex w-100 justify-content-between">
+              <p class="fs-5 mb-0">쿠이신보</p>
+              <button class="btn btn-danger btn-sm">삭제</button>
+            </div>
+            <hr class="my-1">
+            <div class="d-flex w-100 justify-content-between">
+              <span class="star rv-star">★★★★★
+              <span style="width: 50%">★★★★★</span></span>
+              <small class="text-body-secondary">3일전</small>
+            </div>
+          </div>
+          <small style="background-color: #FF9900" class="badge rounded-pill">술태그</small>
+          <p class="my-1 rv-content">리뷰 내용</p>
+          <div class="row m-auto gap-1">
+            <div class="img-wrap">
+              <img class="img-thumbnail review-img" src="/image/Frame8.png" alt="img" onclick="imgSizeChange(this)">
+              <p class="img-hover-text">이미지<br>크게 보기</p>
+              <p class="img-hover-text2">이미지<br>원래대로</p>
+            </div>
+          </div>
+        </a>
+        <a class="list-group-item list-group-item-action my-1">
+          <div>
+            <div class="d-flex w-100 justify-content-between">
+              <p class="fs-5 mb-0">쿠이신보</p>
+              <button class="btn btn-danger btn-sm">삭제</button>
+            </div>
+            <hr class="my-1">
+            <div class="d-flex w-100 justify-content-between">
+              <span class="star rv-star">★★★★★
+              <span style="width: 50%">★★★★★</span></span>
+              <small class="text-body-secondary">3일전</small>
+            </div>
+          </div>
+          <small style="background-color: #FF9900" class="badge rounded-pill">술태그</small>
+          <p class="my-1 rv-content">리뷰 내용</p>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+<script src="/js/like-btn.js"></script>
+</body>
+</html>
