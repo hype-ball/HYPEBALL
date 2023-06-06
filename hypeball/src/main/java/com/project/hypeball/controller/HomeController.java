@@ -19,4 +19,9 @@ public class HomeController {
 //        SessionUser member = (SessionUser) request.getSession(false).getAttribute("member");
         return "index";
     }
+
+    @GetMapping("/mypage")
+    public String myPage() {
+        return "myPage";
+    }
 }

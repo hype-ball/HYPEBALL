@@ -4,7 +4,7 @@
     <nav class="navbar fixed-top">
         <div class="container-fluid">
             <div>
-                <a class="navbar-brand" href="/">hype-ball</a>
+                <a class="navbar-brand" href="/"><img src="/image/nav-brand.png" height="40px"></a>
             </div>
             <div>
                 <button th:if="${session.member} == null" type="button" class="btn btn-outline-dark me-2" data-bs-toggle="modal" data-bs-target="#loginModal">로그인</button>
@@ -24,9 +24,15 @@
                 </div>
                 <div class="offcanvas-body">
                     <ul>
-                        <li>home</li>
-                        <li>MyPage</li>
-                        <li>하이볼 명가 등록하기</li>
+                        <li>
+                            <img src="/image/lemon-slice.png" style="max-height: 100px">
+                            home</li>
+                        <li>
+                            <img src="/image/lemon-slice.png" style="max-height: 100px">
+                            MyPage</li>
+                        <li>
+                            <img src="/image/lemon-slice.png" style="max-height: 100px">
+                            하이볼 명가 등록하기</li>
                     </ul>
                 </div>
             </div><!--/off canvas-->

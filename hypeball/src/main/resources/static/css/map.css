@@ -28,7 +28,7 @@
     font-size: 14px;
     font-weight: bold;
     overflow: hidden;
-    background: #F7CD63FF;
+    /*background: #F7CD63FF;*/
     background: #F7CD63FF url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;
     /*F7CD63FF*/
 }

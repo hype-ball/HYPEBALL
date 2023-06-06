@@ -4,7 +4,7 @@
     <link />
     <script src=""></script>
 </head>
-<body>
+<body class="nav-top">
 <nav th:replace="~{fragments/nav :: nav}"></nav>
 <a href="/oauth2/authorization/google" class="btn active">구글 로그인</a>
 <a href="/oauth2/authorization/kakao" class="btn active">카카오 로그인</a>
@@ -17,6 +17,7 @@
 <h1 th:if="${session.member} != null" th:text="${session.member.name}"></h1>
 <br>
 <a href="/map/home" class="btn active">mapHome</a>
+<a href="/mypage" class="btn active">myPage</a>
 
 <footer th:replace="~{fragments/footer :: footer}"></footer>
 </body>
