@@ -47,6 +47,7 @@ var tagify = new Tagify(input, {maxTags: 3});
 
 // 별점
 const drawStar = (target) => {
+    console.log(target.value)
     document.querySelector(`.star span`).style.width = `${target.value * 10}%`;
 }
 
