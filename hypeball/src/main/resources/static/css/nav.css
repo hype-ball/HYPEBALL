@@ -1,0 +1,25 @@
+nav {
+    /*background-color: #f7cd63;*/
+    background-color: #FADF70;
+}
+
+.login-btn {
+    border-radius: 12px;
+}
+
+.kakao-login {
+    background-color: #FEE500;
+}
+
+.naver-login {
+    background-color: #03C75A;
+}
+
+.login-icon {
+    max-height: 20px;
+}
+
+#hypeball-logo {
+    width: 100px;
+    height: 100px;
+}
