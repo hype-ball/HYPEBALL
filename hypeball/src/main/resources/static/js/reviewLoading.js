@@ -17,6 +17,7 @@ const reviewAjax = (pageParam, sortParam) => {
         data : reviewSortCond,
         success: function (reviews) {
             console.log(this.url)
+            console.log(reviews)
             createReview(reviews.content);
             createPaging(reviews.totalPages, reviews.number);
         },
@@ -60,56 +61,88 @@ function createReview(reviews) {
 
     console.log(reviews);
 
+    if (reviews.length === 0) {
+        rv = "<div class='rv-none'>" +
+            "   <p>등록된 리뷰가 없습니다.</p>" +
+            "</div>"
+    }
+
     for (var i = 0; i < reviews.length; i++) {
-        rv +=
-            "<div><p>" + reviews[i].content + "</p>"
-            + "<p>" + reviews[i].star + "</p>"
-            + "<p>" + reviews[i].writer + "</p>"
-            + "<p>" + reviews[i].createdDate + "</p>";
-
-        if (reviews[i].attachedFiles !== null) {
-            rv +=
-            '<div id="carouselExampleControls'
-                + reviews[i].id +
-            '" class="carousel slide" data-ride="carousel">' +
-            '  <div class="carousel-inner">';
-
-            for (var j = 0; j < reviews[i].attachedFiles.length; j++) {
-                if (j === 0) {
-                    rv += '    <div class="carousel-item active">';
-                } else {
-                    rv += '    <div class="carousel-item">';
-                }
-
-                rv +=
-            '      <img class="d-block w-100" src="/files/' +
-                    reviews[i].attachedFiles[j].storeFileName
-                   + '" alt="First slide">' +
-            '    </div>';
-            }
-
-            rv +=
-            '  </div>';
-            rv +=
-               '<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls' +
-                reviews[i].id +
-                '" data-bs-slide="prev">' +
-               '     <span class="carousel-control-prev-icon" aria-hidden="true"></span>' +
-               '    <span class="visually-hidden">Previous</span>' +
-               '</button>' +
-                '<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls' +
-                reviews[i].id +
-                '" data-bs-slide="next">' +
-                      '<span class="carousel-control-next-icon" aria-hidden="true"></span>' +
-                      '<span class="visually-hidden">Next</span>' +
-                '</button>' +
-                '</div>';
+        rv += '<a class="list-group-item list-group-item-action">' +
+            '        <div class="d-flex w-100 justify-content-between">' +
+            '            <h5 class="mb-1 me-2">' + reviews[i].writer +
+            '                <span class="star rv-star">★★★★★' +
+            '                    <span style="width: ' + (reviews[i].star * 20) + '%">★★★★★</span>' +
+            '                </span>\n' +
+            '            </h5>\n' +
+            '            <small class="text-body-secondary">' + reviews[i].createdDate + '</small>' +
+            '        </div>\n';
+        for (let j = 0; j < reviews[i].drinks.length; j++) {
+            rv += '        <small style="background-color: #FF9900" class="badge rounded-pill">' + reviews[i].drinks[j].drink + '</small>'
         }
-         rv += "</div>";
+        rv +=
+            '        <p class="my-1 rv-content">' + reviews[i].content + '</p>\n';
+
+        if (reviews[i].attachedFiles != null) {
+            rv += '<div class="row m-auto gap-1">';
+            for (let j = 0; j < reviews[i].attachedFiles.length; j++) {
+                rv +=
+                    '<div class="img-wrap">' +
+                    '   <img class="img-thumbnail review-img" src="/files/' + reviews[i].attachedFiles[j].storeFileName + '" alt="img" onclick="imgSizeChange(this)">' +
+                    '   <p class="img-hover-text">이미지<br>크게 보기</p>' +
+                    '   <p class="img-hover-text2">이미지<br>원래대로</p>' +
+                    '</div>'
+            }
+            rv += '</div>'
+        }
+        // if (reviews[i].attachedFiles !== null) {
+        //     rv +=
+        //     '<div id="carouselExampleControls'
+        //         + reviews[i].id +
+        //     '" class="carousel slide" data-ride="carousel">' +
+        //     '  <div class="carousel-inner">';
+        //
+        //     for (var j = 0; j < reviews[i].attachedFiles.length; j++) {
+        //         if (j === 0) {
+        //             rv += '    <div class="carousel-item active" style="height: 130px; width: 130px;>';
+        //         } else {
+        //             rv += '    <div class="carousel-item" style="height: 130px;>';
+        //         }
+        //
+        //         rv +=
+        //     '      <img class="img-thumbnail" src="/files/' +
+        //             reviews[i].attachedFiles[j].storeFileName
+        //            + '" alt="slide">' +
+        //     '    </div>';
+        //     }
+        //
+        //     rv +=
+        //     '  </div>';
+        //     rv +=
+        //        '<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls' +
+        //         reviews[i].id +
+        //         '" data-bs-slide="prev">' +
+        //        '     <span class="carousel-control-prev-icon" aria-hidden="true"></span>' +
+        //        '    <span class="visually-hidden">Previous</span>' +
+        //        '</button>' +
+        //         '<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls' +
+        //         reviews[i].id +
+        //         '" data-bs-slide="next">' +
+        //               '<span class="carousel-control-next-icon" aria-hidden="true"></span>' +
+        //               '<span class="visually-hidden">Next</span>' +
+        //         '</button>' +
+        //         '</div>';
+        // }
+        rv += '</a>';
     }
 
     review_section.innerHTML = rv;
 
+}
+
+const imgSizeChange = (target) => {
+    $(target).toggleClass("img-size-up");
+    $(target).parent('div .img-wrap').toggleClass("img-size-up");
 }
 
 function createPaging(totalPage, nowPage) {
@@ -117,7 +150,7 @@ function createPaging(totalPage, nowPage) {
     var pg = "";
 
     pg +='<nav aria-label="Page navigation example">' +
-        '<ul class="pagination">'
+        '<ul class="pagination pagination-sm justify-content-center mt-2">'
 
     if (nowPage !== 0) {
         pg += '<li class="page-item">' +
@@ -127,7 +160,7 @@ function createPaging(totalPage, nowPage) {
     }
 
     for (let i = 0; i < totalPage; i++) {
-        pg += '<li class="page-item"><a class="page-link" onclick="clickPage('+ i +')">' + i  + '</a></li>'
+        pg += '<li id="page'+i+'" class="page-item"><a class="page-link" onclick="clickPage('+ i +')">' + (i+1)  + '</a></li>'
     }
 
     if (totalPage !== 0 && nowPage !== totalPage - 1) {
@@ -140,6 +173,8 @@ function createPaging(totalPage, nowPage) {
     pg += '</ul></nav>'
 
     review_paging.innerHTML = pg;
+
+    $('#page'+nowPage).addClass("active");
 }
 
 function createTag(points, drinks) {

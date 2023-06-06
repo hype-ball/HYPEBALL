@@ -1,10 +1,8 @@
 package com.project.hypeball.repository;
 
+import com.project.hypeball.domain.QReviewDrink;
 import com.project.hypeball.domain.Review;
-import com.project.hypeball.dto.AttachedFileQueryDto;
-import com.project.hypeball.dto.QAttachedFileQueryDto;
-import com.project.hypeball.dto.QReviewDto;
-import com.project.hypeball.dto.ReviewDto;
+import com.project.hypeball.dto.*;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -24,6 +22,7 @@ import java.util.Map;
 import static com.project.hypeball.domain.QAttachedFile.*;
 import static com.project.hypeball.domain.QMember.*;
 import static com.project.hypeball.domain.QReview.*;
+import static com.project.hypeball.domain.QReviewDrink.reviewDrink;
 
 @Repository
 @RequiredArgsConstructor
@@ -52,11 +51,13 @@ public class ReviewRepositoryImpl implements ReviewRepositoryInterface {
             .fetch();
 
     Map<Long, List<AttachedFileQueryDto>> filesMap = findAttachedFileMap(toReviewIds(content));
+    Map<Long, List<ReviewDrinkQueryDto>> drinksMap = findReviewDrink(toReviewIds(content));
 
     System.out.println("filesMap = " + filesMap);
 
     content.forEach(o -> {
       o.setAttachedFiles(filesMap.get(o.getReviewId()));
+      o.setDrinks(drinksMap.get(o.getReviewId()));
       System.out.println("o.getAttachedFiles() = " + o.getAttachedFiles());
     });
 
@@ -80,6 +81,18 @@ public class ReviewRepositoryImpl implements ReviewRepositoryInterface {
     return result.stream()
             .collect(Collectors.groupingBy(AttachedFileQueryDto::getReviewId));
   }
+
+    private Map<Long, List<ReviewDrinkQueryDto>> findReviewDrink(List<Long> reviewIds) {
+
+        List<ReviewDrinkQueryDto> result = queryFactory
+                .select(new QReviewDrinkQueryDto(reviewDrink.review.id, reviewDrink.drink))
+                .from(reviewDrink)
+                .where(reviewDrink.review.id.in(reviewIds))
+                .fetch();
+
+        return result.stream()
+                .collect(Collectors.groupingBy(ReviewDrinkQueryDto::getReviewId));
+    }
 
   private List<Long> toReviewIds(List<ReviewDto> content) {
     return content.stream()

@@ -28,7 +28,7 @@ public class SecurityConfiguration {
                 .and()
                 .authorizeHttpRequests(
                         (requests) -> requests
-                                .requestMatchers( "/", "/oauth2/**", "/map/home", "/css/**","/image/**","/js/**", "/reviews/**").permitAll()
+                                .requestMatchers("/", "/oauth2/**", "/map/home", "/css/**", "/image/**", "/files/**", "/js/**", "/reviews/**").permitAll()
                                 .anyRequest().authenticated())
                 .logout().logoutUrl("/logout")
                     .logoutSuccessUrl("/")// 성공 후 리다이렉트
