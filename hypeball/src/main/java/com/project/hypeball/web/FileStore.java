@@ -1,4 +1,4 @@
-package com.project.hypeball.service;
+package com.project.hypeball.web;
 
 import com.project.hypeball.domain.AttachedFile;
 import org.springframework.beans.factory.annotation.Value;

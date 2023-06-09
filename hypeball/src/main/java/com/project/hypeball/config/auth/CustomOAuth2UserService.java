@@ -1,9 +1,10 @@
 package com.project.hypeball.config.auth;
 
 import com.project.hypeball.config.auth.dto.OAuthAttributes;
-import com.project.hypeball.config.auth.dto.SessionUser;
+import com.project.hypeball.config.auth.dto.LoginMember;
 import com.project.hypeball.domain.Member;
 import com.project.hypeball.repository.MemberRepository;
+import com.project.hypeball.web.SessionConst;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +17,6 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
-import java.time.ZoneId;
 import java.util.Collections;
 
 @Slf4j
@@ -49,7 +49,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         Member member = saveOrUpdate(attributes);
 
-        httpSession.setAttribute("member", new SessionUser(member)); //4
+        httpSession.setAttribute(SessionConst.LOGIN_MEMBER, new LoginMember(member)); //4
 
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority((member.getRoleKey()))),

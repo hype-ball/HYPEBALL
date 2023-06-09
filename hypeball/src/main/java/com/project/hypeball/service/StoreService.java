@@ -1,6 +1,7 @@
 package com.project.hypeball.service;
 
 import com.project.hypeball.domain.Store;
+import com.project.hypeball.dto.MarkerDto;
 import com.project.hypeball.dto.StoreSaveForm;
 import com.project.hypeball.dto.StoreUpdateForm;
 import com.project.hypeball.repository.StoreRepository;

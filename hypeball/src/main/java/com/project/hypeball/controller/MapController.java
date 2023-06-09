@@ -1,5 +1,6 @@
 package com.project.hypeball.controller;
 
+import com.nimbusds.jose.shaded.gson.Gson;
 import com.project.hypeball.domain.Store;
 import com.project.hypeball.dto.MarkerDto;
 import com.project.hypeball.service.PointService;
