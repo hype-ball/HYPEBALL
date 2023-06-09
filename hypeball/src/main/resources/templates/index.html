@@ -14,10 +14,10 @@
 <a href="/oauth2/loginInfo" class="btn active">loginInfo</a>
 <a href="/oauth2/sessionInfo" class="btn active">sessionInfo</a>
 <a href="/oauth2/session/clear" class="btn active">sessionClear</a>
-<h1 th:if="${session.member} != null" th:text="${session.member.name}"></h1>
+<h1 th:if="${session.loginMember} != null" th:text="${session.loginMember.name}"></h1>
 <br>
 <a href="/map/home" class="btn active">mapHome</a>
-<a href="/mypage" class="btn active">myPage</a>
+<a href="/member/myPage" class="btn active">myPage</a>
 
 <footer th:replace="~{fragments/footer :: footer}"></footer>
 </body>

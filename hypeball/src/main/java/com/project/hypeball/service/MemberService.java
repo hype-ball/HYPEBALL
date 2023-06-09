@@ -1,5 +1,6 @@
 package com.project.hypeball.service;
 
+import com.project.hypeball.config.auth.dto.LoginMember;
 import com.project.hypeball.domain.Member;
 import com.project.hypeball.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,8 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
     private final MemberRepository memberRepository;
 
-    public Member get(Long id) {
-        return memberRepository.findById(id).orElse(null);
+    public Member get(LoginMember loginMember) {
+        return memberRepository.findByEmailAndProvider(loginMember.getEmail(), loginMember.getProvider()).orElse(null);
     }
 }
 

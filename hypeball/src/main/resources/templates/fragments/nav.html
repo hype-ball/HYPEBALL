@@ -7,9 +7,9 @@
                 <a class="navbar-brand" href="/"><img src="/image/nav-brand.png" height="40px"></a>
             </div>
             <div>
-                <button th:if="${session.member} == null" type="button" class="btn btn-outline-dark me-2" data-bs-toggle="modal" data-bs-target="#loginModal">로그인</button>
-                <span th:unless="${session.member} == null">
-                    <span class="me-3" th:text="${session.member.name} + '님 환영합니다!!'"></span>
+                <button th:if="${session.loginMember} == null" type="button" class="btn btn-outline-dark me-2" data-bs-toggle="modal" data-bs-target="#loginModal">로그인</button>
+                <span th:unless="${session.loginMember} == null">
+                    <span class="me-3" th:text="${session.loginMember.name} + '님 환영합니다!!'"></span>
                     <button type="button" class="btn btn-outline-dark" onclick="location.href='/logout'">로그아웃</button>
                 </span>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
@@ -19,7 +19,7 @@
             <!-- off canvas-->
             <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="static" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                 <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel" th:if="${session.member} != null" th:text="${session.member.name}">Offcanvas</h5>
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel" th:if="${session.loginMember} != null" th:text="${session.loginMember.name}">Offcanvas</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
                 <div class="offcanvas-body">

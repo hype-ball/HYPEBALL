@@ -1,9 +1,11 @@
 package com.project.hypeball.controller;
 
+import com.project.hypeball.config.auth.dto.LoginMember;
 import com.project.hypeball.domain.*;
 
 import com.project.hypeball.dto.*;
 import com.project.hypeball.service.*;
+import com.project.hypeball.web.FileStore;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -71,10 +73,10 @@ public class ReviewController {
     @PostMapping("/add")
     public Map<String, Object> save(@Validated @RequestPart(value = "review") ReviewAddDto reviewAddDto, BindingResult bindingResult,
                                     @RequestPart(value = "file", required = false) List<MultipartFile> multipartFiles,
-                                    HttpServletRequest request) throws IOException {
+                                    @SessionAttribute LoginMember loginMember) throws IOException {
 
         Store store = storeService.get(reviewAddDto.getStoreId());
-        Member member = memberService.get(1L);
+        Member member = memberService.get(loginMember);
 
         if (multipartFiles != null) {
             log.info("================== file upload start ======================");

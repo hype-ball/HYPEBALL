@@ -1,6 +1,5 @@
 package com.project.hypeball.controller;
 
-import com.project.hypeball.config.auth.dto.SessionUser;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.Map;
 
 
@@ -32,12 +32,21 @@ public class OAuthController {
     public String oauthSessionInfo(HttpServletRequest request) {
 
         HttpSession session = request.getSession(false);
-        if (session != null) {
-            SessionUser sessionUser = (SessionUser) session.getAttribute("member");
-            System.out.println("request = " + session.getAttributeNames());
-            return sessionUser.toString();
+
+        if (session == null) {
+            return "세션이 없습니다.";
         }
-        return "session == null";
+
+        session.getAttributeNames().asIterator()
+                .forEachRemaining(name -> log.info("session name = {}, value = {}", name, session.getAttribute(name)));
+
+        log.info("sessionId = {}", session.getId());
+        log.info("getMaxInactiveInterval = {}", session.getMaxInactiveInterval());
+        log.info("creationTime = {}", new Date(session.getCreationTime()));
+        log.info("lastAccessedTime = {}", new Date(session.getLastAccessedTime()));
+        log.info("isNew = {}", session.isNew());
+
+        return "세션 출력";
     }
 
     @GetMapping("/session/clear")

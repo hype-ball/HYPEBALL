@@ -58,6 +58,8 @@ public class Store implements Serializable {
     @OneToMany(mappedBy = "store", cascade = CascadeType.REMOVE)
     private List<Review> reviews = new ArrayList<>();
 
+    private int totalLikeCount; // 좋아요 갯수
+
     public static void saveReviewToStore(Store store, Review review) {
         store.getReviews().add(review);
     }
@@ -85,5 +87,17 @@ public class Store implements Serializable {
         store.setAddress(form.getAddress());
         store.setLat(form.getLat());
         store.setLng(form.getLng());
+    }
+
+    public static void addCount(Store store) {
+        store.totalLikeCount += 1;
+    }
+
+    public static void removeCount(Store store) throws Exception {
+        int restCount = store.totalLikeCount - 1;
+        if (restCount < 0) {
+            throw new Exception();
+        }
+        store.totalLikeCount = restCount;
     }
 }
