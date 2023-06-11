@@ -107,6 +107,7 @@ $("#review-save").on("click", function () {
             }
         },
         error: function () {
+            alert("로그인 필수입니다.")
             console.log("error")
         }
     });
@@ -126,4 +127,9 @@ function inputClear() {
 // validation 초기화
 function validClear() {
     $('.validation').text(null);
+}
+
+function xBtnClick() {
+    inputClear();
+    validClear();
 }

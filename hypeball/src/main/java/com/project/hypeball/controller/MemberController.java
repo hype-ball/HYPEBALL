@@ -6,13 +6,17 @@ import com.project.hypeball.dto.MarkerDto;
 import com.project.hypeball.service.MemberService;
 import com.project.hypeball.service.PointService;
 import com.project.hypeball.service.StoreLikeService;
+import com.project.hypeball.web.ScriptUtil;
 import com.project.hypeball.web.SessionConst;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -26,11 +30,11 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/myPage")
-    public String myPage(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember, Model model) {
+    public String myPage(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember, Model model) throws IOException {
 
         if (loginMember == null) {
             log.error("로그인 정보가 존재하지 않습니다.");
-            return "redirect:/"; // 로그인 모달로 수정,,
+            return "redirect:/#loginModal";
         }
         Member member = memberService.get(loginMember);
 
@@ -38,22 +42,23 @@ public class MemberController {
         return "myPage";
     }
 
-    // map.html 중복,,,이게 맞나..?ㅎ
     @GetMapping("/myLike")
-    public String map(Model model) {
+    public String map(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember,
+                      Model model) throws IOException {
+
+        if (loginMember == null) {
+            log.error("로그인 정보가 존재하지 않습니다.");
+            return "redirect:/#loginModal";
+        }
 
         model.addAttribute("pointList", pointService.findAll());
-        return "myLikeMap";
+        return "map";
     }
 
     @ResponseBody
     @PostMapping("myLike")
-    public Object myLike(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember, Model model) {
+    public List<MarkerDto> myLike(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember) {
 
-        if (loginMember == null) {
-            log.error("로그인 정보가 존재하지 않습니다.");
-            return "redirect:/"; // 로그인 모달로 수정,,
-        }
         Member member = memberService.get(loginMember);
 
         List<MarkerDto> markerByMember = storeLikeService.findMarkerByMember(member);
