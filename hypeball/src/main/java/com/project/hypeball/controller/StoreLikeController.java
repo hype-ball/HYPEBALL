@@ -6,7 +6,9 @@ import com.project.hypeball.domain.Store;
 import com.project.hypeball.service.MemberService;
 import com.project.hypeball.service.StoreLikeService;
 import com.project.hypeball.service.StoreService;
+import com.project.hypeball.web.ScriptUtil;
 import com.project.hypeball.web.SessionConst;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -53,12 +55,8 @@ public class StoreLikeController {
     // form 방식
     @PostMapping("/del-like")
     public String myPage(Long storeId,
-                         @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember) throws Exception {
+                         @SessionAttribute(name = SessionConst.LOGIN_MEMBER) LoginMember loginMember) throws Exception {
 
-        if (loginMember == null) {
-            log.error("로그인 정보가 존재하지 않습니다.");
-            return "redirect:/"; // 로그인 모달로 수정,,
-        }
         Member member = memberService.get(loginMember);
         Store store = storeService.get(storeId);
 

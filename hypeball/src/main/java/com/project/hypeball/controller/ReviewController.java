@@ -68,12 +68,13 @@ public class ReviewController {
         return reviewDtos;
     }
 
-    // 멤버 수정해야함
     @ResponseBody
     @PostMapping("/add")
     public Map<String, Object> save(@Validated @RequestPart(value = "review") ReviewAddDto reviewAddDto, BindingResult bindingResult,
                                     @RequestPart(value = "file", required = false) List<MultipartFile> multipartFiles,
                                     @SessionAttribute LoginMember loginMember) throws IOException {
+
+        // 멤버 없을 때 에러처리
 
         Store store = storeService.get(reviewAddDto.getStoreId());
         Member member = memberService.get(loginMember);

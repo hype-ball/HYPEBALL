@@ -21,7 +21,7 @@
   <div class="modal-dialog modal-dialog-centered modal-xl modal-fullscreen-sm-down">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="btn-close" onclick="inputClear()" data-bs-dismiss="modal"
+        <button type="button" class="btn-close" onclick="xBtnClick()" data-bs-dismiss="modal"
                 aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -66,7 +66,7 @@
               <div class="mb-2"> ✨ 별점은?<span class="star ms-3">★★★★★
                                 <span>★★★★★</span>
                                 <input type="range" name="star" oninput="drawStar(this)" value="0" step="1" min="0" max="10">
-                            </span></div>
+                            </span><span class="validation" id="valid-star"></span></div>
               <div class="mb-2"> 🍹 당신의 베스트 하이볼? <span class="validation" id="valid-drinkList"></span></div>
               <div>
                 <input name="tags" placeholder="이건 꼭 마셔야해!"/>
@@ -122,18 +122,5 @@
 <script src="/js/map.js"></script>
 <script src="/js/reviewAdd.js"></script>
 <script src="/js/reviewLoading.js"></script>
-<script>
-    $.ajax({
-        url: '/map/home',
-        type: 'POST',
-        success: function (data) {
-            for (var i = 0; i < data.length; i++) {
-                createMarker(data[i]);
-            }
-        },
-        error: function () {
-        }
-    });
-</script>
 </body>
 </html>

@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@DynamicUpdate // 변경된 필드만 update
 public class Store implements Serializable {
     // 가게 설명 혹은 종류 필드 추가
 
@@ -74,6 +76,7 @@ public class Store implements Serializable {
         store.setAddress(form.getAddress());
         store.setLat(form.getLat());
         store.setLng(form.getLng());
+        store.setTotalLikeCount(0);
         return store;
     }
 
