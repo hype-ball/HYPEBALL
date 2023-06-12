@@ -48,7 +48,7 @@ var tagify = new Tagify(input, {maxTags: 3});
 // 별점
 const drawStar = (target) => {
     console.log(target.value)
-    document.querySelector(`.star span`).style.width = `${target.value * 10}%`;
+    document.querySelector(`#inputStar`).style.width = `${target.value * 10}%`;
 }
 
 $("#review-save").on("click", function () {
@@ -123,7 +123,7 @@ function inputClear() {
     $('input[name="star"]').val(0); //별점
     $('input[name="input-file"]').val(null); //이미지
     $('#image_container').children().remove();
-    document.querySelector(`.star span`).style.width = '0%';
+    document.querySelector(`#inputStar`).style.width = '0%';
     $("#review-content").val(null); //내용
 }
 
@@ -135,4 +135,9 @@ function validClear() {
 function xBtnClick() {
     inputClear();
     validClear();
+    staticMapInit();
+}
+
+function staticMapInit() {
+    $("#staticMap").empty();
 }

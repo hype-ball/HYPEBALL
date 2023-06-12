@@ -28,7 +28,10 @@
       <div class="d-flex justify-content-between mb-1">
         <button class="btn btn-outline-dark btn-sm" onclick="location.href='/member/myLike'">
           <img src="/image/Group 3.png" class="me-1" style="height: 25px">찜한 리스트 지도로 보기</button>
-        <small class="mt-3 me-4" th:text="'총 개수 : ' + ${likeList.size()}"></small>
+        <span class="mt-3 me-4">
+        <small th:text="'총 개수 : '"></small>
+        <small id="myLikeCount" th:text="${likeList.size()}"></small>
+        </span>
       </div>
       <ul class="list-group" style="overflow-y: scroll; max-height: 50vh">
         <li th:if="${likeList.size()} == 0" class="list-group-item text-center my-0 align-middle">
@@ -60,7 +63,7 @@
   <div class="col-lg-6 col-md-12">
     <div class="margin-lg-right rounded" style="padding: 2rem; background-color: #F3F2EE; height: 65vh">
       <h3 class="text-center">작성한 리뷰</h3>
-      <div class="d-flex justify-content-end mb-1"    >
+      <div class="d-flex justify-content-end mb-1">
         <select class="form-select-sm me-4" name="sort" oninput="myReviewSort(this)">
           <option value="default">최신순</option>
           <option value="cdtAsc">오래된순</option>
@@ -82,7 +85,7 @@
             <hr class="my-1">
             <div class="d-flex w-100 justify-content-between">
               <span class="star rv-star">★★★★★
-                <span th:style="'width:' + (${review.star} * 20 )+ '%'">★★★★★</span>
+                <span th:style="'width:' + (${review.star} * 20) + '%'">★★★★★</span>
               </span>
               <small class="text-body-secondary" th:text="${review.getCreatedDate()}">myReviews[i].createdDate</small>
             </div>
@@ -134,11 +137,12 @@
   </div>
 </div>
 <!--모달-->
-<div th:replace="~{fragments/storeModal :: storeModal}"></div>
+<div th:replace="~{fragments/storeModal :: storeModal(~{::form})}">
+  <form></form>
+</div>
 <footer th:replace="~{fragments/footer :: footer}"></footer>
 <!--kakao API-->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=77994d5c2a28508241eeb2d94b1aa113"></script>
-<script src="/js/map.js"></script>
 <script src="/js/reviewAdd.js"></script>
 <script src="/js/reviewLoading.js"></script>
 <script src="/js/like-btn.js"></script>

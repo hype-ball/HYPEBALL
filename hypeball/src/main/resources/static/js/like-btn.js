@@ -28,6 +28,13 @@ clickHeart = (target) => {
         success: function (data) {
             console.log(status + ', ' + data.result)
             $("#" + target.id).toggleClass("heart-active");
+            let count = parseInt($("#myLikeCount").text());
+            if (data.result === "success") {
+                count += 1;
+            } else {
+                count -= 1;
+            }
+            $("#myLikeCount").text(count);
         },
         error: function () {
         }
