@@ -58,6 +58,17 @@
     background-position: right;
     animation: animate .8s steps(28) 1;
 }
+
+@keyframes animate{
+
+    0%{
+        background-position: left;
+    }
+    100%{
+        background-position: right;
+    }
+}
+
 /*복붙*/
 .newheart {
     justify-items: center;

@@ -75,10 +75,10 @@
         <a class="list-group-item list-group-item-action my-1 text-center" th:if="${myReviews.size()} == 0">
           <p>작성한 리뷰가 없습니다.</p>
         </a>
-        <a class="list-group-item list-group-item-action my-1" th:each="review : ${myReviews}" th:onclick="'createModal('+${review.getStoreId()}+')'" data-bs-toggle="modal" data-bs-target="#store-modal">
+        <a class="list-group-item my-1" th:each="review : ${myReviews}">
           <div>
             <div class="d-flex w-100 justify-content-between">
-              <p class="fs-5 mb-0" th:text="${review.getStoreName()}">myReviews[i].storeName</p>
+              <p class="fs-5 mb-0 myPageStoreName" th:text="${review.getStoreName()}" th:onclick="'createModal('+${review.getStoreId()}+')'" data-bs-toggle="modal" data-bs-target="#store-modal">가게명</p>
               <button class="btn btn-danger btn-sm"
               onclick="deleteConfirm(this)" th:id="${review.getReviewId()}">삭제</button>
             </div>
@@ -87,11 +87,11 @@
               <span class="star rv-star">★★★★★
                 <span th:style="'width:' + (${review.star} * 20) + '%'">★★★★★</span>
               </span>
-              <small class="text-body-secondary" th:text="${review.getCreatedDate()}">myReviews[i].createdDate</small>
+              <small class="text-dark" th:text="${review.getCreatedDate()}">myReviews[i].createdDate</small>
             </div>
           </div>
           <small th:each="drinkTag : ${review.getDrinks()}" th:text="${drinkTag.drink}" style="background-color: #FF9900" class="badge rounded-pill"></small>
-          <p class="my-1 rv-content" th:text="${review.getContent()}">myReviews[i].content</p>
+          <p class="my-1 rv-content text-dark" th:text="${review.getContent()}">리뷰 내용</p>
           <div class="row m-auto gap-1">
             <div class="img-wrap" th:each="attachedFile : ${review.getAttachedFiles()}">
                  <img th:src="|/files/${attachedFile.getStoreFileName()}|" class="img-thumbnail review-img" alt="img" onclick="imgSizeChange(this)">

@@ -133,9 +133,14 @@ function validClear() {
 }
 
 function xBtnClick() {
-    inputClear();
-    validClear();
-    staticMapInit();
+    const url = window.location.href
+    if (url.endsWith("/member/myPage")) {
+        window.location.reload();
+    } else {
+        inputClear();
+        validClear();
+        staticMapInit();
+    }
 }
 
 function staticMapInit() {

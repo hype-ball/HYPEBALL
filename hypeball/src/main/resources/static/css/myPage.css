@@ -23,4 +23,13 @@ hr {
     color: #bdbdbd;
 }
 
+.myPageStoreName :hover {
+    background-color: #03C75A;
+    color: blue;
+}
+
+.myPageStoreName {
+    cursor: pointer;
+}
+
 
