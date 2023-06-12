@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -65,6 +66,22 @@ public class ReviewService {
     // 리뷰 페이징
     public Page<ReviewDto> reviewsPaging(Long storeId, String sort, Pageable pageable) {
         return reviewRepository.findReviewsPaging(storeId, sort, pageable);
+    }
+
+    public List<MyReviewDto> reviewsByMember(Long memberId, String sort) {
+        return reviewRepository.findReviewsByMember(memberId, sort);
+    }
+
+    //리뷰 삭제
+    @Transactional
+    public void deleteReview(Long reviewId) {
+
+        Optional<Review> review = reviewRepository.findById(reviewId);
+
+        fileRepository.deleteAttachedFileByReviewId(reviewId);
+        reviewPointRepository.deleteReviewPoint(reviewId);
+        reviewDrinkRepository.deleteReviewDrink(reviewId);
+        reviewRepository.deleteReview(reviewId);
     }
 
 }

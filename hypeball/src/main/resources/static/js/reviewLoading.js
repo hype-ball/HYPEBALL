@@ -2,22 +2,39 @@ const reviewSort = (target) => {
     reviewAjax(0, target.value);
 }
 
+const myReviewSort = (target) => {
+
+    console.log(target.value);
+    myReviewAjax(target.value);
+}
+
+
 const clickPage = (page) => {
     reviewAjax(page, $('select[name="sort"]').val());
 }
+
+const clickMyPage = (page) => {
+    myReviewAjax($('select[name="sort"]').val());
+}
+
 
 const reviewAjax = (pageParam, sortParam) => {
     const reviewSortCond = {
         page : pageParam,
         sort : sortParam
     }
+    console.log($("#storeId"));
+    console.log($("#storeId").val());
+
     $.ajax({
         url: '/reviews/ps/' + $("#storeId").val(),
         type: 'GET',
         data : reviewSortCond,
         success: function (reviews) {
-            console.log(this.url)
+            console.log("url : " + this.url)
             console.log(reviews)
+            console.log("reviews.content")
+            console.log(reviews.content);
             createReview(reviews.content);
             createPaging(reviews.totalPages, reviews.number);
         },
@@ -25,6 +42,31 @@ const reviewAjax = (pageParam, sortParam) => {
         }
     });
 }
+
+const myReviewAjax = (sortParam) => {
+    console.log("myReviewAjax호출");
+
+    console.log("작성자의 회원 번호 : " + $("#memberId").val());
+
+    const reviewSortCond = {
+        sort : sortParam
+    }
+    $.ajax({
+        url: '/reviews/test/18' + $("#memberId").val(),
+        type: 'GET',
+        data : reviewSortCond,
+        success: function (myReviews) {
+            console.log("myReviews")
+            console.log(myReviews)
+            console.log("url : " + this.url)
+            // console.log(reviews)
+            createMyReview(myReviews);
+        },
+        error: function () {
+        }
+    });
+}
+
 
 const createModal = (storeId) => {
     const reviewSortCond = {
@@ -140,6 +182,60 @@ function createReview(reviews) {
 
 }
 
+function createMyReview(myReviews) {
+    var my_review_section = document.getElementById("my_review_section");
+    var my_rv = "";
+
+    console.log(myReviews);
+
+    if (myReviews.length === 0) {
+        my_rv = "<div class='rv-none'>" +
+            "   <p>등록된 리뷰가 없습니다.</p>" +
+            "</div>"
+    }
+
+    for (var i = 0; i < myReviews.length; i++) {
+        my_rv += '<a class="list-group-item list-group-item-action my-1">' +
+            '      <div>' +
+            '        <div class="d-flex w-100 justify-content-between">' +
+            '           <p class="fs-5 mb-0">' + myReviews[i].storeName + '</p>' +
+            '           <button class="btn btn-danger btn-sm" id="' + myReviews[i].reviewId + '" onclick="deleteConfirm(this)">' + '삭제</button>' +
+            '        </div>' +
+            '        <hr class="my-1">'  +
+            '        <div class="d-flex w-100 justify-content-between">' +
+            '           <span class="star rv-star">★★★★★' +
+            '               <span style="width: ' + (myReviews[i].star * 20) + '%">★★★★★</span>' +
+            '           </span>' +
+            '           <small class="text-body-secondary">' + myReviews[i].createdDate + '</small>' +
+            '        </div>' +
+            '     </div>';
+
+        for (let j = 0; j < myReviews[i].drinks.length; j++) {
+            my_rv += '        <small style="background-color: #FF9900" class="badge rounded-pill">' + myReviews[i].drinks[j].drink + '</small>'
+        }
+
+        my_rv +=
+            '        <p class="my-1 rv-content">' + myReviews[i].content + '</p>\n';
+
+        if (myReviews[i].attachedFiles != null) {
+            my_rv += '<div class="row m-auto gap-1">';
+            for (let j = 0; j < myReviews[i].attachedFiles.length; j++) {
+                my_rv +=
+                    '<div class="img-wrap">' +
+                    '   <img class="img-thumbnail review-img" src="/files/' + myReviews[i].attachedFiles[j].storeFileName + '" alt="img" onclick="imgSizeChange(this)">' +
+                    '   <p class="img-hover-text">이미지<br>크게 보기</p>' +
+                    '   <p class="img-hover-text2">이미지<br>원래대로</p>' +
+                    '</div>'
+            }
+            my_rv += '</div>'
+        }
+        my_rv += '</a>';
+    }
+
+    my_review_section.innerHTML = my_rv;
+
+}
+
 const imgSizeChange = (target) => {
     $(target).toggleClass("img-size-up");
     $(target).parent('div .img-wrap').toggleClass("img-size-up");
@@ -211,3 +307,4 @@ function createTag(points, drinks) {
     drink_tags.innerHTML = drink;
     point_tags.innerHTML = point;
 }
+

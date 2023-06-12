@@ -7,5 +7,6 @@ import java.util.List;
 public interface ReviewPointRepositoryInterface {
 
     List<PointCountDto> pointCount(Long storeId);
+    Long deleteReviewPoint(Long reviewId);
 
 }

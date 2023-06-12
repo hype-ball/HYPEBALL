@@ -1,7 +1,8 @@
 package com.project.hypeball.repository;
 
-import com.project.hypeball.domain.QReviewDrink;
+import com.project.hypeball.domain.QReviewPoint;
 import com.project.hypeball.domain.Review;
+import com.project.hypeball.domain.ReviewPoint;
 import com.project.hypeball.dto.*;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -23,6 +24,8 @@ import static com.project.hypeball.domain.QAttachedFile.*;
 import static com.project.hypeball.domain.QMember.*;
 import static com.project.hypeball.domain.QReview.*;
 import static com.project.hypeball.domain.QReviewDrink.reviewDrink;
+import static com.project.hypeball.domain.QReviewPoint.*;
+import static com.project.hypeball.domain.QStore.store;
 
 @Repository
 @RequiredArgsConstructor
@@ -35,30 +38,30 @@ public class ReviewRepositoryImpl implements ReviewRepositoryInterface {
         return em.find(Review.class, reviewId);
     }
 
-  @Override
-  public Page<ReviewDto> findReviewsPaging(Long storeId, String sort, Pageable pageable) {
+    @Override
+    public Page<ReviewDto> findReviewsPaging(Long storeId, String sort, Pageable pageable) {
 
-    System.out.println("ReviewRepositoryImpl.findReviewsPaging");
+        System.out.println("ReviewRepositoryImpl.findReviewsPaging");
 
-    List<ReviewDto> content = queryFactory
-            .select(new QReviewDto(review.id, review.content, review.createdDate, review.star, review.member.name))
-            .from(review)
-            .join(review.member, member)
-            .where(review.store.id.eq(storeId))
-            .orderBy(sortCriteria(sort).toArray(OrderSpecifier[]::new))
-            .offset(pageable.getOffset())
-            .limit(pageable.getPageSize())
-            .fetch();
+        List<ReviewDto> content = queryFactory
+                .select(new QReviewDto(review.id, review.content, review.createdDate, review.star, review.member.name))
+                .from(review)
+                .join(review.member, member)
+                .where(review.store.id.eq(storeId))
+                .orderBy(sortCriteria(sort).toArray(OrderSpecifier[]::new))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
 
-    Map<Long, List<AttachedFileQueryDto>> filesMap = findAttachedFileMap(toReviewIds(content));
-    Map<Long, List<ReviewDrinkQueryDto>> drinksMap = findReviewDrink(toReviewIds(content));
+        Map<Long, List<AttachedFileQueryDto>> filesMap = findAttachedFileMap(toReviewIds(content));
+        Map<Long, List<ReviewDrinkQueryDto>> drinksMap = findReviewDrink(toReviewIds(content));
 
-    System.out.println("filesMap = " + filesMap);
+        System.out.println("filesMap = " + filesMap);
 
-    content.forEach(o -> {
-      o.setAttachedFiles(filesMap.get(o.getReviewId()));
-      o.setDrinks(drinksMap.get(o.getReviewId()));
-      System.out.println("o.getAttachedFiles() = " + o.getAttachedFiles());
+        content.forEach(o -> {
+          o.setAttachedFiles(filesMap.get(o.getReviewId()));
+          o.setDrinks(drinksMap.get(o.getReviewId()));
+          System.out.println("o.getAttachedFiles() = " + o.getAttachedFiles());
     });
 
 
@@ -70,7 +73,36 @@ public class ReviewRepositoryImpl implements ReviewRepositoryInterface {
       return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
   }
 
-  private Map<Long, List<AttachedFileQueryDto>> findAttachedFileMap(List<Long> reviewIds) {
+    @Override
+    public List<MyReviewDto> findReviewsByMember(Long memberId, String sort) {
+
+        System.out.println("ReviewRepositoryImpl.findReviewsByMember");
+
+        List<MyReviewDto> myReviews = queryFactory
+                .select(new QMyReviewDto(review.id, review.content, review.createdDate, review.star, review.store.name))
+                .from(review)
+                .join(review.member, member)
+                .join(review.store, store)
+                .where(review.member.id.eq(memberId))
+                .orderBy(sortCriteria(sort).toArray(OrderSpecifier[]::new))
+                .fetch();
+
+        Map<Long, List<AttachedFileQueryDto>> filesMap = findAttachedFileMap(toMyReviewIds(myReviews));
+        Map<Long, List<ReviewDrinkQueryDto>> drinksMap = findReviewDrink(toMyReviewIds(myReviews));
+
+        System.out.println("filesMap = " + filesMap);
+
+        myReviews.forEach(o -> {
+            o.setAttachedFiles(filesMap.get(o.getReviewId()));
+            o.setDrinks(drinksMap.get(o.getReviewId()));
+            System.out.println("o.getAttachedFiles() = " + o.getAttachedFiles());
+        });
+
+        return myReviews;
+    }
+
+
+    private Map<Long, List<AttachedFileQueryDto>> findAttachedFileMap(List<Long> reviewIds) {
 
     List<AttachedFileQueryDto> result = queryFactory
             .select(new QAttachedFileQueryDto(attachedFile.review.id, attachedFile.storeFileName))
@@ -81,6 +113,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryInterface {
     return result.stream()
             .collect(Collectors.groupingBy(AttachedFileQueryDto::getReviewId));
   }
+
 
     private Map<Long, List<ReviewDrinkQueryDto>> findReviewDrink(List<Long> reviewIds) {
 
@@ -94,11 +127,17 @@ public class ReviewRepositoryImpl implements ReviewRepositoryInterface {
                 .collect(Collectors.groupingBy(ReviewDrinkQueryDto::getReviewId));
     }
 
-  private List<Long> toReviewIds(List<ReviewDto> content) {
+    private List<Long> toReviewIds(List<ReviewDto> content) {
     return content.stream()
             .map(ReviewDto::getReviewId)
             .collect(Collectors.toList());
   }
+
+    private List<Long> toMyReviewIds(List<MyReviewDto> content) {
+        return content.stream()
+                .map(MyReviewDto::getReviewId)
+                .collect(Collectors.toList());
+    }
 
     private List<OrderSpecifier<?>> sortCriteria(String sort) {
         List<OrderSpecifier<?>> specifiers = new ArrayList<>();
@@ -117,6 +156,16 @@ public class ReviewRepositoryImpl implements ReviewRepositoryInterface {
         }
 
         return specifiers;
+    }
+
+    public Long deleteReview(Long reviewId) {
+
+        long delReviewCnt = queryFactory
+                .delete(review)
+                .where(review.id.eq(reviewId))
+                .execute();
+
+        return delReviewCnt;
     }
 
 }

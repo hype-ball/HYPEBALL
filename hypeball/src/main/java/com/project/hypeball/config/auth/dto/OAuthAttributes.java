@@ -9,6 +9,7 @@ import java.util.Map;
 
 @Getter
 public class OAuthAttributes {
+
     private Map<String, Object> attributes;
     private String nameAttributeKey;
     private String name;
@@ -58,10 +59,11 @@ public class OAuthAttributes {
                                             Map<String, Object> attributes) {
         Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
         Map<String, Object> kakaoProfile = (Map<String, Object>) kakaoAccount.get("profile");
+
         return OAuthAttributes.builder()
                 .name((String) kakaoProfile.get("nickname"))
                 .email((String) kakaoAccount.get("email"))
-                .picture((String) attributes.get("profile_image_url"))
+                .picture((String) kakaoProfile.get("thumbnail_image_url"))
                 .provider(registrationId)
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)
@@ -86,7 +88,7 @@ public class OAuthAttributes {
         return Member.builder()
                 .name(name)
                 .email(email)
-//                .picture(picture)
+                .picture(picture)
                 .role(Role.USER)
                 .provider(provider)
                 .build();
