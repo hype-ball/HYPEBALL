@@ -44,17 +44,17 @@ public class StoreLikeController {
 
         log.info("storeLike = status : {}, storeId : {}, member : {} ", status, storeId, loginMember.getName());
         Map<String, Object> map = new HashMap<>();
-        int totalLikeCount;
+        int storeLikeCount;
         if (status.equals("like")) {
-            totalLikeCount = storeLikeService.save(store, member);
+            storeLikeCount = storeLikeService.save(store, member);
             map.put("result", "success");
         } else if (status.equals("hate")) {
-            totalLikeCount = storeLikeService.delete(store, member);
+            storeLikeCount = storeLikeService.delete(store, member);
             map.put("result", "delete");
         } else {
             throw new IllegalArgumentException();
         }
-        map.put("count", totalLikeCount);
+        map.put("count", storeLikeCount);
         return map;
     }
 
