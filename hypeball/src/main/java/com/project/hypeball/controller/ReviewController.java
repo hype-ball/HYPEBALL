@@ -6,6 +6,7 @@ import com.project.hypeball.domain.*;
 import com.project.hypeball.dto.*;
 import com.project.hypeball.service.*;
 import com.project.hypeball.web.FileStore;
+import com.project.hypeball.web.SessionConst;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -32,16 +33,26 @@ public class ReviewController {
     private final StoreService storeService;
     private final MemberService memberService;
     private final FileStore fileStore;
+    private final StoreLikeService storeLikeService;
 
     @ResponseBody
     @GetMapping("/{id}")
     public Map<String, Object> reviews (@PathVariable("id") Long storeId,
                                        @RequestParam("sort") String sort,
-                                       @PageableDefault(size = 3) Pageable pageable) {
+                                       @PageableDefault(size = 3) Pageable pageable,
+                                       @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember) {
 
         HashMap<String, Object> map = new HashMap<>();
 
         Store store = storeService.getFetch(storeId);
+        if (loginMember != null) {
+            Member member = memberService.get(loginMember);
+            if (storeLikeService.get(store, member) == null) {
+                map.put("status", "hate");
+            } else {
+                map.put("status", "like");
+            }
+        }
 
         Page<ReviewDto> reviewDtos = reviewService.reviewsPaging(storeId, sort, pageable);
 
@@ -73,9 +84,13 @@ public class ReviewController {
     @PostMapping("/add")
     public Map<String, Object> save(@Validated @RequestPart(value = "review") ReviewAddDto reviewAddDto, BindingResult bindingResult,
                                     @RequestPart(value = "file", required = false) List<MultipartFile> multipartFiles,
-                                    @SessionAttribute LoginMember loginMember) throws IOException {
+                                    @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember) throws IOException {
 
         // 멤버 없을 때 에러처리
+        if (loginMember == null) {
+            log.error("로그인 정보가 존재하지 않습니다.");
+            return null;
+        }
 
         Store store = storeService.get(reviewAddDto.getStoreId());
         Member member = memberService.get(loginMember);
@@ -124,13 +139,14 @@ public class ReviewController {
      * 작성자로 리뷰찾기
      */
     @ResponseBody
-    @GetMapping("/test/{memberId}")
-    public List<MyReviewDto> reviewsByWriter(@PathVariable("memberId") Long memberId, @RequestParam("sort") String sort) {
+    @GetMapping("/test/")
+    public List<MyReviewDto> reviewsByWriter(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember,
+                                             @RequestParam("sort") String sort) {
 
         System.out.println("ReviewController.reviewsByWriter");
         System.out.println(sort);
 
-        return reviewService.reviewsByMember(memberId, sort);
+        return reviewService.reviewsByMember(loginMember.getId(), sort);
     }
 
     @ResponseBody
@@ -141,40 +157,5 @@ public class ReviewController {
 
 
         reviewService.deleteReview(reviewId);
-    }
-
-
-    /**
-     * drink count
-     */
-    @ResponseBody
-    @GetMapping("/test/drinkTags/{storeId}")
-    public List<DrinkCountDto> drinkTest(@PathVariable Long storeId) {
-        List<DrinkCountDto> drinkCountDtos = reviewService.drinkTagsRank(storeId);
-
-        for (DrinkCountDto drinkCountDto : drinkCountDtos) {
-            System.out.println("====================================");
-            System.out.println("drinkCountDto.getDrinkName() = " + drinkCountDto.getDrinkName());
-            System.out.println("drinkCountDto.getCount() = " + drinkCountDto.getCount());
-        }
-
-        return drinkCountDtos;
-    }
-
-    /**
-     * point count;
-     */
-    @ResponseBody
-    @GetMapping("/test/pointTags/{storeId}")
-    public List<PointCountDto> pointTest(@PathVariable Long storeId) {
-        List<PointCountDto> pointCountDtos = reviewService.pointTagsRank(storeId);
-
-        for (PointCountDto pointCountDto : pointCountDtos) {
-            System.out.println("====================================");
-            System.out.println("pointCountDto.getPointName() = " + pointCountDto.getPointName());
-            System.out.println("pointCountDto.getCount() = " + pointCountDto.getCount());
-        }
-
-        return pointCountDtos;
     }
 }

@@ -13,11 +13,6 @@ const clickPage = (page) => {
     reviewAjax(page, $('select[name="sort"]').val());
 }
 
-const clickMyPage = (page) => {
-    myReviewAjax($('select[name="sort"]').val());
-}
-
-
 const reviewAjax = (pageParam, sortParam) => {
     const reviewSortCond = {
         page : pageParam,
@@ -52,7 +47,7 @@ const myReviewAjax = (sortParam) => {
         sort : sortParam
     }
     $.ajax({
-        url: '/reviews/test/18' + $("#memberId").val(),
+        url: '/reviews/test/',
         type: 'GET',
         data : reviewSortCond,
         success: function (myReviews) {
@@ -78,6 +73,12 @@ const createModal = (storeId) => {
         type: 'GET',
         data : reviewSortCond,
         success: function (data) {
+            if (data.status === "like") {
+                $("#storeHeart").attr("src", "/image/aliveheart.png");
+            } else {
+                $("#storeHeart").attr("src", "/image/deadheart.png");
+            }
+            console.log(data)
             staticMap(data.store.lat, data.store.lng);
             storeInfo(data.store);
             createTag(data.points, data.drinks);
@@ -95,6 +96,8 @@ function storeInfo(store) {
     $("#storeAddr").text("📍 "+ store.address);
     $("#storeCategory").text(store.category.name);
     $("#storeMenu").text("🐽 " + store.menu);
+    $("#storeStarAvg")
+    $("#storeLikeCount").text(store.totalLikeCount);
 }
 
 function createReview(reviews) {
