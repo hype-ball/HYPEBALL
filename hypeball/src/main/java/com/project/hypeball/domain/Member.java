@@ -31,6 +31,8 @@ public class Member {
     @Column
     private Role role;
 
+    private String picture;
+
     private String provider; // naver, kakao, google
 
     public Member(String name) {
@@ -38,10 +40,11 @@ public class Member {
     }
 
     @Builder
-    public Member(String name, String email, Role role, String provider) {
+    public Member(String name, String email, Role role, String picture, String provider) {
         this.name = name;
         this.email = email;
         this.role = role;
+        this.picture = picture;
         this.provider = provider;
     }
 

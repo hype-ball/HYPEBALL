@@ -7,6 +7,7 @@ import com.project.hypeball.dto.*;
 import com.project.hypeball.service.*;
 import com.project.hypeball.web.FileStore;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.*;
@@ -116,6 +117,31 @@ public class ReviewController {
         map.put("result", "success");
         return map;
     }
+
+
+    /**
+     * 작성자로 리뷰찾기
+     */
+    @ResponseBody
+    @GetMapping("/test/{memberId}")
+    public List<MyReviewDto> reviewsByWriter(@PathVariable("memberId") Long memberId, @RequestParam("sort") String sort) {
+
+        System.out.println("ReviewController.reviewsByWriter");
+        System.out.println(sort);
+
+        return reviewService.reviewsByMember(memberId, sort);
+    }
+
+    @ResponseBody
+    @DeleteMapping("/delete/{reviewId}")
+    public void deleteReview(@PathVariable Long reviewId) {
+
+        System.out.println("ReviewController.deleteReview");
+
+
+        reviewService.deleteReview(reviewId);
+    }
+
 
     /**
      * drink count

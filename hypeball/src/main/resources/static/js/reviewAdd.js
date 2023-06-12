@@ -52,6 +52,9 @@ const drawStar = (target) => {
 }
 
 $("#review-save").on("click", function () {
+
+    console.log("buttonClickForSaving")
+
     validClear();
 
     // 첨부파일 저장

@@ -36,4 +36,14 @@ public class ReviewDrinkRepositoryImpl implements ReviewDrinkRepositoryInterface
         return result;
 
     }
+
+    @Override
+    public Long deleteReviewDrink(Long reviewId) {
+        long delDrinkCnt = queryFactory
+                .delete(reviewDrink)
+                .where(reviewDrink.review.id.eq(reviewId))
+                .execute();
+
+        return delDrinkCnt;
+    }
 }

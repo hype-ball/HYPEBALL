@@ -12,6 +12,7 @@ import java.util.List;
 
 import static com.project.hypeball.domain.QPoint.*;
 import static com.project.hypeball.domain.QReview.*;
+import static com.project.hypeball.domain.QReviewDrink.reviewDrink;
 import static com.project.hypeball.domain.QReviewPoint.*;
 
 @Repository
@@ -39,5 +40,16 @@ public class ReviewPointRepositoryImpl implements ReviewPointRepositoryInterface
             .fetch();
 
     return result;
+  }
+
+
+  @Override
+  public Long deleteReviewPoint(Long reviewId) {
+    long delPointCnt = queryFactory
+            .delete(reviewPoint)
+            .where(reviewPoint.review.id.eq(reviewId))
+            .execute();
+
+    return delPointCnt;
   }
 }

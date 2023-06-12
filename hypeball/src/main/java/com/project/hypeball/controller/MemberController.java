@@ -5,6 +5,7 @@ import com.project.hypeball.domain.Member;
 import com.project.hypeball.dto.MarkerDto;
 import com.project.hypeball.service.MemberService;
 import com.project.hypeball.service.PointService;
+import com.project.hypeball.service.ReviewService;
 import com.project.hypeball.service.StoreLikeService;
 import com.project.hypeball.web.SessionConst;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class MemberController {
     private final PointService pointService;
     private final StoreLikeService storeLikeService;
     private final MemberService memberService;
+    private final ReviewService reviewService;
 
     @GetMapping("/myPage")
     public String myPage(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember, Model model) {
@@ -35,6 +37,8 @@ public class MemberController {
         Member member = memberService.get(loginMember);
 
         model.addAttribute("likeList", storeLikeService.findByMember(member));
+        model.addAttribute("myReviews", reviewService.reviewsByMember(member.getId(), "default"));
+
         return "myPage";
     }
 
