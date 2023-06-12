@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="storeModal" class="modal fade" id="store-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-fullscreen-sm-down">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" onclick="xBtnClick()" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex mb-2">
+                    <div class="newheart mt-1 me-2">
+                        <img th:if="${session.loginMember} == null" src="/image/deadheart.png" alt="heartClicked" width="38px" height="40px" onclick="location.href='/#loginModal'">
+                        <img th:unless="${session.loginMember} == null" id="storeHeart" src="/image/deadheart.png" alt="heartClicked" width="38px" height="40px" onclick="modalHeartClick(this)">
+                    </div>
+                    <span hidden id="storeId"></span>
+                    <li class="modal-title fs-2" id="storeName"></li>
+                    <div class="mx-3">
+                        <div>
+                            <span>별점 ⭐ </span>
+                            <span id="storeStarAvg">3.5</span>
+                        </div>
+                        <div>
+                            <span>찜 💖 </span>
+                            <span id="storeLikeCount">40</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6 col-md-12">
+                        <div class="modal-map"
+                             id="staticMap"
+                             style="width: 100%; height: 300px;">
+                        </div>
+                        <div class="d-flex text-center">
+                            <div class="col-6" style="background-color: yellow">카카오맵으로 정보보기</div>
+                            <div class="col-6" style="background-color: limegreen">네이버 지도로 정보보기</div>
+                        </div>
+                        <div id="storeAddr" class="mt-1">주소</div>
+                        <div id="storeMenu" class="mt-1">가게정보(메뉴태그)</div>
+                        <div class="mt-1">하이볼태그</div>
+                        <div id="drink-tags"></div>
+                        <div class="mt-1">분위기태그</div>
+                        <div id="point-tags"></div>
+                    </div>
+                    <div class="col-lg-6 col-md-12" style="overflow-y: scroll; max-height: 80vh">
+                        <div th:if="${session.loginMember} == null">
+                            <a onclick="redirectLogin()">로그인하고 리뷰 작성하기</a>
+                        </div>
+                        <form th:unless="${session.loginMember} == null">
+                            <div id="reviewer-choice" class="mb-2">
+                                <div class="mb-2"> ✨ 별점은?<span class="star ms-3">★★★★★
+                                <span>★★★★★</span>
+                                <input type="range" name="star" oninput="drawStar(this)" value="0" step="1" min="0" max="10">
+                            </span><span class="validation" id="valid-star"></span></div>
+                                <div class="mb-2"> 🍹 당신의 베스트 하이볼? <span class="validation" id="valid-drinkList"></span></div>
+                                <div>
+                                    <input name="tags" placeholder="이건 꼭 마셔야해!"/>
+                                </div>
+                                <div class="my-2"> 💫 분위기는 어땠나요? <span class="validation" id="valid-pointList"></span></div>
+                                <div th:each="point:${pointList}" class="btn-group gap-2" role="group"
+                                     aria-label="Basic checkbox toggle button group">
+                                    <input type="checkbox" name="point-tag" th:value="${point.id}" class="btn-check"
+                                           th:id="'btncheck' + ${point.id}" autocomplete="off">
+                                    <label class="btn btn-outline-warning rounded-pill mb-1" th:for="'btncheck' + ${point.id}"
+                                           th:text="${point.name}"></label>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <div>😎 당신의 의견이 궁금해요 <span class="validation" id="valid-content"></span></div>
+                                <label id="input-file-label" for="input-file">
+                                    [ 사진 업로드 ]
+                                </label>
+                                <input type="file" required="false" name="input-file" id="input-file" class="d-none" accept="image/*"
+                                       onchange="setThumbnail(event);" multiple/>
+                            </div>
+                            <textarea id="review-content" rows="4" placeholder="리뷰를 입력해주세요 : )"></textarea>
+                            <div id="image_container"></div>
+
+                            <div class="d-flex justify-content-center">
+                                <button type="button" id="review-save" class="btn btn-warning btn-lg">리뷰등록
+                                </button>
+                            </div>
+                        </form>
+
+                        <div class="p-1"></div>
+                        <div class="d-flex justify-content-end">
+                            <select class="form-select-sm mb-1" name="sort" oninput="reviewSort(this)">
+                                <option value="default">최신순</option>
+                                <option value="cdtAsc">오래된순</option>
+                                <option value="starDesc">별점높은순</option>
+                                <option value="starAsc">별점낮은순</option>
+                            </select>
+                        </div>
+                        <div id="review_section" class="list-group"></div>
+                        <div id="review-paging"></div>
+                    </div>
+                </div>
+            </div>
+            <!--            <div class="modal-footer">-->
+            <!--                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>-->
+            <!--                <button type="button" class="btn btn-primary">Understood</button>-->
+            <!--            </div>-->
+        </div>
+    </div>
+</div>
+</html>

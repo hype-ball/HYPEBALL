@@ -14,6 +14,9 @@ public class MyReviewDto {
     private Long reviewId;
 
     @NotNull
+    private Long storeId;
+
+    @NotNull
     private String storeName;
 
     @NotNull
@@ -33,8 +36,9 @@ public class MyReviewDto {
     private List<AttachedFileQueryDto> attachedFiles = new ArrayList<>();
 
     @QueryProjection
-    public MyReviewDto(Long id, String content, String createdDate, Double star, String storeName) {
+    public MyReviewDto(Long id, Long storeId, String content, String createdDate, Double star, String storeName) {
         this.reviewId = id;
+        this.storeId = storeId;
         this.content = content;
         this.createdDate = createdDate;
         this.star = star;

@@ -32,30 +32,36 @@ public class StoreLikeController {
     @PostMapping("/like/{id}")
     public Map<String, Object> like(@PathVariable("id") Long storeId,
                                     @ModelAttribute("status") String status,
-                                    @SessionAttribute LoginMember loginMember) throws Exception {
+                                    @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember) throws Exception {
+
+        if (loginMember == null) {
+            log.error("로그인 정보가 존재하지 않습니다.");
+            return null;
+        }
 
         Member member = memberService.get(loginMember);
         Store store = storeService.get(storeId);
 
         log.info("storeLike = status : {}, storeId : {}, member : {} ", status, storeId, loginMember.getName());
         Map<String, Object> map = new HashMap<>();
+        int totalLikeCount;
         if (status.equals("like")) {
-            storeLikeService.save(store, member);
+            totalLikeCount = storeLikeService.save(store, member);
             map.put("result", "success");
         } else if (status.equals("hate")) {
-            storeLikeService.delete(store, member);
+            totalLikeCount = storeLikeService.delete(store, member);
             map.put("result", "delete");
         } else {
             throw new IllegalArgumentException();
         }
-
+        map.put("count", totalLikeCount);
         return map;
     }
 
     // form 방식
     @PostMapping("/del-like")
     public String myPage(Long storeId,
-                         @SessionAttribute(name = SessionConst.LOGIN_MEMBER) LoginMember loginMember) throws Exception {
+                         @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember) throws Exception {
 
         Member member = memberService.get(loginMember);
         Store store = storeService.get(storeId);

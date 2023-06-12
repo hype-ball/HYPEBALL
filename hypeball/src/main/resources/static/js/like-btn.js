@@ -33,3 +33,33 @@ clickHeart = (target) => {
         }
     });
 }
+
+modalHeartClick = (target) => {
+    let status;
+    console.log(target.src)
+
+    if ( target.src.endsWith("/image/deadheart.png")) {
+        status = "like"
+    } else {
+        status = "hate";
+    }
+
+    $.ajax({
+        url: '/store/like/' + $("#storeId").val(),
+        type: 'POST',
+        data: {
+            status : status
+        },
+        success: function (data) {
+            console.log(status + ', ' + data.result)
+            if (data.result === "success") {
+                target.src = "/image/aliveheart.png"
+            } else {
+                target.src = "/image/deadheart.png"
+            }
+            $("#storeLikeCount").text(data.count);
+        },
+        error: function () {
+        }
+    });
+}

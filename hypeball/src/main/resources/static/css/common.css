@@ -40,3 +40,25 @@
     overflow: hidden;
     pointer-events: none;
 }
+
+.heart-wrap {
+    position: relative;
+    cursor: pointer;
+}
+
+.heart{
+    height: 90px;
+    width: 90px;
+    background-image:  url("https://imagizer.imageshack.com/img922/4224/UkKFPz.png");
+    background-position: left;
+    background-size: 2900%;
+}
+
+.heart.heart-active{
+    background-position: right;
+    animation: animate .8s steps(28) 1;
+}
+/*복붙*/
+.newheart {
+    justify-items: center;
+}

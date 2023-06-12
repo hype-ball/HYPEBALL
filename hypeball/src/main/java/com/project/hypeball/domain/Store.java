@@ -92,15 +92,17 @@ public class Store implements Serializable {
         store.setLng(form.getLng());
     }
 
-    public static void addCount(Store store) {
+    public static int addCount(Store store) {
         store.totalLikeCount += 1;
+        return store.getTotalLikeCount();
     }
 
-    public static void removeCount(Store store) throws Exception {
+    public static int removeCount(Store store) throws Exception {
         int restCount = store.totalLikeCount - 1;
         if (restCount < 0) {
             throw new Exception();
         }
         store.totalLikeCount = restCount;
+        return store.getTotalLikeCount();
     }
 }

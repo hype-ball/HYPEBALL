@@ -33,21 +33,25 @@ public class StoreLikeService {
     }
 
     @Transactional
-    public StoreLike save(Store store, Member member) {
+    public int save(Store store, Member member) {
 
-        StoreLike storeLike = storeLikeRepository.save(StoreLike.createStoreLike(store, member));
-        Store.addCount(store);
+        storeLikeRepository.save(StoreLike.createStoreLike(store, member));
+        int totalLikeCount = Store.addCount(store);
 
-        return storeLike;
+        return totalLikeCount;
     }
 
     @Transactional
-    public StoreLike delete(Store store, Member member) throws Exception {
+    public int delete(Store store, Member member) throws Exception {
 
         StoreLike storeLike = storeLikeRepository.findByStoreIdAndMemberId(store.getId(), member.getId());
         storeLikeRepository.delete(storeLike);
-        Store.removeCount(store);
+        int totalLikeCount = Store.removeCount(store);
 
-        return storeLike;
+        return totalLikeCount;
+    }
+
+    public StoreLike get(Store store, Member member) {
+        return storeLikeRepository.findByStoreIdAndMemberId(store.getId(), member.getId());
     }
 }

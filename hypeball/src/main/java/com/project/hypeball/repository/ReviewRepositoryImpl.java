@@ -79,7 +79,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryInterface {
         System.out.println("ReviewRepositoryImpl.findReviewsByMember");
 
         List<MyReviewDto> myReviews = queryFactory
-                .select(new QMyReviewDto(review.id, review.content, review.createdDate, review.star, review.store.name))
+                .select(new QMyReviewDto(review.id, review.store.id, review.content, review.createdDate, review.star, review.store.name))
                 .from(review)
                 .join(review.member, member)
                 .join(review.store, store)

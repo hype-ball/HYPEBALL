@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/header :: header(~{::link}, ~{:://head/script})}">
-  <link href="/css/myPage.css" rel="stylesheet"/>
+  <!-- tag -->
+  <script src="https://unpkg.com/@yaireo/tagify"></script>
+  <link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css"/>
+  <link href="/css/map.css" rel="stylesheet"/>
+  <link href="/css/modal.css" rel="stylesheet"/>
   <link href="/css/review.css" rel="stylesheet"/>
-  <script src="/js/reviewLoading.js"></script>
-  <script src="/js/reviewDelete.js"></script>
-  <script src="/js/profile.js"></script>
+  <link href="/css/myPage.css" rel="stylesheet"/>
 </head>
 <body class="nav-top">
 <nav th:replace="~{fragments/nav :: nav}"></nav>
 <div class="w-100">
 <!-- 프로필 -->
-<span hidden id="memberId" th:value="${session.loginMember.id}"></span>
 <div id="picture" class="d-flex justify-content-center" style="background-color: #FADF70;">
     <img th:src="${session.loginMember.picture}" alt="profile" class="rounded-circle d-block" style="width: 170px; height: 170px;">
 </div>
@@ -34,13 +35,13 @@
           <p>찜한 하이볼 명가가 없습니다.</p>
           <a href="/map/home">명가 보러가기</a>
         </li>
-        <li th:each="storeLike : ${likeList}" class="list-group-item d-flex justify-content-between my-0 align-middle">
+        <li th:each="storeLike : ${likeList}" class="list-group-item d-flex justify-content-between my-0">
           <div>
             <p class="fs-5 mb-0 mt-2" th:text="${storeLike.storeName}">쿠이신보</p>
             <small th:text="${storeLike.storeAddress}">00구 00동 000 </small>
-            <p class="mb-0"><a class="link" href="#">상세 보기</a></p>
+            <p class="mb-0"><a class="link" th:onclick="'createModal('+${storeLike.storeId}+')'" data-bs-toggle="modal" data-bs-target="#store-modal">상세 보기</a></p>
           </div>
-          <div class="list-wrap">
+          <div class="heart-wrap">
             <div th:id="'like' + ${storeLike.storeLikeId}" th:value="${storeLike.storeId}" class="heart heart-active" onclick="clickHeart(this)"></div>
             <!-- 좋아요 form -> Post 방식 -->
 <!--            <form th:action="@{/store/del-like}" method="POST">-->
@@ -67,9 +68,11 @@
           <option value="starAsc">별점낮은순</option>
         </select>
       </div>
-<!--      <h1 th:text="${myReviews}"></h1>-->
       <div id="my_review_section" class="list-group" style="overflow-y: scroll; max-height: 50vh">
-        <a class="list-group-item list-group-item-action my-1" th:each="review : ${myReviews}">
+        <a class="list-group-item list-group-item-action my-1 text-center" th:if="${myReviews.size()} == 0">
+          <p>작성한 리뷰가 없습니다.</p>
+        </a>
+        <a class="list-group-item list-group-item-action my-1" th:each="review : ${myReviews}" th:onclick="'createModal('+${review.getStoreId()}+')'" data-bs-toggle="modal" data-bs-target="#store-modal">
           <div>
             <div class="d-flex w-100 justify-content-between">
               <p class="fs-5 mb-0" th:text="${review.getStoreName()}">myReviews[i].storeName</p>
@@ -79,20 +82,14 @@
             <hr class="my-1">
             <div class="d-flex w-100 justify-content-between">
               <span class="star rv-star">★★★★★
-<!--                <span style="width: '+ ${review.getStar()} + '">클릭</span>-->
-               <span style="'width:'+ ${review.getStar()} * 20 + '%'">클릭</span>
-                <span style="width: 90%">★★★★★</span>
+                <span th:style="'width:' + (${review.star} * 20 )+ '%'">★★★★★</span>
               </span>
               <small class="text-body-secondary" th:text="${review.getCreatedDate()}">myReviews[i].createdDate</small>
             </div>
           </div>
-<!--        for (let j = 0; j < myReviews[i].drinks.length; j++) {-->
           <small th:each="drinkTag : ${review.getDrinks()}" th:text="${drinkTag.drink}" style="background-color: #FF9900" class="badge rounded-pill"></small>
           <p class="my-1 rv-content" th:text="${review.getContent()}">myReviews[i].content</p>
-
-<!--        if (myReviews[i].attachedFiles != null) {-->
           <div class="row m-auto gap-1">
-<!--          for (let j = 0; j < myReviews[i].attachedFiles.length; j++) {-->
             <div class="img-wrap" th:each="attachedFile : ${review.getAttachedFiles()}">
                  <img th:src="|/files/${attachedFile.getStoreFileName()}|" class="img-thumbnail review-img" alt="img" onclick="imgSizeChange(this)">
                  <p class="img-hover-text">이미지<br>크게 보기</p>
@@ -136,7 +133,16 @@
     </div>
   </div>
 </div>
+<!--모달-->
+<div th:replace="~{fragments/storeModal :: storeModal}"></div>
 <footer th:replace="~{fragments/footer :: footer}"></footer>
+<!--kakao API-->
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=77994d5c2a28508241eeb2d94b1aa113"></script>
+<script src="/js/map.js"></script>
+<script src="/js/reviewAdd.js"></script>
+<script src="/js/reviewLoading.js"></script>
 <script src="/js/like-btn.js"></script>
+<script src="/js/reviewDelete.js"></script>
+<script src="/js/profile.js"></script>
 </body>
 </html>
