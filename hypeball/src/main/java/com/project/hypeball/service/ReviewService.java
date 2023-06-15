@@ -28,7 +28,7 @@ public class ReviewService {
 
         // 리뷰 저장
         Review review = reviewRepository.save(Review.createReview(reviewAddDto, store, member));
-        Store.saveReviewToStore(store, review);
+        Store.calcStarAvg(store, review);
 
         // 분위기 태그 저장
         List<Point> pointList = pointRepository.findPointList(reviewAddDto.getPointList());

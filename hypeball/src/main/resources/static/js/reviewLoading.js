@@ -122,7 +122,7 @@ function storeInfo(store) {
     $("#storeAddr").text("📍 "+ store.address);
     $("#storeCategory").text(store.category.name);
     $("#storeMenu").text("🐽 " + store.menu);
-    $("#storeStarAvg")
+    $("#storeStarAvg").text(store.starRating.starAvg.toFixed(1));
     $("#storeLikeCount").text(store.totalLikeCount);
 }
 
