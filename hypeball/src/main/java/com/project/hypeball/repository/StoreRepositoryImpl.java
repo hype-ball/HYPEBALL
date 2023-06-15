@@ -21,7 +21,8 @@ public class StoreRepositoryImpl implements StoreRepositoryInterface {
   public List<Store> findAllFetch() {
 
     List resultList = em.createQuery("select s from Store s" +
-            " join fetch s.category c", Store.class)
+                    " join fetch s.category c" +
+                    " join fetch s.starRating sr", Store.class)
             .getResultList();
 
     return resultList;

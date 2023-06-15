@@ -8,6 +8,6 @@ import java.util.Optional;
 
 public interface StoreRepository extends JpaRepository<Store, Long>, StoreRepositoryInterface{
 
-    @EntityGraph(attributePaths = {"category"})
+    @EntityGraph(attributePaths = {"category", "starRating"})
     Optional<Store> findFetchById(Long storeId);
 }

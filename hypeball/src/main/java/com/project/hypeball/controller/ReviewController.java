@@ -44,19 +44,19 @@ public class ReviewController {
 
         HashMap<String, Object> map = new HashMap<>();
 
-        Store store = storeService.getFetch(storeId);
+        System.out.println("loginMember = " + loginMember);
         if (loginMember != null) {
-            Member member = memberService.get(loginMember);
-            if (storeLikeService.get(store, member) == null) {
+            if (storeLikeService.get(storeId, loginMember.getId()) == null) {
                 map.put("status", "hate");
             } else {
                 map.put("status", "like");
             }
         }
 
-        Page<ReviewDto> reviewDtos = reviewService.reviewsPaging(storeId, sort, pageable);
-
+        Store store = storeService.getFetch(storeId);
         map.put("store", store);
+
+        Page<ReviewDto> reviewDtos = reviewService.reviewsPaging(storeId, sort, pageable);
         map.put("reviews", reviewDtos);
 
         List<PointCountDto> points = reviewService.pointTagsRank(storeId);

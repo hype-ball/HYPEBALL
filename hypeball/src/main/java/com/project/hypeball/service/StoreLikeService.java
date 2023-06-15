@@ -51,7 +51,7 @@ public class StoreLikeService {
         return totalLikeCount;
     }
 
-    public StoreLike get(Store store, Member member) {
-        return storeLikeRepository.findByStoreIdAndMemberId(store.getId(), member.getId());
+    public StoreLike get(Long storeId, Long memberId) {
+        return storeLikeRepository.findByStoreIdAndMemberId(storeId, memberId);
     }
 }
