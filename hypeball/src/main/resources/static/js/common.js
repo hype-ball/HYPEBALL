@@ -4,3 +4,11 @@ $(document).ready(function() {
         $('#loginModal').modal('show');
     }
 });
+
+function loginError(response) {
+    console.log("error")
+    alert(response.message)
+    if (response.status === 401) {
+        window.location.href="/#loginModal";
+    }
+}

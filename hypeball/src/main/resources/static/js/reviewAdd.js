@@ -109,9 +109,8 @@ $("#review-save").on("click", function () {
                 $("#review-content").focus();
             }
         },
-        error: function () {
-            alert("로그인 필수입니다.")
-            console.log("error")
+        error: function (data) {
+            loginError(data.responseJSON);
         }
     });
 });

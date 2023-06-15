@@ -105,10 +105,10 @@ public class Store implements Serializable {
         return store.getTotalLikeCount();
     }
 
-    public static int removeCount(Store store) throws Exception {
+    public static int removeCount(Store store) {
         int restCount = store.totalLikeCount - 1;
         if (restCount < 0) {
-            throw new Exception();
+            throw new IllegalArgumentException("Invalid count: " + restCount);
         }
         store.totalLikeCount = restCount;
         return store.getTotalLikeCount();

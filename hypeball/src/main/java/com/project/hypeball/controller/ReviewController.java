@@ -8,6 +8,7 @@ import com.project.hypeball.service.*;
 import com.project.hypeball.web.FileStore;
 import com.project.hypeball.web.SessionConst;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.security.sasl.AuthenticationException;
 import java.io.IOException;
 import java.util.*;
 
@@ -84,11 +86,12 @@ public class ReviewController {
     @PostMapping("/add")
     public Map<String, Object> save(@Validated @RequestPart(value = "review") ReviewAddDto reviewAddDto, BindingResult bindingResult,
                                     @RequestPart(value = "file", required = false) List<MultipartFile> multipartFiles,
-                                    @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember) throws IOException {
+                                    @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember,
+                                    HttpServletResponse response) throws IOException {
 
-        // 멤버 없을 때 에러처리
         if (loginMember == null) {
-            log.error("로그인 정보가 존재하지 않습니다.");
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "로그인 정보가 필요합니다.");
+            log.error("미인증 사용자 요청 : {} Error", response.getStatus());
             return null;
         }
 
