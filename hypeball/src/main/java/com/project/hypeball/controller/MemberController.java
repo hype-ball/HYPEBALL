@@ -13,11 +13,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 
 @Slf4j
@@ -32,12 +36,13 @@ public class MemberController {
     private final ReviewService reviewService;
 
     @GetMapping("/myPage")
-    public String myPage(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember, Model model) throws IOException {
+    public String myPage(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember, Model model) {
 
         if (loginMember == null) {
-            log.error("로그인 정보가 존재하지 않습니다.");
+            log.error("미인증 사용자 요청 : redirect loginModal");
             return "redirect:/#loginModal";
         }
+
         Member member = memberService.get(loginMember);
 
         model.addAttribute("likeList", storeLikeService.findByMember(member));
@@ -48,10 +53,10 @@ public class MemberController {
 
     @GetMapping("/myLike")
     public String map(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember,
-                      Model model) throws IOException {
+                      Model model) {
 
         if (loginMember == null) {
-            log.error("로그인 정보가 존재하지 않습니다.");
+            log.error("미인증 사용자 요청 : redirect loginModal");
             return "redirect:/#loginModal";
         }
 

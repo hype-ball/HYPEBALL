@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,10 +33,12 @@ public class StoreLikeController {
     @PostMapping("/like/{id}")
     public Map<String, Object> like(@PathVariable("id") Long storeId,
                                     @ModelAttribute("status") String status,
-                                    @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember) throws Exception {
+                                    @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember,
+                                    HttpServletResponse response) throws IOException {
 
         if (loginMember == null) {
-            log.error("로그인 정보가 존재하지 않습니다.");
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "로그인 정보가 필요합니다.");
+            log.error("미인증 사용자 요청 : {} Error", response.getStatus());
             return null;
         }
 
@@ -52,7 +55,7 @@ public class StoreLikeController {
             storeLikeCount = storeLikeService.delete(store, member);
             map.put("result", "delete");
         } else {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Invalid status: " + status);
         }
         map.put("count", storeLikeCount);
         return map;
@@ -61,7 +64,7 @@ public class StoreLikeController {
     // form 방식
     @PostMapping("/del-like")
     public String myPage(Long storeId,
-                         @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember) throws Exception {
+                         @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember) {
 
         Member member = memberService.get(loginMember);
         Store store = storeService.get(storeId);

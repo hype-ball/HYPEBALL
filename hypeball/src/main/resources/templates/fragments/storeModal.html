@@ -11,8 +11,7 @@
             <div class="modal-body">
                 <div class="d-flex mb-2">
                     <div class="newheart mt-1 me-2">
-                        <img th:if="${session.loginMember} == null" src="/image/deadheart.png" alt="heartClicked" width="38px" height="40px" onclick="location.href='/#loginModal'">
-                        <img th:unless="${session.loginMember} == null" id="storeHeart" src="/image/deadheart.png" alt="heartClicked" width="38px" height="40px" onclick="modalHeartClick(this)">
+                        <img id="storeHeart" src="/image/deadheart.png" alt="heartClicked" width="38px" height="40px" onclick="modalHeartClick(this)">
                     </div>
                     <span hidden id="storeId"></span>
                     <li class="modal-title fs-2" id="storeName"></li>
