@@ -166,44 +166,6 @@ function createReview(reviews) {
             }
             rv += '</div>'
         }
-        // if (reviews[i].attachedFiles !== null) {
-        //     rv +=
-        //     '<div id="carouselExampleControls'
-        //         + reviews[i].id +
-        //     '" class="carousel slide" data-ride="carousel">' +
-        //     '  <div class="carousel-inner">';
-        //
-        //     for (var j = 0; j < reviews[i].attachedFiles.length; j++) {
-        //         if (j === 0) {
-        //             rv += '    <div class="carousel-item active" style="height: 130px; width: 130px;>';
-        //         } else {
-        //             rv += '    <div class="carousel-item" style="height: 130px;>';
-        //         }
-        //
-        //         rv +=
-        //     '      <img class="img-thumbnail" src="/files/' +
-        //             reviews[i].attachedFiles[j].storeFileName
-        //            + '" alt="slide">' +
-        //     '    </div>';
-        //     }
-        //
-        //     rv +=
-        //     '  </div>';
-        //     rv +=
-        //        '<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls' +
-        //         reviews[i].id +
-        //         '" data-bs-slide="prev">' +
-        //        '     <span class="carousel-control-prev-icon" aria-hidden="true"></span>' +
-        //        '    <span class="visually-hidden">Previous</span>' +
-        //        '</button>' +
-        //         '<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls' +
-        //         reviews[i].id +
-        //         '" data-bs-slide="next">' +
-        //               '<span class="carousel-control-next-icon" aria-hidden="true"></span>' +
-        //               '<span class="visually-hidden">Next</span>' +
-        //         '</button>' +
-        //         '</div>';
-        // }
         rv += '</a>';
     }
 
@@ -212,23 +174,26 @@ function createReview(reviews) {
 }
 
 function createMyReview(myReviews) {
+
     var my_review_section = document.getElementById("my_review_section");
     var my_rv = "";
 
     console.log(myReviews);
 
     if (myReviews.length === 0) {
-        my_rv = "<div class='rv-none'>" +
-            "   <p>등록된 리뷰가 없습니다.</p>" +
-            "</div>"
+        my_rv = '<a className="list-group-item list-group-item-action my-1 text-center">' +
+        '<p>작성한 리뷰가 없습니다.</p>' +
+        '</a>'
     }
 
     for (var i = 0; i < myReviews.length; i++) {
-        my_rv += '<a class="list-group-item list-group-item-action my-1">' +
+        my_rv += '<a class="list-group-item my-1">' +
             '      <div>' +
             '        <div class="d-flex w-100 justify-content-between">' +
-            '           <p class="fs-5 mb-0">' + myReviews[i].storeName + '</p>' +
-            '           <button class="btn btn-danger btn-sm" id="' + myReviews[i].reviewId + '" onclick="deleteConfirm(this)">' + '삭제</button>' +
+            '           <p className="fs-5 mb-0 myPageStoreName" onclick="' + 'createModal(' + myReviews[i].storeId + ')' + '" data-bs-toggle="modal" data-bs-target="#store-modal">' +
+                        myReviews[i].storeName +
+            '           </p>' +
+        '           <button class="btn btn-danger btn-sm" id="' + myReviews[i].reviewId + '" onclick="deleteConfirm(this)">' + '삭제</button>' +
             '        </div>' +
             '        <hr class="my-1">'  +
             '        <div class="d-flex w-100 justify-content-between">' +
@@ -240,11 +205,12 @@ function createMyReview(myReviews) {
             '     </div>';
 
         for (let j = 0; j < myReviews[i].drinks.length; j++) {
-            my_rv += '        <small style="background-color: #FF9900" class="badge rounded-pill">' + myReviews[i].drinks[j].drink + '</small>'
+            my_rv +=
+            '        <small style="background-color: #FF9900" class="badge rounded-pill">' + myReviews[i].drinks[j].drink + '</small>'
         }
 
         my_rv +=
-            '        <p class="my-1 rv-content">' + myReviews[i].content + '</p>\n';
+            '        <p class="my-1 rv-content text-dark">' + myReviews[i].content + '</p>\n';
 
         if (myReviews[i].attachedFiles != null) {
             my_rv += '<div class="row m-auto gap-1">';
@@ -262,6 +228,7 @@ function createMyReview(myReviews) {
     }
 
     my_review_section.innerHTML = my_rv;
+
 
 }
 
