@@ -3,6 +3,7 @@
 <head th:replace="~{fragments/header :: header(~{::link}, ~{:://head/script})}">
   <!-- tag -->
   <script src="https://unpkg.com/@yaireo/tagify"></script>
+  <script src="/js/profile.js"></script>
   <link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css"/>
   <link href="/css/map.css" rel="stylesheet"/>
   <link href="/css/modal.css" rel="stylesheet"/>
@@ -13,13 +14,22 @@
 <nav th:replace="~{fragments/nav :: nav}"></nav>
 <div class="w-100">
 <!-- 프로필 -->
-<div id="picture" class="d-flex justify-content-center" style="background-color: #FADF70;">
-    <img th:src="${session.loginMember.picture}" alt="profile" class="rounded-circle d-block" style="width: 170px; height: 170px;">
-</div>
-<div class="d-flex justify-content-center gap-2 p-2 profile-wrap pb-5" style="background: #FADF70;">
-  <h3 class="mb-0" th:text="${session.loginMember.name}">nickname</h3>
-  <button class="btn btn-light btn-sm profile-update" data-bs-toggle="modal" data-bs-target="#profile-edit-modal">수정</button>
-</div>
+<form method="POST" action="updateProfile" enctype="multipart/form-data" >
+  <div class="d-flex justify-content-center" style="background-color: #FADF70;">
+    <img id="picture" th:src="${member.picture}" alt="profile" class="rounded-circle d-block" style="width: 170px; height: 170px; position: relative">
+    <label id="label-new-picture" for="new-picture">
+      <div class="btn-upload hide">파일 업로드하기</div>
+    </label>
+    <input type="file" class="d-none" required="false" name="picture" id="new-picture" accept="image/*" th:value="${member.picture}"
+         onchange="showNewPic(event);" style="position: absolute;top: 130px;left: 600px;"/>
+  </div>
+  <div class="d-flex justify-content-center gap-2 p-2 profile-wrap" style="background: #FADF70;">
+      <input type="text" id="nickname" name="name" class="mb-0 saved" th:value="${member.name}" readonly="true">
+      <button id="profileEditBtn" class="btn btn-light btn-sm profile-update show" onclick="editMode()">수정</button>
+      <button id="profileSaveBtn" class="btn btn-light btn-sm profile-update hide">저장</button>
+  </div>
+  <div class="validation d-flex justify-content-center p-2" id="valid-name" style="background-color: #FADF70"></div>
+</form>
 <div class="row py-5">
   <!-- 찜 -->
   <div class="col-lg-6 col-md-12">
@@ -104,37 +114,6 @@
     </div>
   </div>
 </div>
-</div>
-<!-- 프로필 사진, 닉네임 수정 모달 -->
-<div class="modal fade" id="profile-edit-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">프로필 수정</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                aria-label="Close"></button>
-      </div>
-      <div class="modal-body justify-content-center">
-        <div class="d-flex justify-zcontent-center">
-          <div id="new-picture" class="d-flex justify-content-center">
-            <img id="picture-temp" th:src="${session.loginMember.picture}" alt="profile" class="rounded-circle d-block" style="max-width: 15vw; max-height: 15vw;">
-          </div>
-        </div>
-        <div class="modal-body justify-content-center">
-          <label id="input-picture-label" for="input-picture" style="cursor: pointer">
-            [ 프로필 사진 변경 ]
-          </label>
-          <input type="file" required="true" name="input-picture" id="input-picture" class="d-none" accept="image/*"
-                 onchange="showNewPic(event);"/>
-          <input type="text" name="name" th:value="${session.loginMember.name}">
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-        <button type="button" class="btn btn-primary">저장하기</button>
-      </div>
-    </div>
-  </div>
 </div>
 <!--모달-->
 <div th:replace="~{fragments/storeModal :: storeModal(~{::form})}">

@@ -17,8 +17,16 @@ public class FileStore {
     @Value("${file.dir}")
     private String fileDir;
 
+    @Value("/Users/jiyeonchoi/git/HYPEBALL/hypeball/src/main/resources/static/profiles/")
+    private String picDir;
+
+
     public String getFullPath(String filename) {
         return fileDir + filename;
+    }
+
+    public String getFullPathPicture(String filename) {
+        return picDir + filename;
     }
 
     public List<AttachedFile> storeFiles(List<MultipartFile> multipartFiles) throws IOException {
@@ -51,6 +59,19 @@ public class FileStore {
     private String extractExt(String originalFilename) {
         int pos = originalFilename.lastIndexOf(".");
         return originalFilename.substring(pos + 1);
+    }
+
+    public String storePicture(MultipartFile picture) throws IOException {
+        if (picture.isEmpty()) {
+            return "???";
+        }
+
+        String originalFilename = picture.getOriginalFilename();
+        String storeFileName = createStoreFileName(originalFilename);
+        String fullPathPicture = getFullPathPicture(storeFileName);
+        picture.transferTo(new File(getFullPathPicture(storeFileName)));
+
+        return fullPathPicture;
     }
 }
 

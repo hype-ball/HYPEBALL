@@ -13,10 +13,10 @@
 }
 
 .profile-update {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(190%, -120%);
+    /*position: absolute;*/
+    /*top: 50%;*/
+    /*left: 50%;*/
+    /*transform: translate(190%, -120%);*/
 }
 
 hr {
@@ -32,4 +32,45 @@ hr {
     cursor: pointer;
 }
 
+.saved {
+    background-color: #FADF70FF;
+    font-size: 24px;
+    text-align: center;
+    outline: none;
+    border: none;
+}
 
+
+.show {
+    display: block;
+}
+
+.hide {
+    display: none;
+}
+
+.btn-upload {
+    width: 150px;
+    height: 30px;
+    background: #fff;
+    border: 1px solid rgb(77,77,77);
+    border-radius: 10px;
+    font-weight: 500;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+
+}
+.btn-upload:hover {
+     background: rgb(77,77,77);
+     color: #fff;
+ }
+
+#new-picture {
+    display: none;
+}
+
+#label-new-picture {
+    position: absolute;
+    opacity: 40%;
+}

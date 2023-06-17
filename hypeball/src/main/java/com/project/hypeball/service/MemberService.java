@@ -16,5 +16,10 @@ public class MemberService {
     public Member get(LoginMember loginMember) {
         return memberRepository.findByEmailAndProvider(loginMember.getEmail(), loginMember.getProvider()).orElse(null);
     }
+
+    @Transactional
+    public Member save(Member member) {
+        return memberRepository.save(member);
+    }
 }
 

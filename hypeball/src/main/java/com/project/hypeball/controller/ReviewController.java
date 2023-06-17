@@ -155,7 +155,6 @@ public class ReviewController {
 
         System.out.println("ReviewController.deleteReview");
 
-
         reviewService.deleteReview(reviewId);
     }
 }
