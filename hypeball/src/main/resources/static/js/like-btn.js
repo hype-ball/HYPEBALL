@@ -36,7 +36,8 @@ clickHeart = (target) => {
             }
             $("#myLikeCount").text(count);
         },
-        error: function () {
+        error: function (data) {
+            loginError(data.responseJSON);
         }
     });
 }
@@ -66,7 +67,8 @@ modalHeartClick = (target) => {
             }
             $("#storeLikeCount").text(data.count);
         },
-        error: function () {
+        error: function (data) {
+            loginError(data.responseJSON);
         }
     });
 }

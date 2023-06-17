@@ -42,7 +42,7 @@ public class StoreLikeService {
     }
 
     @Transactional
-    public int delete(Store store, Member member) throws Exception {
+    public int delete(Store store, Member member) {
 
         StoreLike storeLike = storeLikeRepository.findByStoreIdAndMemberId(store.getId(), member.getId());
         storeLikeRepository.delete(storeLike);
@@ -51,7 +51,7 @@ public class StoreLikeService {
         return totalLikeCount;
     }
 
-    public StoreLike get(Store store, Member member) {
-        return storeLikeRepository.findByStoreIdAndMemberId(store.getId(), member.getId());
+    public StoreLike get(Long storeId, Long memberId) {
+        return storeLikeRepository.findByStoreIdAndMemberId(storeId, memberId);
     }
 }

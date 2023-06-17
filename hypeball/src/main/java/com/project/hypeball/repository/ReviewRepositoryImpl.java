@@ -53,17 +53,18 @@ public class ReviewRepositoryImpl implements ReviewRepositoryInterface {
                 .limit(pageable.getPageSize())
                 .fetch();
 
-        Map<Long, List<AttachedFileQueryDto>> filesMap = findAttachedFileMap(toReviewIds(content));
-        Map<Long, List<ReviewDrinkQueryDto>> drinksMap = findReviewDrink(toReviewIds(content));
+        List<Long> ids = toReviewIds(content);
+        if (!ids.isEmpty()) {
+            Map<Long, List<AttachedFileQueryDto>> filesMap = findAttachedFileMap(ids);
+            Map<Long, List<ReviewDrinkQueryDto>> drinksMap = findReviewDrink(ids);
+            System.out.println("filesMap = " + filesMap);
 
-        System.out.println("filesMap = " + filesMap);
-
-        content.forEach(o -> {
-          o.setAttachedFiles(filesMap.get(o.getReviewId()));
-          o.setDrinks(drinksMap.get(o.getReviewId()));
-          System.out.println("o.getAttachedFiles() = " + o.getAttachedFiles());
-    });
-
+            content.forEach(o -> {
+                o.setAttachedFiles(filesMap.get(o.getReviewId()));
+                o.setDrinks(drinksMap.get(o.getReviewId()));
+                System.out.println("o.getAttachedFiles() = " + o.getAttachedFiles());
+            });
+        }
 
       JPAQuery<Long> countQuery = queryFactory
               .select(review.count())
@@ -87,16 +88,19 @@ public class ReviewRepositoryImpl implements ReviewRepositoryInterface {
                 .orderBy(sortCriteria(sort).toArray(OrderSpecifier[]::new))
                 .fetch();
 
-        Map<Long, List<AttachedFileQueryDto>> filesMap = findAttachedFileMap(toMyReviewIds(myReviews));
-        Map<Long, List<ReviewDrinkQueryDto>> drinksMap = findReviewDrink(toMyReviewIds(myReviews));
 
-        System.out.println("filesMap = " + filesMap);
+        List<Long> ids = toMyReviewIds(myReviews);
+        if (!ids.isEmpty()) {
+            Map<Long, List<AttachedFileQueryDto>> filesMap = findAttachedFileMap(ids);
+            Map<Long, List<ReviewDrinkQueryDto>> drinksMap = findReviewDrink(ids);
+            System.out.println("filesMap = " + filesMap);
 
-        myReviews.forEach(o -> {
-            o.setAttachedFiles(filesMap.get(o.getReviewId()));
-            o.setDrinks(drinksMap.get(o.getReviewId()));
-            System.out.println("o.getAttachedFiles() = " + o.getAttachedFiles());
-        });
+            myReviews.forEach(o -> {
+                o.setAttachedFiles(filesMap.get(o.getReviewId()));
+                o.setDrinks(drinksMap.get(o.getReviewId()));
+                System.out.println("o.getAttachedFiles() = " + o.getAttachedFiles());
+            });
+        }
 
         return myReviews;
     }

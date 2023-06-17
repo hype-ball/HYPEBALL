@@ -15,6 +15,9 @@ import com.project.hypeball.web.SessionConst;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,7 +27,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.*;
+
+import java.net.URI;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -40,12 +45,13 @@ public class MemberController {
     private final FileStore fileStore;
 
     @GetMapping("/myPage")
-    public String myPage(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember, Model model) throws IOException {
+    public String myPage(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember, Model model) {
 
         if (loginMember == null) {
-            log.error("로그인 정보가 존재하지 않습니다.");
+            log.error("미인증 사용자 요청 : redirect loginModal");
             return "redirect:/#loginModal";
         }
+
         Member member = memberService.get(loginMember);
 
         model.addAttribute("member", member);
@@ -57,10 +63,10 @@ public class MemberController {
 
     @GetMapping("/myLike")
     public String map(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember,
-                      Model model) throws IOException {
+                      Model model) {
 
         if (loginMember == null) {
-            log.error("로그인 정보가 존재하지 않습니다.");
+            log.error("미인증 사용자 요청 : redirect loginModal");
             return "redirect:/#loginModal";
         }
 

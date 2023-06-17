@@ -5,9 +5,11 @@ import com.project.hypeball.dto.StoreSaveForm;
 import com.project.hypeball.dto.StoreUpdateForm;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicUpdate;
 
 import java.io.Serializable;
@@ -60,10 +62,15 @@ public class Store implements Serializable {
     @OneToMany(mappedBy = "store", cascade = CascadeType.REMOVE)
     private List<Review> reviews = new ArrayList<>();
 
+    @ColumnDefault("0") //script 생성시 적용
     private int totalLikeCount; // 좋아요 갯수
 
-    public static void saveReviewToStore(Store store, Review review) {
-        store.getReviews().add(review);
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "star_rating_id")
+    private StarRating starRating;
+
+    public static void calcStarAvg(Store store, Review review) {
+        store.setStarRating(StarRating.updateStarRating(store.getStarRating(), review.getStar()));
     }
 
     public static Store createStore(StoreSaveForm form) {
@@ -77,6 +84,7 @@ public class Store implements Serializable {
         store.setLat(form.getLat());
         store.setLng(form.getLng());
         store.setTotalLikeCount(0);
+        store.setStarRating(StarRating.createStarRating());
         return store;
     }
 
@@ -97,10 +105,10 @@ public class Store implements Serializable {
         return store.getTotalLikeCount();
     }
 
-    public static int removeCount(Store store) throws Exception {
+    public static int removeCount(Store store) {
         int restCount = store.totalLikeCount - 1;
         if (restCount < 0) {
-            throw new Exception();
+            throw new IllegalArgumentException("Invalid count: " + restCount);
         }
         store.totalLikeCount = restCount;
         return store.getTotalLikeCount();
