@@ -43,3 +43,4 @@ application-oauth2.properties
 /src/main/generated/
 
 /src/main/resources/static/files
+/src/main/resources/static/profiles

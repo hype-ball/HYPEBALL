@@ -14,10 +14,10 @@ import java.util.UUID;
 @Component
 public class FileStore {
 
-    @Value("${file.dir}")
+    @Value("${file.dir}/files/")
     private String fileDir;
 
-    @Value("C:/Users/User/git/HYPEBALL/hypeball/src/main/resources/static/profiles/")
+    @Value("${file.dir}"+"/profiles/")
     private String picDir;
 
 
