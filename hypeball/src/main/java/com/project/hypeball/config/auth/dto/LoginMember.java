@@ -15,7 +15,7 @@ public class LoginMember implements Serializable {
 
     public LoginMember(Member member) {
         this.id = member.getId();
-        this.name = member.getName();
+        this.name = member.getNickname();
         this.email = member.getEmail();
         this.picture = member.getPicture();
         this.provider = member.getProvider();

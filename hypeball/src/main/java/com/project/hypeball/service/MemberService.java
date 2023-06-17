@@ -18,6 +18,11 @@ public class MemberService {
     }
 
     @Transactional
+    public Member update(Member member, String nickname, String filepath) {
+        return Member.updateProfile(member, nickname, filepath);
+    }
+
+    @Transactional
     public Member save(Member member) {
         return memberRepository.save(member);
     }

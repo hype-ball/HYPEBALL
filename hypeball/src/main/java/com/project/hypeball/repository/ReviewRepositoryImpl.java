@@ -44,7 +44,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryInterface {
         System.out.println("ReviewRepositoryImpl.findReviewsPaging");
 
         List<ReviewDto> content = queryFactory
-                .select(new QReviewDto(review.id, review.content, review.createdDate, review.star, review.member.name))
+                .select(new QReviewDto(review.id, review.content, review.createdDate, review.star, review.member.nickname))
                 .from(review)
                 .join(review.member, member)
                 .where(review.store.id.eq(storeId))

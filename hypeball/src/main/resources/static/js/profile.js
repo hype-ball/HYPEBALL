@@ -59,7 +59,7 @@ $("#profileSaveBtn").on("click", function () {
 
             if (data.result === "success") {
                 console.log("success");
-                document.location.reload();
+                window.location.reload();
             } else if (data.result === "valid") {
                 console.log("valid")
                 for (let i in data.valid) {
@@ -71,8 +71,8 @@ $("#profileSaveBtn").on("click", function () {
             }
 
         },
-        error: function () {
-            console.log("error")
+        error: function (data) {
+            loginError(data.responseJSON);
         }
     });
 });
