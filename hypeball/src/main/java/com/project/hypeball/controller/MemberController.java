@@ -12,6 +12,8 @@ import com.project.hypeball.service.ReviewService;
 import com.project.hypeball.service.StoreLikeService;
 import com.project.hypeball.web.FileStore;
 import com.project.hypeball.web.SessionConst;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +31,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -54,7 +59,7 @@ public class MemberController {
 
         Member member = memberService.get(loginMember);
 
-        model.addAttribute("member", member);
+//        model.addAttribute("member", member);
         model.addAttribute("likeList", storeLikeService.findByMember(member));
         model.addAttribute("myReviews", reviewService.reviewsByMember(member.getId(), "default"));
 
@@ -87,19 +92,23 @@ public class MemberController {
     @ResponseBody
     @PostMapping("/updateProfile")
     public Map<String, Object> updateProfile(@Validated @RequestPart(value = "nickname", required = false) MemberUpdateDto memberUpdateDto, BindingResult bindingResult,
-                              @RequestPart(value = "picture", required = false) MultipartFile multipartFile,
-                              @SessionAttribute(name = SessionConst.LOGIN_MEMBER) LoginMember loginMember) throws IOException {
+                                             @RequestPart(value = "picture", required = false) MultipartFile multipartFile,
+                                             @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember,
+                                             HttpServletResponse response, HttpSession httpSession) throws IOException {
 
-        System.out.println(memberUpdateDto.getName());
-        System.out.println("picture = " + multipartFile);
-
-        if (multipartFile != null) {
-            System.out.println("첨부파일 있다꾸요");
-        } else {
-            System.out.println("첨부파일 없다용");
+        if (loginMember == null) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "로그인 정보가 필요합니다.");
+            log.error("미인증 사용자 요청 : {} Error", response.getStatus());
+            return null;
         }
 
-        String picturePath = null;
+        log.info("================== update profile ======================");
+        log.info("memberUpdateDto = " + memberUpdateDto);
+        log.info("multipartFile = " + multipartFile);
+
+        if (multipartFile != null) {
+            log.info("multipartFile = {}, {}, {} " + multipartFile.getContentType(), multipartFile.getOriginalFilename(), multipartFile.getSize());
+        }
 
         Map<String, Object> map = new HashMap<>();
 
@@ -115,27 +124,21 @@ public class MemberController {
             return map;
         }
 
-        System.out.println("======ㅇㅔ러가 어디서 날까");
-
-        Member findMember = memberService.get(loginMember);
-        findMember.update(memberUpdateDto.getName());
+        Member member = memberService.get(loginMember);
+        String substring = null;
 
         if (multipartFile != null) {
-            picturePath = fileStore.storePicture(multipartFile);
+            String picturePath = fileStore.storePicture(multipartFile);
             System.out.println("picturePath = " + picturePath);
             int profiles = picturePath.indexOf("profiles");
             System.out.println("profiles = " + profiles);
-            String substring = picturePath.substring(profiles - 1);
+            substring = picturePath.substring(profiles - 1);
             System.out.println("substring = " + substring);
-            findMember.setPicture(substring);
-        } else {
-            System.out.println("사진 교체 안해용");
         }
 
-        memberService.save(findMember);
-        System.out.println("에러 발생지점 =====================");
+        memberService.update(member, memberUpdateDto.getName(), substring);
+        httpSession.setAttribute(SessionConst.LOGIN_MEMBER, new LoginMember(member));
         map.put("result", "success");
-        System.out.println("맵에 넣었음");
         return map;
     }
 }

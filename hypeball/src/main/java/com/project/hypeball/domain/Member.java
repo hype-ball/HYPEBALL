@@ -6,11 +6,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@DynamicUpdate
 public class Member {
 
     @Id //PK 지정
@@ -21,6 +23,10 @@ public class Member {
     @NotNull
     @Column
     private String name;
+
+    @NotNull
+    @Column
+    private String nickname;
 
     @NotNull
     @Column
@@ -42,6 +48,7 @@ public class Member {
     @Builder
     public Member(String name, String email, Role role, String picture, String provider) {
         this.name = name;
+        this.nickname = name;
         this.email = email;
         this.role = role;
         this.picture = picture;
@@ -49,10 +56,15 @@ public class Member {
     }
 
     // 회원 업데이트
-    public Member update(String name) {
-        this.name = name;
+    public static Member updateProfile(Member member, String name, String filepath) {
+        if (name != null) {
+            member.setNickname(name);
+        }
+        if (filepath != null) {
+            member.setPicture(filepath);
+        }
 
-        return this;
+        return member;
     }
 
     public String getRoleKey() {

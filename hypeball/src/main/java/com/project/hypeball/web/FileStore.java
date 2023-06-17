@@ -17,7 +17,7 @@ public class FileStore {
     @Value("${file.dir}")
     private String fileDir;
 
-    @Value("/Users/jiyeonchoi/git/HYPEBALL/hypeball/src/main/resources/static/profiles/")
+    @Value("C:/Users/User/git/HYPEBALL/hypeball/src/main/resources/static/profiles/")
     private String picDir;
 
 
