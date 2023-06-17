@@ -59,7 +59,6 @@ public class MemberController {
 
         Member member = memberService.get(loginMember);
 
-//        model.addAttribute("member", member);
         model.addAttribute("likeList", storeLikeService.findByMember(member));
         model.addAttribute("myReviews", reviewService.reviewsByMember(member.getId(), "default"));
 
@@ -125,18 +124,17 @@ public class MemberController {
         }
 
         Member member = memberService.get(loginMember);
-        String substring = null;
+        String filepath = null;
 
         if (multipartFile != null) {
-            String picturePath = fileStore.storePicture(multipartFile);
-            System.out.println("picturePath = " + picturePath);
-            int profiles = picturePath.indexOf("profiles");
-            System.out.println("profiles = " + profiles);
-            substring = picturePath.substring(profiles - 1);
-            System.out.println("substring = " + substring);
+            String pictureFullPath = fileStore.storePicture(multipartFile);
+            log.info("pictureFullPath={}", pictureFullPath);
+            int profiles = pictureFullPath.indexOf("profiles");
+            filepath = pictureFullPath.substring(profiles - 1);
+            log.info("filepath={}", filepath);
         }
 
-        memberService.update(member, memberUpdateDto.getName(), substring);
+        memberService.update(member, memberUpdateDto.getName(), filepath);
         httpSession.setAttribute(SessionConst.LOGIN_MEMBER, new LoginMember(member));
         map.put("result", "success");
         return map;

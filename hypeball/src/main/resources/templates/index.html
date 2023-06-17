@@ -1,25 +1,184 @@
 <!DOCTYPE html>
 <html lang="en">
 <head th:replace="~{fragments/header :: header(~{::link}, ~{:://head/script})}">
-    <link />
-    <script src=""></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+    <link href="/css/home.css" rel="stylesheet"/>
+    <script src="/js/home.js"></script>
 </head>
 <body class="nav-top">
 <nav th:replace="~{fragments/nav :: nav}"></nav>
-<a href="/logout" class="btn active">로그아웃</a>
-<a href="https://kauth.kakao.com/oauth/logout?client_id=e073bdd8fc4dac5f02fd9eb5657f01a5&logout_redirect_uri=http://localhost:8080/oauth2/kakao/logout&response_type=code" class="btn active">카카오 로그아웃</a>
-<br>
-<a href="/oauth2/loginInfo" class="btn active">loginInfo</a>
-<a href="/oauth2/sessionInfo" class="btn active">sessionInfo</a>
-<a href="/oauth2/session/clear" class="btn active">sessionClear</a>
-<br>
-<h1 th:if="${session.loginMember} != null" th:text="${session.loginMember.name}"></h1>
-<br>
-<a href="/map/home" class="btn active">mapHome</a>
-<a href="/member/myPage" class="btn active">myPage</a>
-
-
+<div class="main-img-wrap">
+    <img class="main-img" src="/image/highball5.jpg" width="100%">
+    <div class="main-text">
+        <img src="/image/movingtext1.png" id="moving-img-1" class="moving-img d-block">
+        <img src="/image/movingtext2.png" id="moving-img-2" class="moving-img d-none">
+        <img src="/image/movingtext3.png" id="moving-img-3" class="moving-img d-none">
+        <img src="/image/movingtext4.png" id="moving-img-4" class="moving-img d-none">
+        <img src="/image/movingtext5.png" id="moving-img-5" class="moving-img d-none">
+        <img src="/image/movingtext6.png" id="moving-img-6" class="moving-img d-none">
+        <img src="/image/text1.png" class="d-block">
+        <div class="d-flex search-wrap">
+            <input type="text" class="form-control search-input" placeholder=" 검색어를 입력하세요" style="ime-mode:active">
+            <button class=" btn search-btn"><i class="bi bi-search text-white"></i></button>
+        </div>
+    </div>
+</div>
+<div class="row w-100">
+    <div class="col-lg-8 col-md-12 p-5">
+        <div class="col-12">
+            <figure class="card mt-5">
+                <img src="/image/gangnam.jpg" alt="sample36" height="155px" onclick="location.href='/map/home'" style="cursor: pointer">
+                <h3 style="top: 40%; left: 35%">하이볼 명가 전체보기</h3>
+                <a href="/map/home"></a>
+            </figure>
+        </div>
+        <div class="d-flex gap-2 mt-5">
+            <img src="/image/lemon-slice.png" height="25px">
+            <h4>지역별 하이볼 명가</h4>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-md-6 mb-3">
+                <figure class="card">
+                    <img src="/image/gangnam.jpg" height="155px" />
+                    <figcaption onclick="location.href='#'">
+                        <div>
+                            <h4>회사원들의 성지</h4>
+                            <h4>존맛탱구리</h4>
+                        </div>
+                        <div>
+                            <h3>강남</h3>
+                        </div>
+                    </figcaption>
+                </figure>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <figure class="card">
+                    <img src="/image/deadheart.png" height="155px"/>
+                    <figcaption>
+                        <div>
+                            <h4>힙한 동네</h4>
+                            <h4>i-town</h4>
+                        </div>
+                        <div>
+                            <h3>이태원</h3>
+                        </div>
+                    </figcaption>
+                    <a href="#"></a>
+                </figure>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <figure class="card">
+                    <img src="/image/gangnam.jpg" height="155px" />
+                    <figcaption>
+                        <div>
+                            <h4>젊음의 거리</h4>
+                            <h4>새로운 마을</h4>
+                        </div>
+                        <div>
+                            <h3>신촌</h3>
+                        </div>
+                    </figcaption>
+                    <a href="#"></a>
+                </figure>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <figure class="card">
+                    <img src="/image/gangnam.jpg" height="155px"/>
+                    <figcaption>
+                        <div>
+                            <h4>예술이 가득한</h4>
+                            <h4>버스킹 소리가 들리는</h4>
+                        </div>
+                        <div>
+                            <h3>홍대</h3>
+                        </div>
+                    </figcaption>
+                    <a href="#"></a>
+                </figure>
+            </div>
+        </div>
+        <div class="d-flex gap-2 mt-4">
+            <img src="/image/lemon-slice.png" height="25px">
+            <h4>통계로 보는 하이볼 명가</h4>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-md-6 mb-3">
+                <figure class="card">
+                    <img src="/image/gangnam.jpg" height="155px" />
+                    <figcaption>
+                        <div>
+                            <h4>💬💬💬</h4>
+                            <h4>TOP 10</h4>
+                        </div>
+                        <div>
+                            <h3>리뷰 많은 순</h3>
+                        </div>
+                    </figcaption>
+                    <a href="#"></a>
+                </figure>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <figure class="card">
+                    <img src="/image/gangnam.jpg" height="155px" />
+                    <figcaption>
+                        <div>
+                            <h4>NEW✨</h4>
+                            <h4>신규</h4>
+                        </div>
+                        <div>
+                            <h3>새로 등록된 곳</h3>
+                        </div>
+                    </figcaption>
+                    <a href="#"></a>
+                </figure>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <figure class="card">
+                    <img src="/image/gangnam.jpg" height="155px"/>
+                    <figcaption>
+                        <div>
+                            <h4>즐겨찾기💖</h4>
+                            <h4>TOP 10</h4>
+                        </div>
+                        <div>
+                            <h3>찜 많은 순</h3>
+                        </div>
+                    </figcaption>
+                    <a href="#"></a>
+                </figure>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <figure class="card">
+                    <img src="/image/gangnam.jpg" height="155px"/>
+                    <figcaption>
+                        <div>
+                            <h4>⭐⭐⭐⭐⭐</h4>
+                            <h4>TOP 10</h4>
+                        </div>
+                        <div>
+                            <h3>별점 높은순</h3>
+                        </div>
+                    </figcaption>
+                    <a href="#"></a>
+                </figure>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-12 p-5">
+        <div class="d-flex gap-2">
+            <img src="/image/highballMaker.png" height="25px">
+            <h4>하입-볼 소식</h4>
+        </div>
+        <div class="card text-bg-dark">
+            <img src="/image/represent-image.png" class="card-img" alt="...">
+<!--            <div class="card-img-overlay">-->
+<!--                <h5 class="card-title">Card title</h5>-->
+<!--                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>-->
+<!--                <p class="card-text"><small>Last updated 3 mins ago</small></p>-->
+<!--            </div>-->
+        </div>
+    </div>
+</div>
 <footer th:replace="~{fragments/footer :: footer}"></footer>
 </body>
-
 </html>
