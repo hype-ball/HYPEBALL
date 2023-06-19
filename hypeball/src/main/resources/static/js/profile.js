@@ -21,8 +21,6 @@ function editMode() {
     $('#profileEditBtn').toggleClass('show');
     $('#profileSaveBtn').toggleClass('hide');
     $('#profileSaveBtn').toggleClass('show');
-    $("input[name='picture']").toggleClass('hide');
-    $("input[name='picture']").toggleClass('show');
 
     $(".btn-upload").toggleClass('hide');
     $(".btn-upload").toggleClass('show');
@@ -39,18 +37,19 @@ $("#profileSaveBtn").on("click", function () {
     var inputPicture = $("input[name='picture']");
     var newPic = inputPicture[0].files[0];
 
-
     let newNick = {
         name : $("input[name='name']").val()
     }
 
-    form.append("picture", newPic);
+    if (newPic != null) {
+        form.append("picture", newPic);
+    }
     form.append("nickname", new Blob([JSON.stringify(newNick)], {type:"application/json"}));
 
     $.ajax({
         url: '/member/updateProfile',
         type: 'POST',
-        async: false,
+        // async: false,
         data: form,
         contentType: false,
         processData: false,
@@ -59,7 +58,7 @@ $("#profileSaveBtn").on("click", function () {
 
             if (data.result === "success") {
                 console.log("success");
-                window.location.reload();
+                // window.location.reload();
             } else if (data.result === "valid") {
                 console.log("valid")
                 for (let i in data.valid) {
