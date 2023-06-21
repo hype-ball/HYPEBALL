@@ -1,5 +1,6 @@
 package com.project.hypeball.controller;
 
+import com.nimbusds.oauth2.sdk.http.HTTPRequest;
 import com.project.hypeball.config.auth.dto.LoginMember;
 import com.project.hypeball.domain.Member;
 import com.project.hypeball.dto.FieldErrorDto;
@@ -12,6 +13,7 @@ import com.project.hypeball.service.ReviewService;
 import com.project.hypeball.service.StoreLikeService;
 import com.project.hypeball.web.FileStore;
 import com.project.hypeball.web.SessionConst;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -93,7 +95,9 @@ public class MemberController {
     public Map<String, Object> updateProfile(@Validated @RequestPart(value = "nickname", required = false) MemberUpdateDto memberUpdateDto, BindingResult bindingResult,
                                              @RequestPart(value = "picture", required = false) MultipartFile multipartFile,
                                              @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember,
-                                             HttpServletResponse response, HttpSession httpSession) throws IOException {
+                                             HttpServletResponse response, HttpServletRequest request, HttpSession httpSession) throws IOException {
+
+        System.out.println("MemberController.updateProfile");
 
         if (loginMember == null) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "로그인 정보가 필요합니다.");
@@ -136,7 +140,12 @@ public class MemberController {
 
         memberService.update(member, memberUpdateDto.getName(), filepath);
         httpSession.setAttribute(SessionConst.LOGIN_MEMBER, new LoginMember(member));
+
+        System.out.println("response STATUS : " + response.getStatus());
+
         map.put("result", "success");
         return map;
     }
 }
+
+

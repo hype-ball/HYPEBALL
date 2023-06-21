@@ -2,9 +2,11 @@ package com.project.hypeball.service;
 
 import com.project.hypeball.domain.Store;
 import com.project.hypeball.dto.MarkerDto;
+import com.project.hypeball.dto.MarkerStarRankDto;
 import com.project.hypeball.dto.StoreSaveForm;
 import com.project.hypeball.dto.StoreUpdateForm;
 import com.project.hypeball.repository.StoreRepository;
+import com.querydsl.core.Tuple;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,5 +45,9 @@ public class StoreService {
     @Transactional
     public void delete(Long id) {
         storeRepository.delete(get(id));
+    }
+
+    public List<MarkerStarRankDto> findRanksByStar(int limit) {
+        return storeRepository.findRanksByStar(limit);
     }
 }

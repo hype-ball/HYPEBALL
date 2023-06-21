@@ -1,7 +1,7 @@
 #map {
     width:100%;
     height:100vh;
-    position: static
+    /*position: static*/
 }
 
 .customoverlay {
@@ -54,3 +54,38 @@
     background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')
 }
 
+#board-wrap {
+    position: absolute;
+    top: 0;
+    right: 30px;
+    z-index: 1000;
+    overflow-y: auto;
+    width: 300px;
+    max-height: 100%;
+}
+
+#board-wrap::-webkit-scrollbar {
+    display: none;
+}
+
+.top-panel {
+    padding-top: 4vw;
+}
+
+.board-label {
+    text-align: center;
+    /*font-size: 18px;*/
+}
+
+.top-board {
+    cursor : pointer;
+    word-break : keep-all;
+    background-color: white;
+    min-width: 10vw;
+    max-width: 30vw;
+    height: 100px;
+}
+
+.focused {
+    background-color: #f7cd63;
+}
