@@ -51,8 +51,7 @@ public class MapController {
 
   @GetMapping("/rank/star")
   public String mapOfRanks(Model model) {
-
-
+    model.addAttribute("pointList", pointService.findAll());
     return "map";
   }
 
@@ -60,8 +59,7 @@ public class MapController {
   @PostMapping("/rank/star")
   public List<MarkerStarRankDto> ranksByStar(Model model) {
 
-    List<MarkerStarRankDto> ranksByStar = storeService.findRanksByStar(4);
-
+    List<MarkerStarRankDto> ranksByStar = storeService.findRanksByStar(10);
     return ranksByStar;
   }
 }

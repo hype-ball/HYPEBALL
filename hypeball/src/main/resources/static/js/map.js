@@ -24,14 +24,27 @@ $(document).ready(function() {
     const region = url.substring(i+1)
 
     if (region === 'gangnam') {
-        // mapOption = {
-        //     center: new kakao.maps.LatLng(37.5076636999999, 127.0405894), // 지도의 중심좌표
-        //     level: 7// 지도의 확대 레벨
-        // };
         mapOption.center = new kakao.maps.LatLng(37.5076636999999, 127.0405894);
         mapOption.level = 6;
         map = new kakao.maps.Map(mapContainer, mapOption);
+    }
 
+    if (region === 'yongsan') {
+        mapOption.center = new kakao.maps.LatLng(37.5314, 126.9799); // 용산역
+        mapOption.level = 5;
+        map = new kakao.maps.Map(mapContainer, mapOption);
+    }
+
+    if (region === 'jamsil') {
+        mapOption.center = new kakao.maps.LatLng(37.5133, 127.1001); // 잠실역
+        mapOption.level = 6;
+        map = new kakao.maps.Map(mapContainer, mapOption);
+    }
+
+    if (region === 'hongdae') {
+        mapOption.center = new kakao.maps.LatLng(37.5575, 126.9245); // 홍대입구역
+        mapOption.level = 5;
+        map = new kakao.maps.Map(mapContainer, mapOption);
     }
 
 
