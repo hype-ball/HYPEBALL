@@ -133,6 +133,7 @@ public class ReviewController {
         //  리뷰 저장
         Review review = reviewService.save(reviewAddDto, store, member, attachedFiles);
 
+
         map.put("result", "success");
         return map;
     }
@@ -142,7 +143,7 @@ public class ReviewController {
      * 작성자로 리뷰찾기
      */
     @ResponseBody
-    @GetMapping("/test/")
+    @GetMapping("/writer/")
     public List<MyReviewDto> reviewsByWriter(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember,
                                              @RequestParam("sort") String sort) {
 

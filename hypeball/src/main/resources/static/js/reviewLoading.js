@@ -47,7 +47,7 @@ const myReviewAjax = (sortParam) => {
         sort : sortParam
     }
     $.ajax({
-        url: '/reviews/test/',
+        url: '/reviews/writer/',
         type: 'GET',
         data : reviewSortCond,
         success: function (myReviews) {

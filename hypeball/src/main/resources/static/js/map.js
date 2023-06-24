@@ -4,6 +4,8 @@ var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         level: 7 // 지도의 확대 레벨
     };
 
+console.log("지도만들엉엉")
+
 // 지도를 생성합니다.
 var map = new kakao.maps.Map(mapContainer, mapOption);
 
@@ -16,7 +18,37 @@ $(document).ready(function() {
 
     const url = window.location.href
 
-    if (url.endsWith("/map/home")) {
+    const i = window.location.href.search('=')
+    console.log(url.substring(i + 1));
+
+    const region = url.substring(i+1)
+
+    if (region === 'gangnam') {
+        mapOption.center = new kakao.maps.LatLng(37.5076636999999, 127.0405894);
+        mapOption.level = 6;
+        map = new kakao.maps.Map(mapContainer, mapOption);
+    }
+
+    if (region === 'yongsan') {
+        mapOption.center = new kakao.maps.LatLng(37.5314, 126.9799); // 용산역
+        mapOption.level = 5;
+        map = new kakao.maps.Map(mapContainer, mapOption);
+    }
+
+    if (region === 'jamsil') {
+        mapOption.center = new kakao.maps.LatLng(37.5133, 127.1001); // 잠실역
+        mapOption.level = 6;
+        map = new kakao.maps.Map(mapContainer, mapOption);
+    }
+
+    if (region === 'hongdae') {
+        mapOption.center = new kakao.maps.LatLng(37.5575, 126.9245); // 홍대입구역
+        mapOption.level = 5;
+        map = new kakao.maps.Map(mapContainer, mapOption);
+    }
+
+
+    if (url.includes("/map/home")) {
         $.ajax({
             url: '/map/home',
             type: 'POST',
@@ -36,6 +68,43 @@ $(document).ready(function() {
                 for (var i = 0; i < data.length; i++) {
                     createMarker(data[i]);
                 }
+            },
+            error: function () {
+            }
+        });
+    } else if (url.endsWith("/rank/star")) {
+        $.ajax({
+            url: '/map/rank/star',
+            type: 'POST',
+            success: function (data) {
+                const boards = $('#top-boards')
+
+                let centerLat = 0;
+                let centerLng = 0;
+
+                for (var i = 0; i < data.length; i++) {
+                    centerLat += data[0].lat;
+                    centerLng += data[0].lng;
+                    createMarker(data[i]);
+                }
+
+                mapOption.center = new kakao.maps.LatLng(centerLat / data.length, centerLng / data.length)
+                mapOption.level = 7;
+                map = new kakao.maps.Map(mapContainer, mapOption);
+
+                boards.before('<div class="board-label bg-warning rounded p-2 fixed .fw-2">평균 별점 TOP 10</div>');
+
+                for (var i = 0; i < data.length; i++) {
+                    boards.append('<div class="top-board mb-3 mt-3 shadow rounded pt-3 ps-2" onclick="'
+                        + 'moveFocus(' + data[i].lat + ',' +  data[i].lng + ',this' + ')"><h4>' + data[i].name + '</h4>' +
+                        '<p>' + data[i].address + '</p></div>')
+                }
+
+                for (var i = 0; i < data.length; i++) {
+                    createMarker(data[i]);
+                }
+
+
             },
             error: function () {
             }
@@ -66,6 +135,17 @@ function createMarker(data) {
             '</div>',
         yAnchor: 1
     });
+}
+
+function moveFocus(lat, lng, target) {
+    var moveLatLon = new kakao.maps.LatLng(lat, lng);
+
+    console.log(target)
+
+    $('#top-boards').children().removeClass("focused");
+    target.className += " focused"
+
+    map.panTo(moveLatLon);
 }
 
 

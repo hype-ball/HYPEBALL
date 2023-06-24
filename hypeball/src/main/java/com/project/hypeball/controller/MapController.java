@@ -3,8 +3,10 @@ package com.project.hypeball.controller;
 import com.nimbusds.jose.shaded.gson.Gson;
 import com.project.hypeball.domain.Store;
 import com.project.hypeball.dto.MarkerDto;
+import com.project.hypeball.dto.MarkerStarRankDto;
 import com.project.hypeball.service.PointService;
 import com.project.hypeball.service.StoreService;
+import com.querydsl.core.Tuple;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -45,5 +47,19 @@ public class MapController {
       storeList.add(new MarkerDto(store.getId(), store.getName(), store.getLat(), store.getLng()));
     }
     return storeList;
+  }
+
+  @GetMapping("/rank/star")
+  public String mapOfRanks(Model model) {
+    model.addAttribute("pointList", pointService.findAll());
+    return "map";
+  }
+
+  @ResponseBody
+  @PostMapping("/rank/star")
+  public List<MarkerStarRankDto> ranksByStar(Model model) {
+
+    List<MarkerStarRankDto> ranksByStar = storeService.findRanksByStar(10);
+    return ranksByStar;
   }
 }
