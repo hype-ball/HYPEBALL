@@ -13,7 +13,14 @@
 <nav th:replace="~{fragments/nav :: nav}"></nav>
 <!--<div style="background-color: #f7cd63; position: absolute; z-index: 100"><h1>하입볼</h1></div>-->
 <div id="map"></div>
-
+<!--<div style="height: 100%; width: 100%;">-->
+  <div id="board-wrap">
+    <div class="top-panel">
+      <ul id="top-boards">
+      </ul>
+    </div>
+  </div>
+<!--</div>-->
 <!--모달-->
 <div th:replace="~{fragments/storeModal :: storeModal(~{::form})}">
   <form>

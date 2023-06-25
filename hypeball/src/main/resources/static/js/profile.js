@@ -44,6 +44,7 @@ $("#profileSaveBtn").on("click", function () {
     if (newPic != null) {
         form.append("picture", newPic);
     }
+
     form.append("nickname", new Blob([JSON.stringify(newNick)], {type:"application/json"}));
 
     $.ajax({
@@ -56,9 +57,13 @@ $("#profileSaveBtn").on("click", function () {
         enctype: 'multipart/form-data',
         success: function (data) {
 
+            console.log("window.location.href ; " + window.location.href)
+
             if (data.result === "success") {
                 console.log("success");
-                // window.location.reload();
+
+                window.location.href='/member/myPage';
+
             } else if (data.result === "valid") {
                 console.log("valid")
                 for (let i in data.valid) {
