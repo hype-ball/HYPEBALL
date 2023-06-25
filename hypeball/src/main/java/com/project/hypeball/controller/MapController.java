@@ -3,7 +3,7 @@ package com.project.hypeball.controller;
 import com.nimbusds.jose.shaded.gson.Gson;
 import com.project.hypeball.domain.Store;
 import com.project.hypeball.dto.MarkerDto;
-import com.project.hypeball.dto.MarkerStarRankDto;
+import com.project.hypeball.dto.MarkerRankDto;
 import com.project.hypeball.service.PointService;
 import com.project.hypeball.service.StoreService;
 import com.querydsl.core.Tuple;
@@ -49,17 +49,44 @@ public class MapController {
     return storeList;
   }
 
-  @GetMapping("/rank/star")
-  public String mapOfRanks(Model model) {
+  @GetMapping("/rank/{keyword}")
+  public String mapOfRanks(@PathVariable("keyword") String keyword, Model model) {
+
+//    if (!keyword.equals("star") && !keyword.equals("like") && !keyword.equals("review")) return "error";
+
     model.addAttribute("pointList", pointService.findAll());
     return "map";
   }
 
   @ResponseBody
-  @PostMapping("/rank/star")
-  public List<MarkerStarRankDto> ranksByStar(Model model) {
+  @PostMapping("/rank/{keyword}")
+  public List<MarkerRankDto> ranksByStar(@PathVariable("keyword") String keyword) {
 
-    List<MarkerStarRankDto> ranksByStar = storeService.findRanksByStar(10);
-    return ranksByStar;
+    if (keyword.equals("star")) return storeService.findRanksByStar(10);
+    if (keyword.equals("like")) return storeService.findRanksByLike(10);
+    if (keyword.equals("review")) return storeService.findRanksByReview(10);
+
+    return null;
   }
+
+//  @ResponseBody
+//  @PostMapping("/rank/star")
+//  public List<MarkerRankDto> ranksByStar() {
+//
+//    return storeService.findRanksByStar(10);
+//  }
+//
+//  @ResponseBody
+//  @PostMapping("/rank/like")
+//  public List<MarkerRankDto> ranksByLike() {
+//
+//    return storeService.findRanksByLike(10);
+//  }
+//
+//  @ResponseBody
+//  @PostMapping("/rank/review")
+//  public List<MarkerRankDto> ranksByReview() {
+//
+//    return storeService.findRanksByReview(10);
+//  }
 }

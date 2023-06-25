@@ -2,6 +2,7 @@ package com.project.hypeball.service;
 
 import com.project.hypeball.domain.Store;
 import com.project.hypeball.dto.CountDto;
+import com.project.hypeball.dto.MarkerRankDto;
 import com.project.hypeball.dto.StatisticDto;
 import com.project.hypeball.repository.ReviewRepository;
 import com.project.hypeball.repository.StoreRepository;
@@ -17,11 +18,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StatisticQueryService {
 
-    private final ReviewRepository reviewRepository;
     private final StoreRepository storeRepository;
 
     public List<CountDto> reviewManyStore() {
         return storeRepository.manyReviewStore();
+    }
+    public List<MarkerRankDto> findRanksByReview() {
+        return storeRepository.findRanksByReview(PageRequest.of(0, 10));
     }
 
     public List<StatisticDto> likeManyStore() {
@@ -30,6 +33,10 @@ public class StatisticQueryService {
 
     public List<Store> likeManyStore_method() {
         return storeRepository.findFirst10ByTotalLikeCountGreaterThanOrderByTotalLikeCountDesc(0);
+    }
+
+    public List<MarkerRankDto> findRanksByLike() {
+        return storeRepository.findRanksByLike(PageRequest.of(0, 10));
     }
 
     public List<StatisticDto> highStarStore() {

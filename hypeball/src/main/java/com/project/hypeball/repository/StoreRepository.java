@@ -2,6 +2,7 @@ package com.project.hypeball.repository;
 
 import com.project.hypeball.domain.Store;
 import com.project.hypeball.dto.CountDto;
+import com.project.hypeball.dto.MarkerRankDto;
 import com.project.hypeball.dto.StatisticDto;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -25,6 +26,10 @@ public interface StoreRepository extends JpaRepository<Store, Long>, StoreReposi
             " from Store s where s.totalLikeCount > 0 order by s.totalLikeCount DESC")
     List<StatisticDto> manyLikeStore(Pageable pageable);
 
+    @Query(value = "select new com.project.hypeball.dto.MarkerRankDto(s.id, s.name, s.address, s.lat, s.lng, sr.starAvg, s.totalLikeCount)" +
+            " from Store s join StarRating sr on s.starRating.id = sr.id where s.totalLikeCount > 0 order by s.totalLikeCount DESC")
+    List<MarkerRankDto> findRanksByLike(Pageable pageable);
+
     // native query 사용
     @Query(value = "select COUNT(*) as count, r.store_id as storeId, s.name as name" +
             " from store s" +
@@ -33,8 +38,16 @@ public interface StoreRepository extends JpaRepository<Store, Long>, StoreReposi
             " order by 1 DESC LIMIT 10", nativeQuery = true)
     List<CountDto> manyReviewStore();
 
+    @Query(value = "select new com.project.hypeball.dto.MarkerRankDto(s.id, s.name, s.address, s.lat, s.lng, sr.starAvg, s.totalLikeCount, count(r))" +
+            " from Store s" +
+            " join StarRating sr on s.starRating.id = sr.id" +
+            " join Review r on s.id = r.store.id" +
+            " group by r.store.id" +
+            " order by count(r) DESC")
+    List<MarkerRankDto> findRanksByReview(Pageable pageable);
+
     @Query(value = "select new com.project.hypeball.dto.StatisticDto(s.id, s.name, sr.starAvg)" +
-            " from Store s join s.starRating sr on s.starRating.id = sr.id where s.starRating.starAvg > 0 order by sr.starAvg DESC")
+            " from Store s join StarRating sr on s.starRating.id = sr.id where s.starRating.starAvg > 0 order by sr.starAvg DESC")
     List<StatisticDto> highStarStore(Pageable pageable);
 
 }
