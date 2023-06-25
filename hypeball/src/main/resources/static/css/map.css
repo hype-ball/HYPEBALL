@@ -60,7 +60,6 @@
     right: 30px;
     z-index: 1000;
     overflow-y: auto;
-    width: 300px;
     max-height: 100%;
 }
 
@@ -69,12 +68,11 @@
 }
 
 .top-panel {
-    padding-top: 4vw;
+    padding-top: 65px;
 }
 
 .board-label {
     text-align: center;
-    /*font-size: 18px;*/
 }
 
 .top-board {
@@ -82,10 +80,14 @@
     word-break : keep-all;
     background-color: white;
     min-width: 10vw;
-    max-width: 30vw;
-    height: 100px;
+    align-items: center;
+}
+
+.top-board-content {
+    border-left: solid white 1px;
 }
 
 .focused {
-    background-color: #f7cd63;
+    background-color: #bdbdbd;
+    color: white;
 }

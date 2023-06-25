@@ -3,6 +3,7 @@ package com.project.hypeball.service;
 import com.project.hypeball.domain.Review;
 import com.project.hypeball.domain.Store;
 import com.project.hypeball.dto.CountDto;
+import com.project.hypeball.dto.MarkerRankDto;
 import com.project.hypeball.dto.StatisticDto;
 import com.project.hypeball.repository.ReviewRepository;
 import com.project.hypeball.repository.StoreRepository;
@@ -67,6 +68,22 @@ class StatisticQueryServiceTest {
             System.out.println("store.getId() = " + store.getId());
             System.out.println("store.getName() = " + store.getName());
             System.out.println("store.getAddress() = " + store.getAddress());
+        }
+    }
+
+    @Test
+    public void findRanksByLike() throws Exception {
+        List<MarkerRankDto> markerRankDtos = service.findRanksByLike();
+        for (MarkerRankDto markerRankDto : markerRankDtos) {
+            System.out.println("markerRankDto = " + markerRankDto);
+        }
+    }
+
+    @Test
+    public void findRanksByReview() throws Exception {
+        List<MarkerRankDto> markerRankDtos = service.findRanksByReview();
+        for (MarkerRankDto markerRankDto : markerRankDtos) {
+            System.out.println("markerRankDto = " + markerRankDto);
         }
     }
 
