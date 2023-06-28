@@ -70,7 +70,6 @@ const createModal = (storeId) => {
     }
     $.ajax({
         url: '/reviews/' + storeId,
-        async: true,
         type: 'GET',
         data : reviewSortCond,
         success: function (data) {

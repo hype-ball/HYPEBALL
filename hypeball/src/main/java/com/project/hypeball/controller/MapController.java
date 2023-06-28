@@ -52,7 +52,7 @@ public class MapController {
   @GetMapping("/rank/{keyword}")
   public String mapOfRanks(@PathVariable("keyword") String keyword, Model model) {
 
-//    if (!keyword.equals("star") && !keyword.equals("like") && !keyword.equals("review")) return "error";
+//    if (!keyword.equals("star") && !keyword.equals("like") && !keyword.equals("review") && !keyword.equals("new")) return "error";
 
     model.addAttribute("pointList", pointService.findAll());
     return "map";
@@ -65,9 +65,36 @@ public class MapController {
     if (keyword.equals("star")) return storeService.findRanksByStar(10);
     if (keyword.equals("like")) return storeService.findRanksByLike(10);
     if (keyword.equals("review")) return storeService.findRanksByReview(10);
+    if (keyword.equals("new")) return storeService.findRanksByNew(10);
 
     return null;
   }
+
+  @ResponseBody
+  @PostMapping("/home/{region}")
+  public List<MarkerDto> markerByRegion(@PathVariable("region") String region) {
+
+    List<Store> list;
+    String regionKr = null;
+
+    if (region.equals("gangnam")) {
+      regionKr = "강남";
+    } else if (region.equals("yongsan")) {
+      regionKr = "용산";
+    } else if (region.equals("jamsil")) {
+      regionKr = "송파";
+    } else if (region.equals("hongdae")) {
+      regionKr = "마포";
+    }
+
+    list = storeService.findByRegion(regionKr);
+    List<MarkerDto> storeList = new ArrayList<>();
+    for (Store store : list) {
+      storeList.add(new MarkerDto(store.getId(), store.getName(), store.getLat(), store.getLng()));
+    }
+    return storeList;
+  }
+
 
 //  @ResponseBody
 //  @PostMapping("/rank/star")
