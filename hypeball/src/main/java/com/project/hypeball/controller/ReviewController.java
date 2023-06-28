@@ -56,7 +56,8 @@ public class ReviewController {
         }
 
         Store store = storeService.getFetch(storeId);
-        map.put("store", store);
+        StoreDto storeDto = new StoreDto(store);
+        map.put("store", storeDto);
 
         Page<ReviewDto> reviewDtos = reviewService.reviewsPaging(storeId, sort, pageable);
         map.put("reviews", reviewDtos);

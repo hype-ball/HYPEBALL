@@ -70,6 +70,7 @@ const createModal = (storeId) => {
     }
     $.ajax({
         url: '/reviews/' + storeId,
+        async: true,
         type: 'GET',
         data : reviewSortCond,
         success: function (data) {
@@ -122,7 +123,7 @@ function storeInfo(store) {
     $("#storeAddr").text("📍 "+ store.address);
     $("#storeCategory").text(store.category.name);
     $("#storeMenu").text("🐽 " + store.menu);
-    $("#storeStarAvg").text(store.starRating.starAvg.toFixed(1));
+    $("#storeStarAvg").text(store.starAvg.toFixed(1));
     $("#storeLikeCount").text(store.totalLikeCount);
 }
 
