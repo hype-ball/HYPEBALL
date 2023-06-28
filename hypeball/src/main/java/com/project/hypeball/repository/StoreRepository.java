@@ -50,4 +50,10 @@ public interface StoreRepository extends JpaRepository<Store, Long>, StoreReposi
             " from Store s join StarRating sr on s.starRating.id = sr.id where s.starRating.starAvg > 0 order by sr.starAvg DESC")
     List<StatisticDto> highStarStore(Pageable pageable);
 
+    @Query(value = "select new com.project.hypeball.dto.MarkerRankDto(s.id, s.name, s.address, s.lat, s.lng, sr.starAvg, s.totalLikeCount)" +
+            " from Store s join StarRating sr on s.starRating.id = sr.id order by s.id DESC")
+    List<MarkerRankDto> findRanksByNew(Pageable pageable);
+
+    List<Store> findByAddressContains(String address);
+
 }

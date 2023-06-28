@@ -59,4 +59,11 @@ public class StoreService {
     public List<MarkerRankDto> findRanksByLike(int limit) {
         return storeRepository.findRanksByLike(PageRequest.of(0, limit));
     }
+
+    public List<MarkerRankDto> findRanksByNew(int limit) {
+        return storeRepository.findRanksByNew(PageRequest.of(0, limit));
+    }
+
+    public List<Store> findByRegion(String address) {return storeRepository.findByAddressContains(address);}
+
 }
