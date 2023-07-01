@@ -292,9 +292,9 @@ function createTag(points, drinks) {
         point += "<span style='background-color: ";
 
         if (points[i].count >= 3) {
-            point += "#00CC66'"
+            point += "#FD9595'"
         } else {
-            point += "#66FF99'"
+            point += "#FCCDCD'"
         }
         point +=
             "class='btn pe-none rounded-pill m-1'>" + points[i].pointName + "</span>"

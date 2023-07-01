@@ -4,12 +4,12 @@ var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         level: 7 // 지도의 확대 레벨
     };
 
-
 // 지도를 생성합니다.
 var map = new kakao.maps.Map(mapContainer, mapOption);
 
 // 마커 이미지의 이미지 주소입니다
-var imageSrc = '/image/Group 3.png', // 마커이미지의 주소입니다
+var imageSrc = '/image/marker_lemon.png', // 마커이미지의 주소입니다
+    changeImage = '/image/marker_pink.png',
     imageSize = new kakao.maps.Size(30, 50), // 마커이미지의 크기입니다
     imageOption = {offset: new kakao.maps.Point(17, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 
@@ -48,29 +48,12 @@ $(document).ready(function () {
             url: '/map/rank/' + keyword,
             type: 'POST',
             success: function (data) {
-                const boards = $('#top-boards')
 
                 mapOption.center = new kakao.maps.LatLng(data[0].lat, data[0].lng);
                 mapOption.level = 7;
                 map = new kakao.maps.Map(mapContainer, mapOption);
 
-                for (var i = 0; i < data.length; i++) {
-                    boards.append('' +
-                        '<div class="top-board my-3 shadow rounded d-flex p-2"' +
-                        ' onclick="moveFocus(' + data[i].lat + ',' + data[i].lng + ', this' + ')">' +
-                        '<div class="p-3 fs-5 text-center rounded">' + (i + 1) + '</div>' +
-                        '<div class="top-board-content py-3 ps-4 pe-3">' +
-                        '   <h4>' + data[i].name + '</h4>' +
-                        '   <p>' + data[i].address + '</p>' +
-                        '   <div class="d-flex gap-3">' +
-                        '       <div>⭐ 별점 ' + data[i].starAvg.toFixed(1) + '</div>' +
-                        '       <div>💖 찜 ' + data[i].likeCount + '</div>' +
-                        '       <div>💬 리뷰 ' + data[i].reviewCount + '</div>' +
-                        '   </div>' +
-                        '</div>' +
-                        '</div>')
-
-                }
+                createSideCard(data);
 
                 for (var i = 0; i < data.length; i++) {
                     createMarker(data[i]);
@@ -118,7 +101,11 @@ $(document).ready(function () {
     }
 });
 
+var mappingData = {},
+    selectedMarker = null;
+
 function createMarker(data) {
+
     // 마커 이미지를 생성합니다
     var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 
@@ -141,18 +128,65 @@ function createMarker(data) {
             '</div>',
         yAnchor: 1
     });
+
+    mappingData[data.storeId] = {marker, customOverlay};
 }
 
-function moveFocus(lat, lng, target) {
+function moveFocus(storeId, lat, lng, target) {
     var moveLatLon = new kakao.maps.LatLng(lat, lng);
-
-    console.log(target)
 
     $('#top-boards').children().removeClass("focused");
     target.className += " focused"
 
+    $('.customoverlay').removeClass("changeColor");
+    searchMarker(storeId);
+
+    map.setLevel(6);
     map.panTo(moveLatLon);
 }
+
+function searchMarker(storeId) {
+
+    var obj = mappingData[storeId];
+    if (!selectedMarker || selectedMarker !== obj.marker) {
+        // 클릭된 마커 객체가 null이 아니면
+        // 클릭된 마커의 이미지를 기본 이미지로 변경하고
+        !!selectedMarker && selectedMarker.marker.setImage(createMarkerImage(imageSrc))
+    }
+    var changeContent = obj.customOverlay.cc.replace("customoverlay", "customoverlay changeColor");
+
+    selectedMarker = obj;
+    obj.marker.setImage(createMarkerImage(changeImage));
+    obj.customOverlay.setContent(changeContent);
+    return selectedMarker;
+}
+
+// MakrerImage 객체를 생성하여 반환하는 함수입니다
+function createMarkerImage(changeImageSrc) {
+        return new kakao.maps.MarkerImage(changeImageSrc, imageSize, imageOption);
+}
+
+function createSideCard(data) {
+    const boards = $('#top-boards')
+    for (var i = 0; i < data.length; i++) {
+        boards.append(
+            '<div class="top-board my-3 shadow rounded d-flex p-2"' +
+            ' onclick="moveFocus(' + data[i].storeId + ',' + data[i].lat + ',' + data[i].lng + ', this' + ')">' +
+            '<div class="p-3 fs-5 text-center rounded">' + (i + 1) + '</div>' +
+            '<div class="top-board-content py-3 ps-4 pe-3">' +
+            '   <h4>' + data[i].name + '</h4>' +
+            '   <p>' + data[i].address + '</p>' +
+            '   <div class="d-flex gap-3">' +
+            '       <div>⭐ 별점 ' + data[i].starAvg.toFixed(1) + '</div>' +
+            '       <div>💖 찜 ' + data[i].likeCount + '</div>' +
+            '       <div>💬 리뷰 ' + data[i].reviewCount + '</div>' +
+            '   </div>' +
+            '</div>' +
+            '</div>')
+
+    }
+}
+
 
 
 

@@ -28,15 +28,13 @@
     font-size: 14px;
     font-weight: bold;
     overflow: hidden;
-    /*background: #F7CD63FF;*/
     background: #F7CD63FF url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;
-    /*F7CD63FF*/
 }
 
 .customoverlay .title {
     display: block;
     text-align: center;
-    background: #fff;
+    background: white;
     margin-right: 35px;
     padding: 10px 15px;
     font-size: 14px;
@@ -87,7 +85,20 @@
     border-left: solid white 1px;
 }
 
+/* side card */
+/* #6756BE , marker_click*/
+/* #6E12CB , marker_click1*/
+/* #A6A0D8 , marker_click2*/
+/* #F7CD63FF, yellow*/
+/* #EB6868, pink */
+/* #FFD400, lemon*/
+/* #EFA543, orange*/
 .focused {
-    background-color: #bdbdbd;
+    background-color: #EB6868;
     color: white;
+}
+
+/* custom overlay */
+.changeColor p {
+    background-color: #EB6868;
 }

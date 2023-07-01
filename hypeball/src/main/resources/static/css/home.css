@@ -70,6 +70,7 @@ figure.card img {
     vertical-align: top;
     -webkit-transition: opacity 0.35s;
     transition: opacity 0.35s;
+    filter: brightness(50%);
 }
 figure.card figcaption {
     position: absolute;
