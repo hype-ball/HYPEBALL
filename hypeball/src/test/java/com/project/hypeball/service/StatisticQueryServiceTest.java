@@ -1,20 +1,14 @@
 package com.project.hypeball.service;
 
-import com.project.hypeball.domain.Review;
 import com.project.hypeball.domain.Store;
 import com.project.hypeball.dto.CountDto;
-import com.project.hypeball.dto.MarkerRankDto;
+import com.project.hypeball.dto.MarkerCardDto;
 import com.project.hypeball.dto.StatisticDto;
-import com.project.hypeball.repository.ReviewRepository;
-import com.project.hypeball.repository.StoreRepository;
-import com.querydsl.core.Tuple;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class StatisticQueryServiceTest {
@@ -73,17 +67,17 @@ class StatisticQueryServiceTest {
 
     @Test
     public void findRanksByLike() throws Exception {
-        List<MarkerRankDto> markerRankDtos = service.findRanksByLike();
-        for (MarkerRankDto markerRankDto : markerRankDtos) {
-            System.out.println("markerRankDto = " + markerRankDto);
+        List<MarkerCardDto> markerCardDtos = service.findRanksByLike();
+        for (MarkerCardDto markerCardDto : markerCardDtos) {
+            System.out.println("markerRankDto = " + markerCardDto);
         }
     }
 
     @Test
     public void findRanksByReview() throws Exception {
-        List<MarkerRankDto> markerRankDtos = service.findRanksByReview();
-        for (MarkerRankDto markerRankDto : markerRankDtos) {
-            System.out.println("markerRankDto = " + markerRankDto);
+        List<MarkerCardDto> markerCardDtos = service.findRanksByReview();
+        for (MarkerCardDto markerCardDto : markerCardDtos) {
+            System.out.println("markerRankDto = " + markerCardDto);
         }
     }
 

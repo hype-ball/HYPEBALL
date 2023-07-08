@@ -1,10 +1,8 @@
 package com.project.hypeball.repository;
 
-import com.project.hypeball.domain.QStore;
 import com.project.hypeball.domain.Store;
-import com.project.hypeball.dto.MarkerRankDto;
-import com.project.hypeball.dto.QMarkerRankDto;
-import com.querydsl.core.Tuple;
+import com.project.hypeball.dto.MarkerCardDto;
+import com.project.hypeball.dto.QMarkerCardDto;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
@@ -37,12 +35,14 @@ public class StoreRepositoryImpl implements StoreRepositoryInterface {
   }
 
   @Override
-  public List<MarkerRankDto> findRanksByStar(int limit) {
+  public List<MarkerCardDto> findRanksByStar(int limit) {
 
-    List<MarkerRankDto> starRankDtos = queryFactory
-            .select(new QMarkerRankDto(store.id, store.name, store.address, store.lat, store.lng, store.starRating.starAvg, store.totalLikeCount))
+    List<MarkerCardDto> starRankDtos = queryFactory
+            .select(new QMarkerCardDto(store.id, store.name, store.address, store.lat, store.lng, store.starRating.starAvg, store.totalLikeCount, review.count()))
             .from(store)
+            .leftJoin(review).on(review.store.id.eq(store.id))
             .where(store.starRating.starAvg.gt(0))
+            .groupBy(store.id)
             .orderBy(store.starRating.starAvg.desc())
             .limit(limit)
             .fetch();

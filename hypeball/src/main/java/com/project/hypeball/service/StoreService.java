@@ -1,18 +1,17 @@
 package com.project.hypeball.service;
 
 import com.project.hypeball.domain.Store;
-import com.project.hypeball.dto.MarkerDto;
-import com.project.hypeball.dto.MarkerRankDto;
+import com.project.hypeball.dto.MarkerCardDto;
 import com.project.hypeball.dto.StoreSaveForm;
 import com.project.hypeball.dto.StoreUpdateForm;
 import com.project.hypeball.repository.StoreRepository;
-import com.querydsl.core.Tuple;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -48,22 +47,25 @@ public class StoreService {
         storeRepository.delete(get(id));
     }
 
-    public List<MarkerRankDto> findRanksByStar(int limit) {
+    public List<MarkerCardDto> findRanksByStar(int limit) {
         return storeRepository.findRanksByStar(limit);
     }
 
-    public List<MarkerRankDto> findRanksByReview(int limit) {
+    public List<MarkerCardDto> findRanksByReview(int limit) {
         return storeRepository.findRanksByReview(PageRequest.of(0, limit));
     }
 
-    public List<MarkerRankDto> findRanksByLike(int limit) {
+    public List<MarkerCardDto> findRanksByLike(int limit) {
         return storeRepository.findRanksByLike(PageRequest.of(0, limit));
     }
 
-    public List<MarkerRankDto> findRanksByNew(int limit) {
+    public List<MarkerCardDto> findRanksByNew(int limit) {
         return storeRepository.findRanksByNew(PageRequest.of(0, limit));
     }
 
     public List<Store> findByRegion(String address) {return storeRepository.findByAddressContains(address);}
 
+    public List<MarkerCardDto> search(String keyword) {
+        return storeRepository.search(keyword);
+    }
 }
