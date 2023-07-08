@@ -73,3 +73,15 @@
 .newheart {
     justify-items: center;
 }
+
+.text-left {
+    text-align: left !important;
+}
+
+.nav-list {
+    cursor : pointer;
+}
+
+.nav-list:hover {
+    filter: brightness(108%);
+}

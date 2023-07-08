@@ -19,30 +19,37 @@
             <!-- off canvas-->
             <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="static" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                 <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel" th:if="${session.loginMember} != null" th:text="${session.loginMember.name}">Offcanvas</h5>
+                    <h4 class="offcanvas-title" id="offcanvasNavbarLabel">MENU</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
-                <div class="offcanvas-body">
-                    <a href="/map/home" class="btn active">mapHome</a>
-                    <a href="/member/myPage" class="btn active">myPage</a>
+                <div class="offcanvas-body mt-2">
+                    <a href="/" class="btn text-left w-100 rounded fs-4 mt-3 nav-list" style="background-color: #FADF70" >🍋 메인으로 가기</a>
                     <br>
-                    <a href="/logout" class="btn active">로그아웃</a>
-                    <a href="https://kauth.kakao.com/oauth/logout?client_id=e073bdd8fc4dac5f02fd9eb5657f01a5&logout_redirect_uri=http://localhost:8080/oauth2/kakao/logout&response_type=code" class="btn active">카카오 로그아웃</a>
+                    <a href="/member/myPage" class="btn rounded-0 text-left w-100 rounded-top fs-4 mt-3 nav-list" style="background-color: #FADF70" >🍋 마이페이지</a>
+                    <div class="rounded-bottom" style="background-color: rgba(250,223,112,0.6)">
+                        <h5 onclick="location.href='/member/myPage'" class="ps-5 pt-2">내 정보 수정</h5>
+                        <h5 onclick="location.href='/member/myPage'" class="ps-5">찜한 하이볼 명가 관리</h5>
+                        <h5 onclick="location.href='/member/myPage'" class="ps-5 pb-2">내가 쓴 리뷰 관리</h5>
+                    </div>
+                    <a href="/map/home" class="btn text-left w-100 rounded fs-4 mt-3 nav-list" style="background-color: #FADF70" >🍋 하이볼 명가 전체 보기</a>
                     <br>
-                    <a href="/oauth2/loginInfo" class="btn active">loginInfo</a>
-                    <a href="/oauth2/sessionInfo" class="btn active">sessionInfo</a>
-                    <a href="/oauth2/session/clear" class="btn active">sessionClear</a>
-<!--                    <ul>-->
-<!--                        <li>-->
-<!--                            <img src="/image/lemon-slice.png" style="max-height: 100px">-->
-<!--                            home</li>-->
-<!--                        <li>-->
-<!--                            <img src="/image/lemon-slice.png" style="max-height: 100px">-->
-<!--                            MyPage</li>-->
-<!--                        <li>-->
-<!--                            <img src="/image/lemon-slice.png" style="max-height: 100px">-->
-<!--                            하이볼 명가 등록하기</li>-->
-<!--                    </ul>-->
+                    <a href="/member/myPage" class="btn rounded-0 text-left w-100 rounded-top fs-4 mt-3 nav-list" style="background-color: #FADF70" >🍋 지역별 명가 보기</a>
+                    <div class="nav-list ps-5 pt-2" style="background-color: rgba(250,223,112,0.6)">
+                        <span class="fs-5" onclick="location.href='/map/home?search=서울'">서울</span>
+                    </div>
+                    <div class="rounded-bottom nav-list ps-5 pb-2" style="background-color: rgba(250,223,112,0.6)">
+                        <span class="fs-5" onclick="location.href='/map/home?search=경기'">경기</span>
+                    </div>
+                    <a href="/member/myLike" class="btn text-left w-100 rounded fs-4 mt-3 nav-list" style="background-color: #FADF70" >🍋 찜한 명가 지도로 보기</a>
+                    <br><br><br><br><br>
+                    <div class="btn rounded-0 text-left w-100 rounded-top fs-5" style="background-color: #cccccc">💬 문의하기</div>
+                    <div class="rounded-bottom p-3" style="background-color: #d9d9d9">
+                        <p> 버그 제보 혹은 건의사항 있으시면
+                            <br>이메일로 문의바랍니다.
+                            <br>*****@google.com
+                            <br>*****@naver.com
+                        </p>
+                    </div>
                 </div>
             </div><!--/off canvas-->
         </div><!--/container-->

@@ -17,19 +17,7 @@ $(document).ready(function () {
 
     const url = window.location.href
 
-    if (url.endsWith("/map/home")) {
-        $.ajax({
-            url: '/map/home',
-            type: 'POST',
-            success: function (data) {
-                for (var i = 0; i < data.length; i++) {
-                    createMarker(data[i]);
-                }
-            },
-            error: function () {
-            }
-        });
-    } else if (url.endsWith("/member/myLike")) {
+    if (url.endsWith("/member/myLike")) {
         $.ajax({
             url: '/member/myLike',
             type: 'POST',
@@ -63,9 +51,8 @@ $(document).ready(function () {
             error: function () {
             }
         });
-    } else {
+    } else if (url.includes("/map/home?region")) {
 
-        console.log("지역")
         const i = window.location.href.search('=')
         console.log(url.substring(i + 1));
 
@@ -93,6 +80,44 @@ $(document).ready(function () {
             success: function (data) {
                 for (var i = 0; i < data.length; i++) {
                     createMarker(data[i]);
+                }
+            },
+            error: function () {
+            }
+        });
+    } else {
+
+        document.getElementById("searchBar").innerHTML =
+            '<div class="d-flex search-wrap">\n' +
+            '  <input type="text" name="search" class="form-control search-input" placeholder=" 검색어를 입력하세요" style="ime-mode:active">\n' +
+            '  <button type="submit" class="btn search-btn"><i class="bi bi-search"></i></button>\n' +
+            '</div>';
+
+        let search = null;
+        if (url.includes("/map/home?search")) {
+            const i = window.location.href.search('=')
+
+            search = decodeURI(url.substring(i + 1));
+            console.log(search);
+        }
+
+        let searchForm = {
+            keyword : search
+        }
+        console.log("keyword=" +searchForm.keyword)
+
+        $.ajax({
+            url: '/map/home',
+            type: 'POST',
+            data: searchForm,
+            success: function (data) {
+                for (var i = 0; i < data.marker.length; i++) {
+                    createMarker(data.marker[i]);
+                }
+                console.log(data.search)
+                if (data.search != null) {
+                    createSideCard(data.search)
+                    $('input[name="search"]').val(data.keyword);
                 }
             },
             error: function () {
@@ -168,6 +193,12 @@ function createMarkerImage(changeImageSrc) {
 
 function createSideCard(data) {
     const boards = $('#top-boards')
+    if (data.length === 0) {
+        $('#searchBar').append(
+            '<div class="alert alert-warning alert-wrap" role="alert">검색결과가 없습니다.</div>'
+        )
+        return;
+    }
     for (var i = 0; i < data.length; i++) {
         boards.append(
             '<div class="top-board my-3 shadow rounded d-flex p-2"' +
@@ -183,7 +214,6 @@ function createSideCard(data) {
             '   </div>' +
             '</div>' +
             '</div>')
-
     }
 }
 

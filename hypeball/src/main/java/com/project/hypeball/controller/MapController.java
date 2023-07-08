@@ -1,12 +1,10 @@
 package com.project.hypeball.controller;
 
-import com.nimbusds.jose.shaded.gson.Gson;
 import com.project.hypeball.domain.Store;
+import com.project.hypeball.dto.MarkerCardDto;
 import com.project.hypeball.dto.MarkerDto;
-import com.project.hypeball.dto.MarkerRankDto;
 import com.project.hypeball.service.PointService;
 import com.project.hypeball.service.StoreService;
-import com.querydsl.core.Tuple;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -14,7 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Slf4j
@@ -37,16 +37,24 @@ public class MapController {
 
   @ResponseBody
   @PostMapping("/home")
-  public List<MarkerDto> marker() {
+  public Map<String, Object> marker(@RequestParam("keyword") String keyword) {
 
     System.out.println("MapController.marker");
+    Map<String, Object> map = new HashMap<>();
+
+    if (!keyword.isEmpty()) {
+      map.put("search", storeService.search(keyword));
+    }
+    System.out.println("==============" + keyword);
 
     List<Store> list = storeService.findAll();
     List<MarkerDto> storeList = new ArrayList<>();
     for (Store store : list) {
       storeList.add(new MarkerDto(store.getId(), store.getName(), store.getLat(), store.getLng()));
     }
-    return storeList;
+    map.put("marker", storeList);
+    map.put("keyword", keyword);
+    return map;
   }
 
   @GetMapping("/rank/{keyword}")
@@ -60,7 +68,7 @@ public class MapController {
 
   @ResponseBody
   @PostMapping("/rank/{keyword}")
-  public List<MarkerRankDto> ranksByStar(@PathVariable("keyword") String keyword) {
+  public List<MarkerCardDto> ranksByStar(@PathVariable("keyword") String keyword) {
 
     if (keyword.equals("star")) return storeService.findRanksByStar(10);
     if (keyword.equals("like")) return storeService.findRanksByLike(10);
