@@ -190,7 +190,7 @@ function createMyReview(myReviews) {
         my_rv += '<a class="list-group-item my-1">' +
             '      <div>' +
             '        <div class="d-flex w-100 justify-content-between">' +
-            '           <p className="fs-5 mb-0 myPageStoreName" onclick="' + 'createModal(' + myReviews[i].storeId + ')' + '" data-bs-toggle="modal" data-bs-target="#store-modal">' +
+            '           <p class="fs-5 mb-0 myPageStoreName" onclick="' + 'createModal(' + myReviews[i].storeId + ')' + '" data-bs-toggle="modal" data-bs-target="#store-modal">' +
                         myReviews[i].storeName +
             '           </p>' +
         '           <button class="btn btn-danger btn-sm" id="' + myReviews[i].reviewId + '" onclick="deleteConfirm(this)">' + '삭제</button>' +
@@ -200,7 +200,7 @@ function createMyReview(myReviews) {
             '           <span class="star rv-star">★★★★★' +
             '               <span style="width: ' + (myReviews[i].star * 20) + '%">★★★★★</span>' +
             '           </span>' +
-            '           <small class="text-body-secondary">' + myReviews[i].createdDate + '</small>' +
+            '           <small class="text-dark">' + myReviews[i].createdDate + '</small>' +
             '        </div>' +
             '     </div>';
 
@@ -227,9 +227,8 @@ function createMyReview(myReviews) {
         my_rv += '</a>';
     }
 
+    // $('#my_review_section').append(my_rv).trigger("create");
     my_review_section.innerHTML = my_rv;
-
-
 }
 
 const imgSizeChange = (target) => {
