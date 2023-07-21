@@ -48,7 +48,6 @@ public class MemberController {
     private final StoreLikeService storeLikeService;
     private final MemberService memberService;
     private final ReviewService reviewService;
-    private final MemberRepository memberRepository;
     private final FileStore fileStore;
 
     @GetMapping("/myPage")
@@ -80,6 +79,10 @@ public class MemberController {
         return "map";
     }
 
+    /**
+     * 찜한 가게 지도로 보기
+     * @return MarkerDto
+     */
     @ResponseBody
     @PostMapping("myLike")
     public List<MarkerDto> myLike(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember) {
@@ -90,14 +93,15 @@ public class MemberController {
         return markerByMember;
     }
 
+    /**
+     * 프로필 수정 (닉네임, 사진)
+     */
     @ResponseBody
     @PostMapping("/updateProfile")
     public Map<String, Object> updateProfile(@Validated @RequestPart(value = "nickname", required = false) MemberUpdateDto memberUpdateDto, BindingResult bindingResult,
                                              @RequestPart(value = "picture", required = false) MultipartFile multipartFile,
                                              @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember,
-                                             HttpServletResponse response, HttpServletRequest request, HttpSession httpSession) throws IOException {
-
-        System.out.println("MemberController.updateProfile");
+                                             HttpServletResponse response, HttpSession httpSession) throws IOException {
 
         if (loginMember == null) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "로그인 정보가 필요합니다.");
@@ -105,9 +109,7 @@ public class MemberController {
             return null;
         }
 
-        log.info("================== update profile ======================");
-        log.info("memberUpdateDto = " + memberUpdateDto);
-        log.info("multipartFile = " + multipartFile);
+        log.info("memberUpdateDto = {} ", memberUpdateDto);
 
         if (multipartFile != null) {
             log.info("multipartFile = {}, {}, {} " + multipartFile.getContentType(), multipartFile.getOriginalFilename(), multipartFile.getSize());
@@ -140,8 +142,6 @@ public class MemberController {
 
         memberService.update(member, memberUpdateDto.getName(), filepath);
         httpSession.setAttribute(SessionConst.LOGIN_MEMBER, new LoginMember(member));
-
-        System.out.println("response STATUS : " + response.getStatus());
 
         map.put("result", "success");
         return map;

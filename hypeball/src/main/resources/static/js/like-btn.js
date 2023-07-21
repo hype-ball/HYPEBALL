@@ -1,14 +1,8 @@
-// $(document).ready(function () {
-//     $(".heart").on("click", function () {
-//         $(".like").toggleClass("heart-active");
-//         $(".heart").toggleClass("heart-active");
-//     });
-// });
-
 removeLike = (target) => {
     $("#" + target.id).removeClass("heart-active");
 }
 
+// 마이페이지 찜 버튼
 clickHeart = (target) => {
 
     let status;
@@ -19,6 +13,7 @@ clickHeart = (target) => {
         status = "like"
     }
 
+    // 찜
     $.ajax({
         url: '/store/like/' + selected.attr("value"),
         type: 'POST',
@@ -26,7 +21,6 @@ clickHeart = (target) => {
             status : status
         },
         success: function (data) {
-            console.log(status + ', ' + data.result)
             $("#" + target.id).toggleClass("heart-active");
             let count = parseInt($("#myLikeCount").text());
             if (data.result === "success") {
@@ -42,9 +36,9 @@ clickHeart = (target) => {
     });
 }
 
+// 모달 찜 버튼
 modalHeartClick = (target) => {
     let status;
-    console.log(target.src)
 
     if ( target.src.endsWith("/image/deadheart.png")) {
         status = "like"
@@ -52,6 +46,7 @@ modalHeartClick = (target) => {
         status = "hate";
     }
 
+    // 찜
     $.ajax({
         url: '/store/like/' + $("#storeId").val(),
         type: 'POST',
@@ -59,7 +54,6 @@ modalHeartClick = (target) => {
             status : status
         },
         success: function (data) {
-            console.log(status + ', ' + data.result)
             if (data.result === "success") {
                 target.src = "/image/aliveheart.png"
             } else {

@@ -9,9 +9,6 @@ public class DrinkCountDto {
     private String drinkName; // 추천 하이볼 이름
     private Long count; // 추천 횟수
 
-    public DrinkCountDto() {
-    }
-
     @QueryProjection
     public DrinkCountDto(String drinkName, Long count) {
         this.drinkName = drinkName;

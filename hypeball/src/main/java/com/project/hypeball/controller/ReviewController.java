@@ -37,16 +37,18 @@ public class ReviewController {
     private final FileStore fileStore;
     private final StoreLikeService storeLikeService;
 
+    /**
+     * 가게 상세 정보 모달
+     */
     @ResponseBody
     @GetMapping("/{id}")
-    public Map<String, Object> reviews (@PathVariable("id") Long storeId,
+    public Map<String, Object> allInfoOfStore (@PathVariable("id") Long storeId,
                                        @RequestParam("sort") String sort,
                                        @PageableDefault(size = 3) Pageable pageable,
                                        @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember) {
 
         HashMap<String, Object> map = new HashMap<>();
 
-        System.out.println("loginMember = " + loginMember);
         if (loginMember != null) {
             if (storeLikeService.get(storeId, loginMember.getId()) == null) {
                 map.put("status", "hate");
@@ -55,8 +57,7 @@ public class ReviewController {
             }
         }
 
-        Store store = storeService.getFetch(storeId);
-        StoreDto storeDto = new StoreDto(store);
+        StoreDto storeDto = new StoreDto(storeService.getFetch(storeId));
         map.put("store", storeDto);
 
         Page<ReviewDto> reviewDtos = reviewService.reviewsPaging(storeId, sort, pageable);
@@ -71,6 +72,9 @@ public class ReviewController {
         return map;
     }
 
+    /**
+     * 리뷰 페이징 in 모달
+     */
     @ResponseBody
     @GetMapping("/ps/{id}")
     public Page<ReviewDto> reviewsPart(@PathVariable("id") Long storeId,
@@ -78,11 +82,13 @@ public class ReviewController {
                                        @PageableDefault(size = 3) Pageable pageable) {
 
         Page<ReviewDto> reviewDtos = reviewService.reviewsPaging(storeId, sort, pageable);
-        System.out.println("reviewDtos = " + reviewDtos);
 
         return reviewDtos;
     }
 
+    /**
+     * 리뷰 저장
+     */
     @ResponseBody
     @PostMapping("/add")
     public Map<String, Object> save(@Validated @RequestPart(value = "review") ReviewAddDto reviewAddDto, BindingResult bindingResult,
@@ -99,17 +105,14 @@ public class ReviewController {
         Store store = storeService.get(reviewAddDto.getStoreId());
         Member member = memberService.get(loginMember);
 
+        log.info("reviewAdd = {}", reviewAddDto);
         if (multipartFiles != null) {
-            log.info("================== file upload start ======================");
             for (MultipartFile multipartFile : multipartFiles) {
-                log.info("multipartFile.getContentType = " + multipartFile.getContentType());
-                log.info("multipartFile.getOriginalFilename = " + multipartFile.getOriginalFilename());
-                log.info("multipartFile.getSize = " + multipartFile.getSize());
+                log.info("multipartFile.getContentType = {}", multipartFile.getContentType());
+                log.info("multipartFile.getOriginalFilename = {}", multipartFile.getOriginalFilename());
+                log.info("multipartFile.getSize = {}", multipartFile.getSize());
             }
-            log.info("================== file upload end ======================");
         }
-        log.info("================== review ======================");
-        log.info("reviewAdd = " + reviewAddDto);
 
         Map<String, Object> map = new HashMap<>();
 
@@ -131,9 +134,7 @@ public class ReviewController {
             attachedFiles = fileStore.storeFiles(multipartFiles);
         }
 
-        //  리뷰 저장
-        Review review = reviewService.save(reviewAddDto, store, member, attachedFiles);
-
+        reviewService.save(reviewAddDto, store, member, attachedFiles);
 
         map.put("result", "success");
         return map;
@@ -141,25 +142,24 @@ public class ReviewController {
 
 
     /**
-     * 작성자로 리뷰찾기
+     * 내가 쓴 리뷰 정렬 조회
      */
     @ResponseBody
     @GetMapping("/writer/")
     public List<MyReviewDto> reviewsByWriter(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember,
                                              @RequestParam("sort") String sort) {
 
-        System.out.println("ReviewController.reviewsByWriter");
-        System.out.println(sort);
-
         return reviewService.reviewsByMember(loginMember.getId(), sort);
     }
 
+    /**
+     * 리뷰 삭제
+     */
     @ResponseBody
     @DeleteMapping("/delete/{reviewId}")
     public void deleteReview(@PathVariable Long reviewId) {
 
-        System.out.println("ReviewController.deleteReview");
-
+        log.info("리뷰 삭제 id = {}", reviewId);
         reviewService.deleteReview(reviewId);
     }
 }

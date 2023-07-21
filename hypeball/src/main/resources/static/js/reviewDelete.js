@@ -1,4 +1,4 @@
-
+// 마이페이지 리뷰 삭제
 function deleteReview(reviewId) {
     $.ajax({
         url: '/reviews/delete/' + reviewId,
@@ -15,7 +15,6 @@ deleteConfirm = (target) => {
     if(!confirm('삭제한 리뷰는 복구할수 없습니다.\n정말로 삭제하시겠습니까??')){
         return false;
     } else {
-        console.log(target.id);
         deleteReview(target.id);
     }
 

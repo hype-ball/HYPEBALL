@@ -17,16 +17,16 @@ import java.util.List;
 public class StoreDto {
 
     private Long id;
-    private String name; // 상호명
-    private String branch; // 지점
+    private String name;
+    private String branch;
     private Category category;
-    private String menu; // 추천메뉴
-    private String content; // 소개
-    private String address; // 주소
-    private Double lat; // 위도
-    private Double lng; // 경도
-    private int totalLikeCount; // 좋아요 갯수
-    private Double starAvg; // 별점 평균
+    private String menu;
+    private String content;
+    private String address;
+    private Double lat;
+    private Double lng;
+    private int totalLikeCount;
+    private Double starAvg;
 
     public StoreDto(Store store) {
         this.id = store.getId();

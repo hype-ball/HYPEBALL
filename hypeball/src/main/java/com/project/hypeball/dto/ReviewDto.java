@@ -17,10 +17,10 @@ public class ReviewDto {
     private String content; // 리뷰내용
 
     @NotNull
-    private String createdDate; // 작성일
+    private String createdDate;
 
     @NotNull
-    private Double star; // 별점
+    private Double star;
 
     @NotNull
     private String writer;

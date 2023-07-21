@@ -56,14 +56,6 @@
           </div>
           <div class="heart-wrap">
             <div th:id="'like' + ${storeLike.storeLikeId}" th:value="${storeLike.storeId}" class="heart heart-active" onclick="clickHeart(this)"></div>
-            <!-- 좋아요 form -> Post 방식 -->
-<!--            <form th:action="@{/store/del-like}" method="POST">-->
-<!--              <input name="storeId" th:value="${storeLike.storeId}" hidden/>-->
-<!--              <button type="submit" style="border-style: none; background-color: white">-->
-<!--              <div th:id="'like' + ${storeLike.storeLikeId}" class="heart heart-active" onclick="removeLike(this)"></div>-->
-<!--              </button>-->
-<!--            </form>-->
-
           </div>
         </li>
       </ul>
@@ -123,7 +115,7 @@
 <!--kakao API-->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=77994d5c2a28508241eeb2d94b1aa113"></script>
 <script src="/js/reviewAdd.js"></script>
-<script src="/js/reviewLoading.js"></script>
+<script src="/js/modal.js"></script>
 <script src="/js/like-btn.js"></script>
 <script src="/js/reviewDelete.js"></script>
 <script src="/js/profile.js"></script>

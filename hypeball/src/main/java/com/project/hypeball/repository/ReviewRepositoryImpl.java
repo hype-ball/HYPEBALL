@@ -41,8 +41,6 @@ public class ReviewRepositoryImpl implements ReviewRepositoryInterface {
     @Override
     public Page<ReviewDto> findReviewsPaging(Long storeId, String sort, Pageable pageable) {
 
-        System.out.println("ReviewRepositoryImpl.findReviewsPaging");
-
         List<ReviewDto> content = queryFactory
                 .select(new QReviewDto(review.id, review.content, review.createdDate, review.star, review.member.nickname))
                 .from(review)
@@ -57,12 +55,10 @@ public class ReviewRepositoryImpl implements ReviewRepositoryInterface {
         if (!ids.isEmpty()) {
             Map<Long, List<AttachedFileQueryDto>> filesMap = findAttachedFileMap(ids);
             Map<Long, List<ReviewDrinkQueryDto>> drinksMap = findReviewDrink(ids);
-            System.out.println("filesMap = " + filesMap);
 
             content.forEach(o -> {
                 o.setAttachedFiles(filesMap.get(o.getReviewId()));
                 o.setDrinks(drinksMap.get(o.getReviewId()));
-                System.out.println("o.getAttachedFiles() = " + o.getAttachedFiles());
             });
         }
 
@@ -76,8 +72,6 @@ public class ReviewRepositoryImpl implements ReviewRepositoryInterface {
 
     @Override
     public List<MyReviewDto> findReviewsByMember(Long memberId, String sort) {
-
-        System.out.println("ReviewRepositoryImpl.findReviewsByMember");
 
         List<MyReviewDto> myReviews = queryFactory
                 .select(new QMyReviewDto(review.id, review.store.id, review.content, review.createdDate, review.star, review.store.name))
@@ -93,12 +87,10 @@ public class ReviewRepositoryImpl implements ReviewRepositoryInterface {
         if (!ids.isEmpty()) {
             Map<Long, List<AttachedFileQueryDto>> filesMap = findAttachedFileMap(ids);
             Map<Long, List<ReviewDrinkQueryDto>> drinksMap = findReviewDrink(ids);
-            System.out.println("filesMap = " + filesMap);
 
             myReviews.forEach(o -> {
                 o.setAttachedFiles(filesMap.get(o.getReviewId()));
                 o.setDrinks(drinksMap.get(o.getReviewId()));
-                System.out.println("o.getAttachedFiles() = " + o.getAttachedFiles());
             });
         }
 

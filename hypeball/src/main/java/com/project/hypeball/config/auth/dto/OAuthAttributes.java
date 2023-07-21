@@ -40,7 +40,6 @@ public class OAuthAttributes {
         return ofGoogle(registrationId, userNameAttributeName, attributes);
     }
 
-    //1
     private static OAuthAttributes ofGoogle(String registrationId,
                                             String userNameAttributeName,
                                             Map<String, Object> attributes) {

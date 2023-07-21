@@ -29,6 +29,9 @@ public class StoreLikeController {
     private final StoreService storeService;
     private final StoreLikeService storeLikeService;
 
+    /**
+     * 찜
+     */
     @ResponseBody
     @PostMapping("/like/{id}")
     public Map<String, Object> like(@PathVariable("id") Long storeId,
@@ -59,17 +62,5 @@ public class StoreLikeController {
         }
         map.put("count", storeLikeCount);
         return map;
-    }
-
-    // form 방식
-    @PostMapping("/del-like")
-    public String myPage(Long storeId,
-                         @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember) {
-
-        Member member = memberService.get(loginMember);
-        Store store = storeService.get(storeId);
-
-        storeLikeService.delete(store, member);
-        return "redirect:/member/myPage";
     }
 }

@@ -22,10 +22,9 @@ import java.util.List;
 @NoArgsConstructor
 @DynamicUpdate // 변경된 필드만 update
 public class Store implements Serializable {
-    // 가게 설명 혹은 종류 필드 추가
 
-    @Id //PK 지정
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // pk 자동증가
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "store_id")
     private Long id;
 
@@ -41,29 +40,29 @@ public class Store implements Serializable {
     private Category category;
 
     @Column
-    private String menu; // 추천메뉴
+    private String menu;
 
     @Column
-    private String content; // 소개
-
-    @NotNull
-    @Column
-    private String address; // 주소
+    private String content;
 
     @NotNull
     @Column
-    private Double lat; // 위도
+    private String address;
 
     @NotNull
     @Column
-    private Double lng; // 경도
+    private Double lat;
+
+    @NotNull
+    @Column
+    private Double lng;
 
     @JsonIgnore
     @OneToMany(mappedBy = "store", cascade = CascadeType.REMOVE)
     private List<Review> reviews = new ArrayList<>();
 
-    @ColumnDefault("0") //script 생성시 적용
-    private int totalLikeCount; // 좋아요 갯수
+    @ColumnDefault("0")
+    private int totalLikeCount;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "star_rating_id")

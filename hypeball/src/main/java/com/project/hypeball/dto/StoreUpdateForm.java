@@ -22,16 +22,16 @@ public class StoreUpdateForm {
 
   private Category category;
 
-  private String menu; // 추천메뉴
+  private String menu;
 
-  private String content; // 소개
-
-  @NotNull
-  private String address; // 주소
+  private String content;
 
   @NotNull
-  private Double lat; // 위도
+  private String address;
 
   @NotNull
-  private Double lng; // 경도
+  private Double lat;
+
+  @NotNull
+  private Double lng;
 }

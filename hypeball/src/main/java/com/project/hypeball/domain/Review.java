@@ -19,43 +19,33 @@ import java.util.List;
 @NoArgsConstructor
 public class Review {
 
-    // 리뷰글 내용 done
-    // 작성자 done
-    // 리뷰등록일 done
-    // 별점
-    // 가게 번호 done
-    // 첨부 사진
-    // 태그명
-    // 지정태그 사용
-    // 댓글 좋아요
-
-    @Id //PK 지정
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // pk 자동증가
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_id")
     private Long id;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
-    private Store store; // 리뷰가 딸린 가게
+    private Store store;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    private Member member; // 작성자
+    private Member member;
 
     @NotNull
     @Column
-    private String content; // 리뷰내용
+    private String content;
 
     @CreatedDate
     @NotNull
     @Column
-    private String createdDate; // 작성일
+    private String createdDate;
 
     @NotNull
     @Column
-    private Double star; // 별점
+    private Double star;
 
     @JsonIgnore
     @OneToMany(mappedBy = "review", cascade = CascadeType.REMOVE)
