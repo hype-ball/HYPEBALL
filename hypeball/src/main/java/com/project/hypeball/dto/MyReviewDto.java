@@ -28,9 +28,6 @@ public class MyReviewDto {
     @NotNull
     private Double star; // 별점
 
-//    @NotNull
-//    private String writer;
-
     private List<ReviewDrinkQueryDto> drinks = new ArrayList<>();
 
     private List<AttachedFileQueryDto> attachedFiles = new ArrayList<>();

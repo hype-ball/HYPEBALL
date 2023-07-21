@@ -1,3 +1,4 @@
+// 업로드한 프로필 사진 미리보기
 function showNewPic(event) {
     for (var image of event.target.files) {
         var newPic = event.target.files[0];
@@ -11,6 +12,7 @@ function showNewPic(event) {
     }
 }
 
+// 편집 버튼 클릭
 function editMode() {
 
     $('#nickname').toggleClass('saved');
@@ -27,13 +29,11 @@ function editMode() {
 
 }
 
+// 변경된 프로필 저장
 $("#profileSaveBtn").on("click", function () {
-
-    console.log("buttonClickForProfileChange")
 
     // 첨부파일 저장
     var form = new FormData();
-
     var inputPicture = $("input[name='picture']");
     var newPic = inputPicture[0].files[0];
 
@@ -57,18 +57,11 @@ $("#profileSaveBtn").on("click", function () {
         enctype: 'multipart/form-data',
         success: function (data) {
 
-            console.log("window.location.href ; " + window.location.href)
-
             if (data.result === "success") {
-                console.log("success");
-
                 window.location.href='/member/myPage';
 
             } else if (data.result === "valid") {
-                console.log("valid")
                 for (let i in data.valid) {
-                    console.log(data.valid[i].field);
-                    console.log(data.valid[i].message);
                     $('#valid-'+data.valid[i].field).text(data.valid[i].message)
                 }
                 $("input[name='name']").focus();

@@ -11,9 +11,6 @@ public class AttachedFileQueryDto {
     private Long reviewId;
     private String storeFileName;
 
-    public AttachedFileQueryDto() {
-    }
-
     @QueryProjection
     public AttachedFileQueryDto(Long reviewId, String storeFileName) {
         this.reviewId = reviewId;

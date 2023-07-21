@@ -51,8 +51,6 @@ figure.card {
     position: relative;
     overflow: hidden;
     margin: 10px;
-    /*min-width: 230px;*/
-    /*max-width: 315px;*/
     width: 100%;
     background: #000000;
     color: #ffffff;

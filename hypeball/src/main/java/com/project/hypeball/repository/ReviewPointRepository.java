@@ -5,8 +5,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ReviewPointRepository extends JpaRepository<ReviewPoint, Long>, ReviewPointRepositoryInterface {
 
-    int deleteReviewPointByReviewId(Long reviewId);
-
-    void deleteReviewPointById(Long reviewId);
-
 }

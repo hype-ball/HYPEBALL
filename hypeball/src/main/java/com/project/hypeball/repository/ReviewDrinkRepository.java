@@ -6,6 +6,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ReviewDrinkRepository extends JpaRepository<ReviewDrink, Long>, ReviewDrinkRepositoryInterface {
 
-    void deleteReviewDrinkByReviewId(Long reviewId);
-
 }

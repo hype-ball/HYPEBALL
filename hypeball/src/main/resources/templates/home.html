@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments/header :: header(~{::link}, ~{:://head/script})}">
+    <link href="/css/home.css" rel="stylesheet"/>
+    <script src="/js/home.js"></script>
+</head>
+<body class="nav-top">
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<div class="main-img-wrap">
+    <img class="main-img" src="/image/highball5.jpg" width="100%">
+    <div class="main-text">
+        <img src="/image/movingtext1.png" id="moving-img-1" class="moving-img d-block">
+        <img src="/image/movingtext2.png" id="moving-img-2" class="moving-img d-none">
+        <img src="/image/movingtext3.png" id="moving-img-3" class="moving-img d-none">
+        <img src="/image/movingtext4.png" id="moving-img-4" class="moving-img d-none">
+        <img src="/image/movingtext5.png" id="moving-img-5" class="moving-img d-none">
+        <img src="/image/movingtext6.png" id="moving-img-6" class="moving-img d-none">
+        <img src="/image/text1.png" class="d-block">
+        <form method="post" action="/search">
+        <div class="d-flex search-wrap">
+            <input type="text" name="search" class="form-control search-input" placeholder=" 검색어를 입력하세요" style="ime-mode:active">
+            <button type="submit" class="btn search-btn"><i class="bi bi-search text-white"></i></button>
+        </div>
+        </form>
+    </div>
+</div>
+<div class="row w-100">
+    <div class="col-lg-8 col-md-12 p-5">
+        <div class="col-12">
+            <figure class="card mt-5" onclick="location.href='/map/home'" style="cursor: pointer">
+                <img src="/image/banner_main.png" alt="sample36" height="155px">
+                <h3 style="top: 40%; left: 35%">하이볼 명가 전체보기</h3>
+                <a href="/map/home"></a>
+            </figure>
+        </div>
+        <div class="d-flex gap-2 mt-5">
+            <img src="/image/lemon-slice.png" height="25px">
+            <h4>지역별 하이볼 명가</h4>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-md-6 mb-3">
+                <figure class="card" onclick="location.href='/map/home?region=gangnam'">
+                    <img src="/image/gangnam.jpg" height="155px"/>
+                    <figcaption>
+                        <div>
+                            <h4>회사원들의 성지</h4>
+                            <h4>피로회복 하이볼</h4>
+                        </div>
+                        <div>
+                            <h3>강남</h3>
+                        </div>
+                    </figcaption>
+                </figure>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <figure class="card" onclick="location.href='/map/home?region=yongsan'">
+                    <img src="/image/banner_itown.png" height="155px"/>
+                    <figcaption>
+                        <div>
+                            <h4>회사가 많아서</h4>
+                            <h4>맛집도 많지요</h4>
+                        </div>
+                        <div>
+                            <h3>용산</h3>
+                        </div>
+                    </figcaption>
+                    <a href="#"></a>
+                </figure>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <figure class="card" onclick="location.href='/map/home?region=jamsil'">
+                    <img src="/image/banner_jamsil.jpeg" height="155px" />
+                    <figcaption>
+                        <div>
+                            <h4>볼 것 천지</h4>
+                            <h4>먹을 것 천지</h4>
+                        </div>
+                        <div>
+                            <h3>잠실</h3>
+                        </div>
+                    </figcaption>
+                    <a href="#"></a>
+                </figure>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <figure class="card" onclick="location.href='/map/home?region=hongdae'">
+                    <img src="/image/banner_hongdae.png" height="155px"/>
+                    <figcaption>
+                        <div>
+                            <h4>예술이 가득한</h4>
+                            <h4>버스킹 소리가 들리는</h4>
+                        </div>
+                        <div>
+                            <h3>홍대</h3>
+                        </div>
+                    </figcaption>
+                    <a href="#"></a>
+                </figure>
+            </div>
+        </div>
+        <div class="d-flex gap-2 mt-4">
+            <img src="/image/lemon-slice.png" height="25px">
+            <h4>통계로 보는 하이볼 명가</h4>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-md-6 mb-3">
+                <figure class="card" onclick="location.href='/map/rank/review'">
+                    <img src="/image/banner_lemon1.png" height="155px" />
+                    <figcaption>
+                        <div>
+                            <h4>💬💬💬</h4>
+                            <h4>TOP 10</h4>
+                        </div>
+                        <div>
+                            <h3>리뷰 많은 순</h3>
+                        </div>
+                    </figcaption>
+                    <a href="#"></a>
+                </figure>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <figure class="card" onclick="location.href='/map/rank/new'">
+                    <img src="/image/banner_lemon2.png" height="155px" />
+                    <figcaption>
+                        <div>
+                            <h4>NEW✨</h4>
+                            <h4>신규</h4>
+                        </div>
+                        <div>
+                            <h3>새로 등록된 곳</h3>
+                        </div>
+                    </figcaption>
+                    <a href="#"></a>
+                </figure>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <figure class="card" onclick="location.href='/map/rank/like'">
+                    <img src="/image/banner_lemon3.png" height="155px"/>
+                    <figcaption >
+                        <div>
+                            <h4>즐겨찾기💖</h4>
+                            <h4>TOP 10</h4>
+                        </div>
+                        <div>
+                            <h3>찜 많은 순</h3>
+                        </div>
+                    </figcaption>
+                    <a href="#"></a>
+                </figure>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <figure class="card" onclick="location.href='/map/rank/star'">
+                    <img src="/image/banner_lemon4.png" height="155px"/>
+                    <figcaption>
+                        <div>
+                            <h4>⭐⭐⭐⭐⭐</h4>
+                            <h4>TOP 10</h4>
+                        </div>
+                        <div>
+                            <h3>별점 높은순</h3>
+                        </div>
+                    <a href="/map/rank"></a>
+                    </figcaption>
+                </figure>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-12 p-5">
+        <div class="d-flex gap-2">
+            <img src="/image/highballMaker.png" height="25px">
+            <h4>하입-볼 소식</h4>
+        </div>
+        <div class="card text-bg-dark">
+            <img src="/image/represent-image.png" class="card-img" alt="...">
+        </div>
+    </div>
+</div>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

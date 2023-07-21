@@ -22,7 +22,6 @@ public class ReviewService {
     private final PointRepository pointRepository;
     private final FileRepository fileRepository;
 
-    // 리뷰 저장
     @Transactional
     public Review save(ReviewAddDto reviewAddDto, Store store, Member member, List<AttachedFile> attachedFiles) {
 

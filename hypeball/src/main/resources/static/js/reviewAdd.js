@@ -21,7 +21,6 @@ function setThumbnail(event) {
 
         };
 
-        //console.log(image);
         reader.readAsDataURL(image);
 
     }
@@ -36,24 +35,12 @@ function delThumbnail(target) {
 var input = document.querySelector('input[name=tags]');
 var tagify = new Tagify(input, {maxTags: 3});
 
-// // 태그가 추가되면 이벤트 발생
-// tagify.on('add', function () {
-//     console.log(tagify.value); // 입력된 태그 정보 객체
-// })
-//
-// tagify.on('remove', function () {
-//     console.log("remove"); // 입력된 태그 정보 객체
-// })
-
 // 별점
 const drawStar = (target) => {
-    console.log(target.value)
     document.querySelector(`#inputStar`).style.width = `${target.value * 10}%`;
 }
 
 $("#review-save").on("click", function () {
-
-    console.log("buttonClickForSaving")
 
     validClear();
 
@@ -88,6 +75,7 @@ $("#review-save").on("click", function () {
     }
     form.append("review", new Blob([JSON.stringify(review)], {type:"application/json"}));
 
+    // 리뷰 저장
     $.ajax({
         url: '/reviews/add',
         type: 'POST',
@@ -98,11 +86,9 @@ $("#review-save").on("click", function () {
         enctype: 'multipart/form-data',
         success: function (data) {
             if (data.result === "success") {
-                console.log("success")
                 inputClear();
                 createModal(review.storeId);
             } else if (data.result === "valid") {
-                console.log("valid")
                 for (let i in data.valid) {
                     $('#valid-'+data.valid[i].field).text(data.valid[i].message)
                 }
@@ -115,7 +101,7 @@ $("#review-save").on("click", function () {
     });
 });
 
-// input 초기화
+// 모달 전체 input 초기화
 function inputClear() {
     $('input[name="tags"]').val(null); // 술태그
     $('input[name="point-tag"]').prop('checked',false); //분위기태그
@@ -140,8 +126,4 @@ function xBtnClick() {
         validClear();
         staticMapInit();
     }
-}
-
-function staticMapInit() {
-    $("#staticMap").empty();
 }

@@ -6,11 +6,8 @@ import lombok.Data;
 @Data
 public class PointCountDto {
 
-    private String pointName; // 추천 하이볼 이름
+    private String pointName; // 분위기 태그
     private Long count; // 추천 횟수
-
-    public PointCountDto() {
-    }
 
     @QueryProjection
     public PointCountDto(String pointName, Long count) {

@@ -28,7 +28,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-        log.info("======CustomOAuth2UserService loadUser() 실행 ===========");
         OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
 
         OAuth2User oAuth2User = delegate.loadUser(userRequest); // 유저 정보
@@ -42,14 +41,13 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 .getClientRegistration().getProviderDetails()
                 .getUserInfoEndpoint()
                 .getUserNameAttributeName(); // OAuth 로그인 시 키(pk)가 되는 값
-        log.info("userNameAttributeName = {}", userNameAttributeName);
 
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName,
                 oAuth2User.getAttributes());
 
         Member member = saveOrUpdate(attributes);
 
-        httpSession.setAttribute(SessionConst.LOGIN_MEMBER, new LoginMember(member)); //4
+        httpSession.setAttribute(SessionConst.LOGIN_MEMBER, new LoginMember(member));
 
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority((member.getRoleKey()))),
@@ -58,11 +56,8 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         ); // 리턴할 때 세션 생김
     }
 
-    private Member saveOrUpdate (OAuthAttributes attributes) {
+    private Member saveOrUpdate(OAuthAttributes attributes) {
         Member member = memberRepository.findByEmailAndProvider(attributes.getEmail(), attributes.getProvider())
-//                .map(entity -> entity.update(attributes.getName()
-//                        , attributes.getPicture()
-//                ))
                 .orElse(attributes.toEntity());
         return memberRepository.save(member);
     }

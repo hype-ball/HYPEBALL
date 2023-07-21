@@ -9,9 +9,6 @@ public class ReviewDrinkQueryDto {
     private Long reviewId;
     private String drink;
 
-    public ReviewDrinkQueryDto() {
-    }
-
     @QueryProjection
     public ReviewDrinkQueryDto(Long reviewId, String drink) {
         this.reviewId = reviewId;

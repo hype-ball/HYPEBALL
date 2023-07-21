@@ -26,10 +26,10 @@ public class StoreController {
     return "/store/storeList";
   }
 
-  @GetMapping("/form") // url
+  @GetMapping("/form")
   public String form(Model model) {
-    model.addAttribute("form", new StoreSaveForm()); // html 폼에서 입력값을 담을 객체를 준다.
-    return "/store/storeForm"; // html 파일 경로
+    model.addAttribute("form", new StoreSaveForm());
+    return "/store/storeForm";
   }
 
   @PostMapping("/save")

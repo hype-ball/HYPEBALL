@@ -10,7 +10,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-//@BatchSize(size = 100)
 public class AttachedFile {
 
     @Id
