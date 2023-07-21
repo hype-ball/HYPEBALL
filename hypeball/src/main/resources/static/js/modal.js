@@ -112,11 +112,24 @@ function staticMapInit() {
 function storeInfo(store) {
     $("#storeId").val(store.id);
     $("#storeName").text(store.name);
-    $("#storeAddr").text("📍 "+ store.address);
+    $("#storeBranch").text(store.branch);
+    $("#storeAddr").text("📍" + store.address);
     $("#storeCategory").text(store.category.name);
-    $("#storeMenu").text("🐽 " + store.menu);
+    $("#storeMenu").text(store.menu);
     $("#storeStarAvg").text(store.starAvg.toFixed(1));
     $("#storeLikeCount").text(store.totalLikeCount);
+}
+
+// 카카오 또는 네이버 지도로 정보 보기
+function otherMap(portalMapId) {
+    const search = $("#storeName").text() + " " + $("#storeBranch").text();
+
+    if (portalMapId === "kakao") {
+        window.open("https://map.kakao.com/link/search/" + search, "_blank")
+    }
+    else if (portalMapId === "naver") {
+        window.open("https://map.naver.com/v5/search/" + search, "_blank")
+    }
 }
 
 // 모달 리뷰 생성
@@ -267,16 +280,24 @@ function createTag(points, drinks) {
     var point = "";
     var drink = "";
 
+    if (drinks.length === 0) {
+        drink += "<span style='background-color: #F3F2EE'" +
+                 "class='badge rounded-pill text-dark m-1 fs-6 py-2'>여러분의 추천이 필요해요</span>"
+    }
+    if (points.length === 0) {
+        point += "<span style='background-color: #F3F2EE'" +
+            "class='badge rounded-pill m-1 text-dark fs-6 py-2'>리뷰를 등록해주세요</span>"
+    }
     for (var i = 0; i < drinks.length; i++) {
 
         drink += "<span style='background-color: ";
 
         if (drinks[i].count >= 3) {
-            drink += "#FF9900'"
+            drink += "#f39550'"
         } else {
-            drink += "#FFCC33'"
+            drink += "#f3ac50'"
         }
-        drink += "class='btn pe-none rounded-pill m-1'>" + drinks[i].drinkName + "</span>"
+        drink += "class='badge rounded-pill m-1 fs-6 py-2'>" + drinks[i].drinkName + "</span>"
     }
 
     for (var i = 0; i < points.length; i++) {
@@ -284,12 +305,12 @@ function createTag(points, drinks) {
         point += "<span style='background-color: ";
 
         if (points[i].count >= 3) {
-            point += "#FD9595'"
+            point += "#f39550'"
         } else {
-            point += "#FCCDCD'"
+            point += "#f3ac50'"
         }
         point +=
-            "class='btn pe-none rounded-pill m-1'>" + points[i].pointName + "</span>"
+            "class='badge rounded-pill m-1 fs-6 py-2'>" + points[i].pointName + "</span>"
     }
 
     drink_tags.innerHTML = drink;
