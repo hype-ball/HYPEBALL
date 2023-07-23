@@ -44,7 +44,7 @@ public class StoreController {
 
   @GetMapping("/{storeId}")
   public String detail(@PathVariable("storeId") Long id, Model model) {
-    model.addAttribute("store", storeService.get(id));
+    model.addAttribute("store", storeService.getFetch(id));
     return "/store/storeDetail";
   }
 

@@ -9,30 +9,54 @@
 <body>
 <h1>상세 페이지</h1>
 <table style="border: solid">
-  <thead>
-  <th>번호</th>
-  <th>상호명</th>
-  <th>지점</th>
-  <th>분류</th>
-  <th>추천메뉴</th>
-  <th>소개</th>
-  <th>주소</th>
-  <th>위도</th>
-  <th>경도</th>
-  </thead>
-  <tbody>
   <tr>
+    <th>번호</th>
     <td data-th-text="${store.id}">1</td>
+  </tr>
+  <tr>
+    <th>상호명</th>
     <td data-th-text="${store.name}">상호명</td>
+  </tr>
+  <tr>
+    <th>지점</th>
     <td data-th-text="${store.branch}">지점</td>
+  </tr>
+  <tr>
+    <th>분류</th>
     <td data-th-text="${store.category.name}">1</td>
+  </tr>
+  <tr>
+    <th>추천메뉴</th>
     <td data-th-text="${store.menu}">추천메뉴</td>
+  </tr>
+  <tr>
+    <th>소개</th>
     <td data-th-text="${store.content}">소개</td>
+  </tr>
+  <tr>
+    <th>주소</th>
     <td data-th-text="${store.address}">주소</td>
+  </tr>
+  <tr>
+    <th>위도</th>
     <td data-th-text="${store.lat}">위도</td>
+  </tr>
+  <tr>
+    <th>경도</th>
     <td data-th-text="${store.lng}">경도</td>
   </tr>
-  </tbody>
+  <tr>
+    <th>별점</th>
+    <td data-th-text="${store.starRating.starAvg}">별점</td>
+  </tr>
+  <tr>
+    <th>찜</th>
+    <td data-th-text="${store.totalLikeCount}">찜</td>
+  </tr>
+  <tr>
+    <th>리뷰</th>
+    <td data-th-text="${store.reviews.size()}">리뷰</td>
+  </tr>
 </table>
 <button th:onclick="|location.href='@{/store/update/{id} (id=${store.id})}'|">수정</button>
 <form th:action="@{/store/delete}" method="POST">
