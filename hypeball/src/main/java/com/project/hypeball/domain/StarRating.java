@@ -46,4 +46,11 @@ public class StarRating {
         starRating.setStarAvg(starRating.getTotalValue() / starRating.getTotalCount());
         return starRating;
     }
+
+    public static StarRating reduceStarRating(StarRating starRating, Double starByReview) {
+        starRating.setTotalValue(starRating.getTotalValue() - starByReview);
+        starRating.setTotalCount(starRating.getTotalCount() - 1);
+        starRating.setStarAvg(starRating.getTotalValue() / starRating.getTotalCount());
+        return starRating;
+    }
 }
