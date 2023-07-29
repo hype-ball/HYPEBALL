@@ -1,27 +1,20 @@
 package com.project.hypeball.controller;
 
-import com.nimbusds.oauth2.sdk.http.HTTPRequest;
 import com.project.hypeball.config.auth.dto.LoginMember;
 import com.project.hypeball.domain.Member;
 import com.project.hypeball.dto.FieldErrorDto;
 import com.project.hypeball.dto.MarkerDto;
 import com.project.hypeball.dto.MemberUpdateDto;
-import com.project.hypeball.repository.MemberRepository;
 import com.project.hypeball.service.MemberService;
 import com.project.hypeball.service.PointService;
 import com.project.hypeball.service.ReviewService;
 import com.project.hypeball.service.StoreLikeService;
 import com.project.hypeball.web.FileStore;
 import com.project.hypeball.web.SessionConst;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,7 +25,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

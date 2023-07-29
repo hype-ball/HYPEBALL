@@ -2,7 +2,6 @@ package com.project.hypeball.service;
 
 import com.project.hypeball.domain.*;
 import com.project.hypeball.dto.MarkerDto;
-import com.project.hypeball.dto.ReviewAddDto;
 import com.project.hypeball.dto.StoreLikeDto;
 import com.project.hypeball.repository.StoreLikeRepository;
 import lombok.RequiredArgsConstructor;

@@ -6,13 +6,11 @@ import com.project.hypeball.domain.Store;
 import com.project.hypeball.service.MemberService;
 import com.project.hypeball.service.StoreLikeService;
 import com.project.hypeball.service.StoreService;
-import com.project.hypeball.web.ScriptUtil;
 import com.project.hypeball.web.SessionConst;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;

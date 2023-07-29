@@ -1,17 +1,8 @@
 package com.project.hypeball.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.hypeball.domain.Category;
-import com.project.hypeball.domain.Review;
-import com.project.hypeball.domain.StarRating;
 import com.project.hypeball.domain.Store;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import org.hibernate.annotations.ColumnDefault;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 public class StoreDto {

@@ -5,9 +5,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-//Controller에서 사용예시
-//ScriptUtil.alertAndBackPage(response, "로그인 정보가 없습니다");
-//return null;
 public class ScriptUtil {
 
     public static void init(HttpServletResponse response) {
