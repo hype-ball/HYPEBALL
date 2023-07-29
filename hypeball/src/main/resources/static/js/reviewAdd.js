@@ -18,7 +18,7 @@ function setThumbnail(event) {
             img.setAttribute("src", event.target.result);
             document.querySelector("div#image_container").appendChild(li);
             xbutton.setAttribute("onclick", "delThumbnail(this)");
-
+            xbutton.style.cursor = "pointer";
         };
 
         reader.readAsDataURL(image);
