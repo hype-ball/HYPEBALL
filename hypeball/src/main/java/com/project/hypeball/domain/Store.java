@@ -72,6 +72,10 @@ public class Store implements Serializable {
         store.setStarRating(StarRating.updateStarRating(store.getStarRating(), review.getStar()));
     }
 
+    public static void reduceStarAvg(Store store, Review review) {
+        store.setStarRating(StarRating.reduceStarRating(store.getStarRating(), review.getStar()));
+    }
+
     public static Store createStore(StoreSaveForm form) {
         Store store = new Store();
         store.setName(form.getName());

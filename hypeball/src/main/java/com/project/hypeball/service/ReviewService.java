@@ -77,6 +77,8 @@ public class ReviewService {
 
         Optional<Review> review = reviewRepository.findById(reviewId);
 
+        review.ifPresent(r -> Store.reduceStarAvg(r.getStore(), r));
+
         fileRepository.deleteAttachedFileByReviewId(reviewId);
         reviewPointRepository.deleteReviewPoint(reviewId);
         reviewDrinkRepository.deleteReviewDrink(reviewId);
