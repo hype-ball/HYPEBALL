@@ -5,7 +5,6 @@ import com.project.hypeball.dto.StoreSaveForm;
 import com.project.hypeball.dto.StoreUpdateForm;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

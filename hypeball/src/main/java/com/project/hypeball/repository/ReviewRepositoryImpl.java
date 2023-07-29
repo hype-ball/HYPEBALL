@@ -1,8 +1,6 @@
 package com.project.hypeball.repository;
 
-import com.project.hypeball.domain.QReviewPoint;
 import com.project.hypeball.domain.Review;
-import com.project.hypeball.domain.ReviewPoint;
 import com.project.hypeball.dto.*;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -24,7 +22,6 @@ import static com.project.hypeball.domain.QAttachedFile.*;
 import static com.project.hypeball.domain.QMember.*;
 import static com.project.hypeball.domain.QReview.*;
 import static com.project.hypeball.domain.QReviewDrink.reviewDrink;
-import static com.project.hypeball.domain.QReviewPoint.*;
 import static com.project.hypeball.domain.QStore.store;
 
 @Repository

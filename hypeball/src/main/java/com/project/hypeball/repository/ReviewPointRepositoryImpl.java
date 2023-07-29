@@ -12,7 +12,6 @@ import java.util.List;
 
 import static com.project.hypeball.domain.QPoint.*;
 import static com.project.hypeball.domain.QReview.*;
-import static com.project.hypeball.domain.QReviewDrink.reviewDrink;
 import static com.project.hypeball.domain.QReviewPoint.*;
 
 @Repository

@@ -1,8 +1,5 @@
 package com.project.hypeball.repository;
 
-import com.project.hypeball.domain.Member;
-import com.project.hypeball.domain.QAttachedFile;
-import com.querydsl.jpa.impl.JPADeleteClause;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;

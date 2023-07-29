@@ -1,6 +1,5 @@
 package com.project.hypeball.dto;
 
-import com.project.hypeball.domain.Store;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Data;
 
